@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ceb:CEB302Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ceb:OrderReturn>
+    <ceb:guid>SINOTRANS-ORDER-20141224111659-00010</ceb:guid>
+	<ceb:ebpCode>nnnnn</ceb:ebpCode>
+	<ceb:ebcCode>nnnnn</ceb:ebcCode>
+	<ceb:orderNo>nnnnn</ceb:orderNo>
+	<ceb:returnStatus>3</ceb:returnStatus>
+	<ceb:returnTime>nnnnn</ceb:returnTime>
+	<ceb:returnInfo>[nnnnn]</ceb:returnInfo>
+  </ceb:OrderReturn>
+</ceb:CEB302Message>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ceb:CEB503Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ceb:LogisticsStatus>
+		<ceb:guid>976A4E20-A457-C31F-FCF1-2C19EAFF174B</ceb:guid>
+		<ceb:customsCode>5147</ceb:customsCode>
+		<ceb:appType>1</ceb:appType>
+		<ceb:appTime>20140805141227</ceb:appTime>
+		<ceb:appStatus>2</ceb:appStatus>
+		<ceb:appUid>8000000024996</ceb:appUid>
+		<ceb:appUname>周志伟</ceb:appUname>
+		<ceb:logisticsCode>4401965097</ceb:logisticsCode>
+		<ceb:logisticsName>广州市万伦物流发展有限公司</ceb:logisticsName>
+		<ceb:logisticsNo>L20140807000442</ceb:logisticsNo>
+		<ceb:logisticsStatus>R</ceb:logisticsStatus>
+		<ceb:ieFlag>E</ceb:ieFlag>
+		<ceb:trafMode>4</ceb:trafMode>
+		<ceb:trafName>汽车</ceb:trafName>
+		<ceb:voyageNo>粤A·X4891</ceb:voyageNo>
+		<ceb:billNo>2397321_951954392</ceb:billNo>
+		<ceb:note>货物运抵萝岗码头</ceb:note>
+	</ceb:LogisticsStatus>
+</ceb:CEB503Message>

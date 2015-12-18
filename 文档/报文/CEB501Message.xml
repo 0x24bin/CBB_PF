@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ceb:CEB501Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ceb:LogisticsHead>
+		<ceb:guid>15177738-017A-8677-3BE1-3CBF0E111C61</ceb:guid>
+		<ceb:customsCode>5147</ceb:customsCode>
+		<ceb:appType>1</ceb:appType>
+		<ceb:appTime>20140804150924</ceb:appTime>
+		<ceb:appStatus>2</ceb:appStatus>
+		<ceb:appUid>8000000024996</ceb:appUid>
+		<ceb:appUname>周志伟</ceb:appUname>
+		<ceb:orderNo>E2014080700365</ceb:orderNo>
+		<ceb:ebpCode>4430665010</ceb:ebpCode>
+		<ceb:ebpName>广州市万怡保税物流有限公司</ceb:ebpName>
+		<ceb:logisticsCode>4401965097</ceb:logisticsCode>
+		<ceb:logisticsName>广州市万伦物流发展有限公司</ceb:logisticsName>
+		<ceb:logisticsNo>L20140807000442</ceb:logisticsNo>
+		<ceb:ieFlag>E</ceb:ieFlag>
+		<ceb:trafMode>2</ceb:trafMode>
+		<ceb:trafName>UN9308637</ceb:trafName>
+		<ceb:voyageNo>UN9308637/1410</ceb:voyageNo>
+		<ceb:billNo>2397321_951954392</ceb:billNo>
+		<ceb:freight>90</ceb:freight>
+		<ceb:insuredFee>10</ceb:insuredFee>
+		<ceb:currency>502</ceb:currency>
+		<ceb:weight>7328</ceb:weight>
+		<ceb:netWt>7015</ceb:netWt>
+		<ceb:packNo>4</ceb:packNo>
+		<ceb:parcelInfo>L2014080700044201/L2014080700044202/L2014080700044203/L2014080700044204</ceb:parcelInfo>
+		<ceb:goodsInfo>布凳及人造革</ceb:goodsInfo>
+		<ceb:consignee>尼古拉·索夫赫因（Nikolai Sofhin）</ceb:consignee>
+		<ceb:consigneeAddress>俄罗斯，别尔姆市，Gaivinskaya街60A-27号</ceb:consigneeAddress>
+		<ceb:consigneeTelephone>(+7) 846 4988111</ceb:consigneeTelephone>
+		<ceb:consigneeCountry>344</ceb:consigneeCountry>
+		<ceb:shipper>William Gao</ceb:shipper>
+		<ceb:shipperAddress>广州市白云区东苑路33号</ceb:shipperAddress>
+		<ceb:shipperTelephone>（020）83328787</ceb:shipperTelephone>
+		<ceb:shipperCountry>142</ceb:shipperCountry>
+		<ceb:note>无</ceb:note>
+	</ceb:LogisticsHead>
+</ceb:CEB501Message>

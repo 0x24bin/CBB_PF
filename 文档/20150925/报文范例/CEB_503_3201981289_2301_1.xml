@@ -1,0 +1,20 @@
+﻿<CEB503Message>
+  <MessageHead>
+    <MessageID>CEB_502_3201981289_2301_2015052713503223001</MessageID>
+    <MessageType>503</MessageType>
+    <SenderID>2301</SenderID>
+    <ReceiverID>3201981289</ReceiverID>
+    <SendTime>20150527135032</SendTime>
+    <Version></Version>
+  </MessageHead >
+  <NjkjLogisticsStatusEntity>
+    <LogisticsNo>EMS201505260101</LogisticsNo>    
+    <AppUid>001</AppUid>
+    <AppUname>邮政1</AppUname>
+    <LogisticsStatus>A</LogisticsStatus>
+    <LogisticsTime>20150526113015</LogisticsTime>
+    <Linker>张三</Linker>
+    <Phone>18988822211</Phone>
+    <LogisticsNote>配送中</LogisticsNote>	
+  </NjkjLogisticsStatusEntity>
+</CEB503Message>

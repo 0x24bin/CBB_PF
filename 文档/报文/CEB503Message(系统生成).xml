@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ceb:CEB503Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chinaport.gov.cn/ceb">
+  <ceb:LogisticsHead>
+    <ceb:guid>SINOTRANS-LOGISTIC-20150103122648-01</ceb:guid>
+    <ceb:customsCode>1</ceb:customsCode>
+    <ceb:appType>1</ceb:appType>
+    <ceb:appTime>20150103135519</ceb:appTime>
+    <ceb:appStatus>2</ceb:appStatus>
+    <ceb:appUid>1</ceb:appUid>
+    <ceb:appUname>我是用户名称</ceb:appUname>
+    <ceb:logisticsCode>1</ceb:logisticsCode>
+    <ceb:logisticsName>物流企业名称</ceb:logisticsName>
+    <ceb:logNo>顺丰速递111</ceb:logNo>
+    <ceb:logStatus>R</ceb:logStatus>
+    <ceb:ieFlag>E</ceb:ieFlag>
+    <ceb:trafMode>1</ceb:trafMode>
+    <ceb:shipName>电动车</ceb:shipName>
+    <ceb:voyageNo>sdf</ceb:voyageNo>
+    <ceb:billNo>单号111</ceb:billNo>
+    <ceb:note>asdf</ceb:note>
+  </ceb:LogisticsHead>
+</ceb:CEB503Message>

@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ceb:CEB503Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<ceb:LogisticsStatus>
+		<ceb:guid>E1F079CF-CF6D-3CA4-AFFA-14A2F0720653</ceb:guid>
+		<ceb:customsCode>5147</ceb:customsCode>
+		<ceb:appType>1</ceb:appType>
+		<ceb:appTime>20140806161345</ceb:appTime>
+		<ceb:appStatus>2</ceb:appStatus>
+		<ceb:appUid>8000000024996</ceb:appUid>
+		<ceb:appUname>周志伟</ceb:appUname>
+		<ceb:logisticsCode>4401965097</ceb:logisticsCode>
+		<ceb:logisticsName>广州市万伦物流发展有限公司</ceb:logisticsName>
+		<ceb:logisticsNo>L20140807000442</ceb:logisticsNo>
+		<ceb:logisticsStatus>L</ceb:logisticsStatus>
+		<ceb:ieFlag>E</ceb:ieFlag>
+		<ceb:trafMode>2</ceb:trafMode>
+		<ceb:trafName>UN9308637</ceb:trafName>
+		<ceb:voyageNo>UN9308637/1410</ceb:voyageNo>
+		<ceb:billNo>2397321_951954392</ceb:billNo>
+		<ceb:note>货物离开广州南沙港前往俄罗斯港口</ceb:note>
+	</ceb:LogisticsStatus>
+</ceb:CEB503Message>

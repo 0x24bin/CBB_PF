@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ceb:CEB602Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ceb:InventoryReturn>
+    <ceb:guid>SINOTRANS-EXPORT-20150128101404-0001</ceb:guid>
+	<ceb:copNo>1111</ceb:copNo>
+	<ceb:preNo>1111</ceb:preNo>
+	<ceb:invtNo>1111</ceb:invtNo>
+	<ceb:returnStatus>899</ceb:returnStatus>
+	<ceb:returnTime>20150106124551</ceb:returnTime>
+	<ceb:returnInfo>[1111]</ceb:returnInfo>
+  </ceb:InventoryReturn>
+</ceb:CEB602Message>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ceb:CEB201Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chinaport.gov.cn/ceb">
+  <ceb:PgrHead>
+    <ceb:guid>SINOTRANS-SKU-20141223012851-0000005</ceb:guid>
+    <ceb:customsCode>1</ceb:customsCode>
+    <ceb:appType>1</ceb:appType>
+    <ceb:appTime>20141223171144</ceb:appTime>
+    <ceb:appStatus>2</ceb:appStatus>
+    <ceb:appUid>1</ceb:appUid>
+    <ceb:appUname>我是用户名称</ceb:appUname>
+    <ceb:ebpCode>1</ceb:ebpCode>
+    <ceb:ebpName>电商平台名称</ceb:ebpName>
+    <ceb:ebcCode>1</ceb:ebcCode>
+    <ceb:ebcName>电商企业名称</ceb:ebcName>
+    <ceb:agentCode>1</ceb:agentCode>
+    <ceb:agentName>申报企业名称</ceb:agentName>
+    <ceb:classifyCode>1</ceb:classifyCode>
+    <ceb:itemNo>货号4</ceb:itemNo>
+    <ceb:itemName>品名4</ceb:itemName>
+    <ceb:gcode>海关编码4</ceb:gcode>
+    <ceb:gname>商品名称4</ceb:gname>
+    <ceb:gmodel>型号4</ceb:gmodel>
+    <ceb:barcode>条形码</ceb:barcode>
+    <ceb:brand>品牌4</ceb:brand>
+    <ceb:taxCode>1</ceb:taxCode>
+    <ceb:unit>KG</ceb:unit>
+    <ceb:unit1>KG</ceb:unit1>
+    <ceb:unit2>KG</ceb:unit2>
+    <ceb:price>4.40000</ceb:price>
+    <ceb:currency>CNY</ceb:currency>
+    <ceb:giftFlag>1</ceb:giftFlag>
+    <ceb:note>备注</ceb:note>
+  </ceb:PgrHead>
+</ceb:CEB201Message>

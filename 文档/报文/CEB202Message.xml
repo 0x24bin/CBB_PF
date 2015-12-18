@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ceb:CEB202Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ceb:sku>
+    <ceb:guid>cccccccc</ceb:guid>
+    <ceb:preNo>11111</ceb:preNo>
+	<ceb:gno>1111111</ceb:gno>
+	<ceb:itemNo>1111111</ceb:itemNo>
+	<ceb:ebpCode>1111111</ceb:ebpCode>
+	<ceb:ebcCode>1111111</ceb:ebcCode>
+	<ceb:returnStatus>2</ceb:returnStatus>
+	<ceb:returnTime>1111111</ceb:returnTime>
+	<ceb:returnInfo>[11111111]</ceb:returnInfo>
+  </ceb:sku>
+</ceb:CEB202Message>

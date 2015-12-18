@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ceb:CEB501Message xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.chinaport.gov.cn/ceb">
+  <ceb:LogisticsHead>
+    <ceb:guid>SINOTRANS-LOGISTIC-20150103125737-02</ceb:guid>
+    <ceb:customsCode>1</ceb:customsCode>
+    <ceb:appType>1</ceb:appType>
+    <ceb:appTime>20150103130348</ceb:appTime>
+    <ceb:appStatus>2</ceb:appStatus>
+    <ceb:appUid>1</ceb:appUid>
+    <ceb:appUname>我是用户名称</ceb:appUname>
+    <ceb:orderNo>diangdan3</ceb:orderNo>
+    <ceb:ebpCode>1</ceb:ebpCode>
+    <ceb:ebpName>电商平台名称</ceb:ebpName>
+    <ceb:logisticsCode>1</ceb:logisticsCode>
+    <ceb:logisticsName>物流企业名称</ceb:logisticsName>
+    <ceb:logNo>sdf234</ceb:logNo>
+    <ceb:ieFlag>E</ceb:ieFlag>
+    <ceb:trafMode>1</ceb:trafMode>
+    <ceb:shipName>werwef</ceb:shipName>
+    <ceb:voyageNo>sdf</ceb:voyageNo>
+    <ceb:billNo>wef</ceb:billNo>
+    <ceb:freight>1.00000</ceb:freight>
+    <ceb:insureFee>23.00000</ceb:insureFee>
+    <ceb:currency>CNY</ceb:currency>
+    <ceb:weight>34.00000</ceb:weight>
+    <ceb:netWt>23.00000</ceb:netWt>
+    <ceb:packNo>23</ceb:packNo>
+    <ceb:parcelInfo>sdf</ceb:parcelInfo>
+    <ceb:goodsInfo>sdf</ceb:goodsInfo>
+    <ceb:consignee>mei san</ceb:consignee>
+    <ceb:consigneeAddress>tokyo</ceb:consigneeAddress>
+    <ceb:cosnigneeTelephone>110</ceb:cosnigneeTelephone>
+    <ceb:consigneeCountry>CN</ceb:consigneeCountry>
+    <ceb:shipper>sdf</ceb:shipper>
+    <ceb:shipperAddress>sdf</ceb:shipperAddress>
+    <ceb:shipperTelephone>sdf</ceb:shipperTelephone>
+    <ceb:shipperCountry>CN</ceb:shipperCountry>
+    <ceb:note>sdfsdf</ceb:note>
+  </ceb:LogisticsHead>
+</ceb:CEB501Message>

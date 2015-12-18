@@ -1,0 +1,14 @@
+﻿<CEB502Message>
+  <MessageHead>
+    <MessageID>CEB_502_3201981289_2301_2015052713501223001</MessageID>
+    <MessageType>502</MessageType>
+    <SenderID>2301</SenderID>
+    <ReceiverID>3201981289</ReceiverID>
+    <SendTime>20150527135012</SendTime>
+    <Version></Version>
+  </MessageHead >
+  <NjkjLogisticsHeadEntity>
+    <LogisticsNo>EMS201505260101</LogisticsNo>
+    <LogisticsCode>3201981289</LogisticsCode>
+  </NjkjLogisticsHeadEntity>
+</CEB502Message>
