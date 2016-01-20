@@ -348,7 +348,7 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			},new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_custom,
 			    id : "PORT_CODE",
-			    header : "出口口岸代码",
+			    header : "进出口口岸代码",
 			    dataIndex : "PORT_CODE"
 			}),{
 			    id : "IE_DATE",
@@ -850,10 +850,10 @@ Ext.ux.InventoryFormPanel = Ext.extend(Ext.form.FormPanel, {
 			submitValue: false,
 	        hidden: !isInventoryComplete(this.record)
 		},GenerateCodeNameComboGrid({
-	    	fieldLabel:'出口口岸代码',
+	    	fieldLabel:'进出口口岸代码',
 	    	name: 'PORT_CODE',
 	        allowBlank : false
-        	},relationCategory_port
+        	},relationCategory_custom
 	    ),{
 			fieldLabel : "出口日期",
 			name : "IE_DATE",

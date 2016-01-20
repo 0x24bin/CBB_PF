@@ -47,20 +47,7 @@ public abstract class CommonManagerService extends AbstractService {
 	protected CommonManagerMapper commonManagerMapper;
 	@Resource
 	protected NJCommonManagerMapper njCommonManagerMapper;
-
-	protected static String T_NJ_SKU = "T_NJ_SKU";
-	protected static String T_NJ_ORDERS = "T_NJ_ORDERS";
-	protected static String T_NJ_ORDER_DETAIL = "T_NJ_ORDER_DETAIL";
-	protected static String T_NJ_LOGISTICS = "T_NJ_LOGISTICS";
-	protected static String T_NJ_INVENTORY = "T_NJ_INVENTORY";
-	protected static String T_NJ_INVENTORY_DETAIL = "T_NJ_INVENTORY_DETAIL";
-	protected static String T_CONTACT = "T_CONTACT";
-
-	protected static String V_NJ_INVENTORY = "V_NJ_INVENTORY";
-	protected static String V_NJ_INVENTORY_DETAIL = "V_NJ_INVENTORY_DETAIL";
-	protected static String V_NJ_LOGISTICS_UNUSE = "V_NJ_LOGISTICS_UNUSE";
-	protected static String V_NJ_ORDERS_UNUSE = "V_NJ_ORDERS_UNUSE";
-
+	
 	public Map<String, Object> getAllCodeNames(Map<String, Object> params)
 			throws CommonException {
 		try {
@@ -176,8 +163,8 @@ public abstract class CommonManagerService extends AbstractService {
 			}
 			
 			if(message.isEmpty()){
-			throw new CommonException(null,
-					MessageCodeDefine.COM_EXCPT_DUPLICATE_ENTRY);
+				throw new CommonException(null,
+						MessageCodeDefine.COM_EXCPT_DUPLICATE_ENTRY);
 			}else{
 				throw new CommonException(null,
 						MessageCodeDefine.COM_EXCPT_DUPLICATE_ENTRY,message);
@@ -399,7 +386,7 @@ public abstract class CommonManagerService extends AbstractService {
 		
 		reponse = reponse.replaceAll("&lt;", '<' + "");
 		reponse = reponse.replaceAll("&gt;", '>'+"");
-		
+
 		resultString = resultString.replaceAll("&lt;", '<' + "");
 		resultString = resultString.replaceAll("&gt;", '>'+"");
 		

@@ -56,4 +56,26 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager-mysql"/>
 
+	
+	<!-- 注册实现类 -->
+	<bean id="wsManagerImpl" class="com.foo.manager.wsManager.serviceImpl.WSManagerImpl" />
+	
+	<!-- 前置消息拦截器 -->
+	<bean id="inMessageInterceptor" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+	 <!-- 后置消息拦截器 -->
+	<bean id="outLoggingInterceptor" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+	<!-- 注意下面的address，这里的address的名称就是访问的WebService的name -->
+	<jaxws:server id="CBB_PF_WS" serviceClass="com.foo.IService.IWSManagerService" address="/CBB_PF_WS">
+	    <jaxws:serviceBean>
+	        <!-- 要暴露的 bean 的引用 -->
+	        <ref bean="wsManagerImpl"/>
+	    </jaxws:serviceBean>
+<!-- 	    <jaxws:inInterceptors>
+	        <ref bean="inMessageInterceptor"/>
+	    </jaxws:inInterceptors>
+	    <jaxws:outInterceptors>
+	        <ref bean="outLoggingInterceptor"/>
+	    </jaxws:outInterceptors> -->
+	</jaxws:server>
+
 </beans>

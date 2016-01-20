@@ -13,7 +13,7 @@ var store = new Ext.data.Store({
 	reader : new Ext.data.JsonReader({
 		totalProperty : 'total',
 		root : "rows"
-	}, [ "CONTACT_ID","CODE","NAME", "TEL","COUNTRY","ADDRESS"])
+	}, [ "CONTACT_ID","CODE","NAME", "TEL","COUNTRY","ADDRESS","PROVINCE","CITY","DISTRICT","SPECIFIC_ADDRESS"])
 });
 
 var pageTool = new Ext.PagingToolbar({
@@ -89,6 +89,35 @@ var columnModel = new Ext.grid.ColumnModel({
 			id:'ADDRESS',
 			header:'地址',
 			dataIndex:'ADDRESS',
+			width:300
+		},{
+			id:'PROVINCE',
+			header:'省',
+			dataIndex:'PROVINCE',
+			width:100,
+			editor : new Ext.form.TextField({
+				allowBlank : false
+			})
+		},{
+			id:'CITY',
+			header:'市',
+			dataIndex:'CITY',
+			width:100,
+			editor : new Ext.form.TextField({
+				allowBlank : false
+			})
+		},{
+			id:'DISTRICT',
+			header:'区',
+			dataIndex:'DISTRICT',
+			width:100,
+			editor : new Ext.form.TextField({
+				allowBlank : false
+			})
+		},{
+			id:'SPECIFIC_ADDRESS',
+			header:'具体地址',
+			dataIndex:'SPECIFIC_ADDRESS',
 			width:300,
 			editor : new Ext.form.TextField({
 				allowBlank : false
@@ -163,7 +192,11 @@ function modifyContact(){
 			"NAME":modifyData[i].get("NAME"),
 			"TEL":modifyData[i].get("TEL"),
 			"COUNTRY":modifyData[i].get("COUNTRY"),
-			"ADDRESS":modifyData[i].get("ADDRESS")
+			"ADDRESS":modifyData[i].get("ADDRESS"),
+			"PROVINCE":modifyData[i].get("PROVINCE"),
+			"CITY":modifyData[i].get("CITY"),
+			"DISTRICT":modifyData[i].get("DISTRICT"),
+			"SPECIFIC_ADDRESS":modifyData[i].get("SPECIFIC_ADDRESS")
 		};
 		jsonDataList.push(jsonData);
     }

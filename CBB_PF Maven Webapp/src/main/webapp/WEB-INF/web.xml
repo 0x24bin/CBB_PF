@@ -91,6 +91,21 @@
 		<url-pattern>/druid/*</url-pattern>
 	</servlet-mapping>
 	
+	<!--配置CXFServlet begin-->  
+	<servlet>  
+	    <servlet-name>CXFServlet</servlet-name>  
+	    <servlet-class>  
+	        org.apache.cxf.transport.servlet.CXFServlet  
+	    </servlet-class>  
+	    <load-on-startup>1</load-on-startup>  
+	</servlet>  
+	<servlet-mapping>  
+	    <servlet-name>CXFServlet</servlet-name>  
+	    <!-- url可自定义配置，用于CXFServlet请求地址拦截,访问会用到 -->  
+	    <url-pattern>/WS/*</url-pattern>  
+	</servlet-mapping>  
+	<!--配置CXFServlet end -->
+	
 	<servlet>
     	<servlet-name>InitJob</servlet-name>
     	<servlet-class>com.foo.servlet.InitJob</servlet-class>

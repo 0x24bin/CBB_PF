@@ -30,9 +30,27 @@ var formPanel = new Ext.FormPanel({
 				allowBlank : false,
 				anchor : '95%'
 			},{
-				id:'ADDRESS',
+				id:'PROVINCE',
 				xtype:'textfield', 
-				fieldLabel:'地址', 
+				fieldLabel:'省', 
+				allowBlank : false,
+				anchor : '95%'
+			},{
+				id:'CITY',
+				xtype:'textfield', 
+				fieldLabel:'市', 
+				allowBlank : false,
+				anchor : '95%'
+			},{
+				id:'DISTRICT',
+				xtype:'textfield', 
+				fieldLabel:'区', 
+				allowBlank : false,
+				anchor : '95%'
+			},{
+				id:'SPECIFIC_ADDRESS',
+				xtype:'textfield', 
+				fieldLabel:'具体地址', 
 				allowBlank : false,
 				anchor : '95%'
 			}
@@ -71,7 +89,10 @@ function addContact(){
 			"CODE":Ext.getCmp('CODE').getValue(),
 			"NAME":Ext.getCmp('NAME').getRawValue(),
 			"TEL":Ext.getCmp('TEL').getValue(),
-			"ADDRESS":Ext.getCmp('ADDRESS').getValue(),
+			"PROVINCE":Ext.getCmp('PROVINCE').getValue(),
+			"CITY":Ext.getCmp('CITY').getValue(),
+			"DISTRICT":Ext.getCmp('DISTRICT').getValue(),
+			"SPECIFIC_ADDRESS":Ext.getCmp('SPECIFIC_ADDRESS').getValue(),
 			"COUNTRY":Ext.getCmp('COUNTRY').getValue()
 		};
 		var jsonString = Ext.encode(jsonData);

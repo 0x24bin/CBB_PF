@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ParseXml>
+	<xml>
+		<SNT101Message>
+			<OrderHead>
+				<EbpCode>1234567890</EbpCode>
+				<EbcCode>1234567890</EbcCode>
+				<OrderType>1</OrderType>
+				<OrderNo>2</OrderNo>
+				<GoodsInfo>1231</GoodsInfo>
+				<Consignee>陈萌萌</Consignee>
+				<ConsigneeCode>3202191093873487</ConsigneeCode>
+				<ConsigneeTelephone>莲花新城</ConsigneeTelephone>
+				<ConsigneeCountry>123</ConsigneeCountry>
+				<ConsigneeProvince>143</ConsigneeProvince>
+				<ConsigneeCity>徐大神</ConsigneeCity>
+				<ConsigneeDistrict>320219198601221514</ConsigneeDistrict>
+				<ConsigneeAddress>高尔夫</ConsigneeAddress>
+				<GoodsValue>1</GoodsValue>
+				<TaxFee>0.3</TaxFee>
+				<Freight>2423</Freight>
+				<InsuredFee>123</InsuredFee>
+				<Currency>123</Currency>
+				<NetWeight>1.1</NetWeight>
+				<Note>123</Note>
+			</OrderHead>
+			<OrderList>
+				<Order>
+					<GNum>1111</GNum>
+					<ItemNo>G111113434</ItemNo>
+					<GName>洗衣机</GName>
+					<Qty>1.00000</Qty>
+					<Price>123.00000</Price>
+					<Total>123.00000</Total>
+					<BarCode>1</BarCode>
+					<Lottable1>234234</Lottable1>
+					<Note>123</Note>
+				</Order>
+				<Order>
+					<GNum>2222</GNum>
+					<ItemNo>G111113434</ItemNo>
+					<GName>洗衣机</GName>
+					<Qty>1.00000</Qty>
+					<Price>123.00000</Price>
+					<Total>123.00000</Total>
+					<BarCode>1</BarCode>
+					<Lottable1>234234</Lottable1>
+					<Note>123</Note>
+				</Order>
+			</OrderList>
+		</SNT101Message>
+	</xml>
+	<fileType>SNT101</fileType>
+</ParseXml>

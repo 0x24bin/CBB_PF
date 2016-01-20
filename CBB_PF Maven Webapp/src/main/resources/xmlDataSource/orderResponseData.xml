@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Response>
+	<xml>
+		<SNT102Message>
+			<EbpCode>1</EbpCode>
+			<EbcCode>我是用户名称</EbcCode>
+			<OrderNo>2</OrderNo>
+			<returnStatus>1231</returnStatus>
+			<returnTime>陈萌萌</returnTime>
+			<returnInfo>3202191093873487</returnInfo>
+			<SNTNo>莲花新城</SNTNo>
+		</SNT102Message>
+	</xml>
+	<fileType>SNT102</fileType>
+</Response>

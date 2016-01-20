@@ -1078,6 +1078,118 @@ public class XmlUtil {
 		return result;
 	}
 	
+	/**
+	 * 解析xml字符串，根文件
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,String> parseXmlRoot_WS(String xmlString) {
+		Map<String,String> result = new HashMap<String,String>();
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			//获取文件类型节点
+			XPath xpath = document.createXPath("//ParseXml/fileType"); 
+			
+			Node fileTypenode = xpath.selectSingleNode(document);
+			
+			result.put(fileTypenode.getName(), fileTypenode.getText());
+			//获取报文正文节点
+			xpath = document.createXPath("//ParseXml/xml/child::*"); 
+			
+			Node xmlnode = xpath.selectSingleNode(document);
+
+			result.put("xml", xmlnode.asXML());
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 解析xml字符串,SNT101报文
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,Object> parseXmlSNT101_WS(String xmlString) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		String rootNode = "SNT101Message";
+		
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			//获取文件类型节点
+			XPath xpath = document.createXPath("//"+rootNode+"/OrderHead/child::*"); 
+			
+			List<Node> OrderHeadChildNodes = xpath.selectNodes(document);
+			
+			Map<String,String> OrderHead = new HashMap<String,String>();
+			//添加OrderHead数据
+			for(Node node:OrderHeadChildNodes){
+				OrderHead.put(node.getName(), node.getText());
+			}
+			result.put("OrderHead", OrderHead);
+			//选取orderList节点的子节点，即order节点
+			xpath = document.createXPath("//"+rootNode+"/OrderList/child::*"); 
+			
+			List<Node> OrderListChildNodes = xpath.selectNodes(document);
+			
+			List<Map<String,String>> orderList = new ArrayList<Map<String,String>>();
+			//添加OrderHead数据
+			for(Node order:OrderListChildNodes){
+				List<Node> OrderChildNodes = order.selectNodes("child::*");
+						
+				Map<String,String> orderData = new HashMap<String,String>();
+				//添加Order数据
+				for(Node node:OrderChildNodes){
+					orderData.put(node.getName(), node.getText());
+				}
+				orderList.add(orderData);
+			}
+			result.put("OrderList", orderList);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	//生成回执xml
+	public static String generalReceiptXml_WS(String fileType,Map content){
+
+		String resultXml = "";
+
+		try {
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement("Response");
+			doc.setRootElement(rootElement);
+			// 设置第一级元素xml
+			Element firstElementXml = rootElement.addElement("xml");
+			// 设置第一级元素
+			Element firstElementFileType = rootElement.addElement("fileType");
+			
+			firstElementFileType.setText(fileType);
+			// 第二级元素
+			Element secondElement = firstElementXml.addElement(fileType+"Message");
+			
+			for(Object obj:content.keySet()){
+				String elementName = (String)obj;
+				Element leaf = secondElement.addElement(elementName);
+				leaf.addText(content.get(elementName) != null?content.get(elementName).toString():"");
+			}
+			//返回xml字符串
+			resultXml = doc.asXML();
+			
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return resultXml;
+	}
 	
 	//获取对应节点名
 	private static String generalXmlNodeName4NJ(int messageType){

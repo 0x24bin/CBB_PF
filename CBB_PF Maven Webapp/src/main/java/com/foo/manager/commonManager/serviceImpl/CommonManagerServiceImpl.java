@@ -951,6 +951,12 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	public void addContact(Map data) {
 		Map primary=new HashMap();
 		primary.put("primaryId", null);
+		
+		String address = data.get("PROVINCE") + "_" + data.get("CITY")
+				+ "_" + data.get("DISTRICT") + "_"
+				+ data.get("SPECIFIC_ADDRESS");
+		data.put("ADDRESS", address);
+		
 		commonManagerMapper.insertTableByNVList("T_CONTACT",
 				new ArrayList<String>(data.keySet()), 
 				new ArrayList<Object>(data.values()),
@@ -959,6 +965,14 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	
 	@Override
 	public void modifyContact(List<Map> dataList) {
+		
+		for (Map data : dataList) {
+			String address = data.get("PROVINCE") + "_" + data.get("CITY")
+					+ "_" + data.get("DISTRICT") + "_"
+					+ data.get("SPECIFIC_ADDRESS");
+			data.put("ADDRESS", address);
+		}
+		
 		// 更新数据
 		for (Map data : dataList) {
 			commonManagerMapper.updateTableByNVList("T_CONTACT",
