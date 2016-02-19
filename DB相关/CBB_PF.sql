@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/1/20 15:46:35                           */
+/* Created on:     2016/2/19 10:24:45                           */
 /*==============================================================*/
 
 
@@ -23,6 +23,8 @@ DROP VIEW IF EXISTS V_NJ_LOGISTICS_UNUSE;
 DROP VIEW IF EXISTS V_NJ_ORDERS_UNUSE;
 
 DROP VIEW IF EXISTS V_ORDERS_UNUSE;
+
+DROP VIEW IF EXISTS V_USER_ROLE;
 
 DROP TABLE IF EXISTS QRTZ_BLOB_TRIGGERS;
 
@@ -83,6 +85,14 @@ DROP TABLE IF EXISTS T_ORDER_DETAIL;
 DROP TABLE IF EXISTS T_SKU;
 
 DROP TABLE IF EXISTS T_SYS_MENU;
+
+DROP TABLE IF EXISTS T_SYS_ROLE;
+
+DROP TABLE IF EXISTS T_SYS_ROLE_REF;
+
+DROP TABLE IF EXISTS T_SYS_USER;
+
+DROP TABLE IF EXISTS T_SYS_USER_REF_ROLE;
 
 /*==============================================================*/
 /* Table: QRTZ_BLOB_TRIGGERS                                    */
@@ -600,6 +610,7 @@ CREATE TABLE T_NJ_LOGISTICS
    CONSIGNEE_ID         INT COMMENT '收货人',
    SHIPPER_ID           INT COMMENT '发货人',
    LOGISTICS_HEAD_NO    VARCHAR(20) COMMENT '总运单号',
+   IS_AUTO              INT DEFAULT 0 COMMENT '是否自动生成 0：不是 1：是',
    NOTE                 VARCHAR(1000) COMMENT '备注',
    VERSION              VARCHAR(16) DEFAULT 'V1.0' COMMENT '版本号',
    RETURN_STATUS        INT COMMENT '回执状态--操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库成功/399海关审结）,若小于0数字表示处理异常回执',
@@ -860,6 +871,70 @@ CREATE TABLE T_SYS_MENU
 ALTER TABLE T_SYS_MENU COMMENT '菜单表';
 
 /*==============================================================*/
+/* Table: T_SYS_ROLE                                            */
+/*==============================================================*/
+CREATE TABLE T_SYS_ROLE
+(
+   SYS_ROLE_ID          INT NOT NULL AUTO_INCREMENT,
+   NAME                 VARCHAR(128) COMMENT '角色名',
+   NOTE                 VARCHAR(128) COMMENT '备注',
+   PRIMARY KEY (SYS_ROLE_ID)
+);
+
+ALTER TABLE T_SYS_ROLE COMMENT '角色表';
+
+/*==============================================================*/
+/* Table: T_SYS_ROLE_REF                                        */
+/*==============================================================*/
+CREATE TABLE T_SYS_ROLE_REF
+(
+   SYS_ROLE_REF_ID      INT NOT NULL AUTO_INCREMENT,
+   SYS_ROLE_ID          INT,
+   SYS_MENU_ID          INT COMMENT 'id',
+   PRIMARY KEY (SYS_ROLE_REF_ID)
+);
+
+ALTER TABLE T_SYS_ROLE_REF COMMENT '角色与菜单关联表';
+
+/*==============================================================*/
+/* Table: T_SYS_USER                                            */
+/*==============================================================*/
+CREATE TABLE T_SYS_USER
+(
+   SYS_USER_ID          INT NOT NULL AUTO_INCREMENT,
+   USER_NAME            VARCHAR(64) COMMENT '姓名',
+   LOGIN_NAME           VARCHAR(128) COMMENT '登录名',
+   PASSWORD             VARCHAR(64) COMMENT '密码',
+   JOB_NUMBER           VARCHAR(64) COMMENT '工号',
+   DEPARTMENT           VARCHAR(64) COMMENT '部门',
+   POSITION             VARCHAR(64) COMMENT '职务',
+   EMAIL                VARCHAR(64) COMMENT '邮箱',
+   TELEPHONE            VARCHAR(16) COMMENT '电话',
+   NOTE                 VARCHAR(128) COMMENT '备注',
+   LOGIN_TIME           DATETIME COMMENT '登陆时间',
+   LOGOUT_TIME          DATETIME COMMENT '退出时间',
+   IS_DEL               INT DEFAULT 0 COMMENT '是否删除 0：不是 1：是',
+   CREATE_TIME          DATETIME COMMENT '创建时间',
+   UPDATE_TIME          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (SYS_USER_ID)
+);
+
+ALTER TABLE T_SYS_USER COMMENT '用户表';
+
+/*==============================================================*/
+/* Table: T_SYS_USER_REF_ROLE                                   */
+/*==============================================================*/
+CREATE TABLE T_SYS_USER_REF_ROLE
+(
+   SYS_USER_REF_ROLE_ID INT NOT NULL AUTO_INCREMENT,
+   SYS_USER_ID          INT,
+   SYS_ROLE_ID          INT,
+   PRIMARY KEY (SYS_USER_REF_ROLE_ID)
+);
+
+ALTER TABLE T_SYS_USER_REF_ROLE COMMENT '用户,角色关联表';
+
+/*==============================================================*/
 /* View: V_INVENTORY                                            */
 /*==============================================================*/
 CREATE VIEW  V_INVENTORY
@@ -1017,6 +1092,33 @@ FROM
     ON O.`ORDER_NO` = L.`ORDER_NO` 
 WHERE ISNULL(L.`ORDER_NO`);
 
+/*==============================================================*/
+/* View: V_USER_ROLE                                            */
+/*==============================================================*/
+CREATE VIEW  V_USER_ROLE
+ AS
+SELECT 
+  SYSUSER.`SYS_USER_ID` AS SYS_USER_ID,
+  SYSMENU.`MENU_PARENT_ID`  AS MENU_PARENT_ID,
+  SYSMENU.`SYS_MENU_ID` AS `SYS_MENU_ID`,
+  SYSMENU.`MENU_DISPLAY_NAME` AS `MENU_DISPLAY_NAME`,
+  SYSMENU.`MENU_HREF` AS `MENU_HREF`,
+  SYSMENU.`IS_LEAF` AS `IS_LEAF`,
+  SYSMENU.`ICON_CLASS` AS `ICON_CLASS`
+FROM
+  T_SYS_USER SYSUSER,
+  T_SYS_ROLE_REF AUTHDOMAINREF 
+  LEFT JOIN T_SYS_MENU SYSMENU 
+    ON (
+      SYSMENU.`SYS_MENU_ID` = AUTHDOMAINREF.`SYS_MENU_ID` 
+    )
+WHERE AUTHDOMAINREF.`SYS_ROLE_ID` IN 
+  (SELECT 
+    AUTHREF.`SYS_ROLE_ID` 
+  FROM
+    T_SYS_USER_REF_ROLE AUTHREF 
+  WHERE AUTHREF.`SYS_USER_ID` = SYSUSER.`SYS_USER_ID`);
+
 ALTER TABLE QRTZ_BLOB_TRIGGERS ADD CONSTRAINT QRTZ_BLOB_TRIGGERS_IBFK_1 FOREIGN KEY (TRIGGER_NAME, TRIGGER_GROUP)
       REFERENCES QRTZ_TRIGGERS (TRIGGER_NAME, TRIGGER_GROUP);
 
@@ -1058,6 +1160,18 @@ ALTER TABLE T_NJ_ORDER_DETAIL ADD CONSTRAINT FK_REFERENCE_99 FOREIGN KEY (ORDERS
 
 ALTER TABLE T_ORDER_DETAIL ADD CONSTRAINT FK_REFERENCE_9 FOREIGN KEY (ORDERS_ID)
       REFERENCES T_ORDERS (ORDERS_ID) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE T_SYS_ROLE_REF ADD CONSTRAINT FK_REFERENCE_13 FOREIGN KEY (SYS_MENU_ID)
+      REFERENCES T_SYS_MENU (SYS_MENU_ID) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE T_SYS_ROLE_REF ADD CONSTRAINT FK_REFERENCE_97 FOREIGN KEY (SYS_ROLE_ID)
+      REFERENCES T_SYS_ROLE (SYS_ROLE_ID) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE T_SYS_USER_REF_ROLE ADD CONSTRAINT FK_REFERENCE_14 FOREIGN KEY (SYS_USER_ID)
+      REFERENCES T_SYS_USER (SYS_USER_ID) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+ALTER TABLE T_SYS_USER_REF_ROLE ADD CONSTRAINT FK_REFERENCE_15 FOREIGN KEY (SYS_ROLE_ID)
+      REFERENCES T_SYS_ROLE (SYS_ROLE_ID) ON DELETE CASCADE ON UPDATE RESTRICT;
 
 
 DELIMITER $$
