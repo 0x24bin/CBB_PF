@@ -1,4 +1,4 @@
-package com.foo.dao.mysql;
+﻿package com.foo.dao.mysql;
 
 import java.util.List;
 import java.util.Map;
@@ -127,6 +127,27 @@ public interface CommonManagerMapper {
 	public Integer selectMaxIdFromTable(
 			@Param(value = "dbName") String dbName,
 			@Param(value = "tableName") String tableName);
+	
+	/**
+	 * 获取当前最大Id值
+	 * @param tableName
+	 * @param colName
+	 * @return
+	 */
+	public Integer selectMaxNoFromTable(
+			@Param(value = "columnName") String columnName,
+			@Param(value = "tableName") String tableName);
+	
+	/**
+	 * 获取子菜单集合--含权限
+	 * @param menuParentId
+	 * @param userId
+	 * @return
+	 */
+	public List<Map> getAuthSubMenuList(
+			@Param(value = "menuParentId") int menuParentId,
+			@Param(value = "userId") int userId);
+	
 	
 	/**
 	 * 获取菜单集合--首页显示用

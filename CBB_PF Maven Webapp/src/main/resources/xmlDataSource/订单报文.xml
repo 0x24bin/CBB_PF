@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<ParseXml>
+  <xml>
+    <SNT101Message>
+      <OrderHead>
+        <EbpCode>3201968A56</EbpCode>
+        <EbcCode>3201968A56</EbcCode>
+        <OrderType>3</OrderType>
+        <OrderNo>2016011418154460</OrderNo>
+        <GoodsInfo>跨境直邮商品</GoodsInfo>
+        <Consignee>纪平</Consignee>
+        <ConsigneeCode>341623199409249029</ConsigneeCode>
+        <ConsigneeTelephone>13813884813</ConsigneeTelephone>
+        <ConsigneeCountry>142</ConsigneeCountry>
+        <ConsigneeProvince>江苏</ConsigneeProvince>
+        <ConsigneeCity>南京</ConsigneeCity>
+        <ConsigneeDistrict>雨花台</ConsigneeDistrict>
+        <ConsigneeAddress>软件大道118号</ConsigneeAddress>
+        <GoodsValue>634.32</GoodsValue>
+        <TaxFee>53.12</TaxFee>
+        <Freight>50</Freight>
+        <InsuredFee>0</InsuredFee>
+        <Currency>142</Currency>
+        <NetWeight>5514</NetWeight>
+        <Note></Note>
+      </OrderHead>
+      <OrderList>
+        <Order>
+          <GNum>1</GNum>
+          <ItemNo>201601131431171</ItemNo>
+          <Gname>备案测试1(多色/渐变色)</Gname>
+          <Qty>1</Qty>
+          <Price>12</Price>
+          <Total>12</Total>
+          <BarCode></BarCode>
+          <Lottable1></Lottable1>
+          <Note></Note>
+        </Order>
+        <Order>
+          <GNum>2</GNum>
+          <ItemNo>201601131431172</ItemNo>
+          <Gname>备案测试2(多色/渐变色)22222</Gname>
+          <Qty>2</Qty>
+          <Price>6</Price>
+          <Total>12</Total>
+          <BarCode></BarCode>
+          <Lottable1></Lottable1>
+          <Note></Note>
+        </Order>
+      </OrderList>
+    </SNT101Message>
+  </xml>
+  <fileType>SNT101</fileType>
+</ParseXml>

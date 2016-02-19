@@ -48,4 +48,7 @@ public class MessageCodeDefine {
 	//cron表达式解析失败！
 	public final static int QUARTZ_PARSE_EXCEPTION = 13002;
 	/** ***********************quartz调度任务 结束 ********************************* */
+	
+	// 登陆用户信息失效，请重新登陆
+	public final static int USER_LOGIN_AGAIN = 3001;
 }

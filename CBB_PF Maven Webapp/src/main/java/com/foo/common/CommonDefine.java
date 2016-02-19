@@ -8,6 +8,8 @@ package com.foo.common;
  */
 public class CommonDefine {
 	
+	public final static int USER_ADMIN_ID = -1;
+	
 	public final static int FAILED = 0;
 	public final static int SUCCESS = 1;
 	//申报
@@ -48,7 +50,7 @@ public class CommonDefine {
 	public static final String FTP_USER_NAME = "ftpUserName";
 	public static final String FTP_PASSWORD = "ftpPassword";
 	public static final String FTP_PORT = "ftpPort";
-
+	
 	//企业海关10位数编码
 	public static final String ENTERPRISE_CODE = "EnterpriseCode";
 
@@ -98,7 +100,7 @@ public class CommonDefine {
 	public static final int SNT102 = 1020;
 	public static final int SNT103 = 1030;
 	public static final int SNT201 = 2010;
-
+	
 	public static final String MESSAGE_TYPE_CEB201 = "CEB201";
 	public static final String MESSAGE_TYPE_CEB202 = "CEB202";
 	public static final String MESSAGE_TYPE_CEB203 = "CEB203";
@@ -111,14 +113,14 @@ public class CommonDefine {
 	public static final String MESSAGE_TYPE_CEB601 = "CEB601";
 	public static final String MESSAGE_TYPE_CEB602 = "CEB602";
 	public static final String MESSAGE_TYPE_CEB603 = "CEB603";
-
+	
 	//GUID序号前缀
 	public static final String GUID_FOR_SKU = "SINOTRANS-SKU";
 	public static final String GUID_FOR_ORDER = "SINOTRANS-ORDER";
 	public static final String GUID_FOR_LOGISTICS = "SINOTRANS-LOGISTIC";
 	public static final String GUID_FOR_LOGISTICS_SN = "SINOTRANS-SUNING";
 	public static final String GUID_FOR_INVENTORY = "SINOTRANS-EXPORT";
-
+	
 	//运单类型 1：普通 2：苏宁
 	public static final int LOGISTICS_TYPE_NORMAL = 1;
 	public static final int LOGISTICS_TYPE_SUNING = 2;
@@ -179,7 +181,7 @@ public class CommonDefine {
 	public static final int FILE_CATEGORY_WLYD = 4;
 	public static final int FILE_CATEGORY_YDZT= 5;
 	public static final int FILE_CATEGORY_CJQD = 6;
-
+	
 	//默认报文地址
 	public static final String DEFAULT_GENERAL_XML= "";
 	public static final String DEFAULT_RECEIPT_XML= "receipt";

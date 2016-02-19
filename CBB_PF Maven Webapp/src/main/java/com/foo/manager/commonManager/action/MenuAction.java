@@ -46,10 +46,23 @@ public class MenuAction extends AbstractAction{
 	 */
 	public String getSubMenuList() throws Exception {
 
+		boolean needAuthCheck = true;
+		//管理员用户
+		if(sysUserId!=null&&sysUserId.intValue() == CommonDefine.USER_ADMIN_ID){
+			needAuthCheck = false;
+		}
+
 	    List<Map> data = new ArrayList<Map>();
 	    
-	    data = commonManagerService.getSubMenuList(
-				Integer.valueOf(parentMenuId));
+	    if(needAuthCheck){
+		if (sysUserId != null) {
+			data = commonManagerService.getSubMenuList(sysUserId,
+						Integer.valueOf(parentMenuId),needAuthCheck);
+		}
+	    }else{
+	    	data = commonManagerService.getSubMenuList(sysUserId,
+					Integer.valueOf(parentMenuId),needAuthCheck);
+	    }
 
 		resultArray = JSONArray.fromObject(data);
 

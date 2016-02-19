@@ -1,4 +1,4 @@
-package com.foo.manager.commonManager.serviceImpl;
+﻿package com.foo.manager.commonManager.serviceImpl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -28,10 +28,44 @@ import com.foo.util.XmlUtil;
 public class CommonManagerServiceImpl extends CommonManagerService implements ICommonManagerService{
 
 	@Override
-	public List<Map> getSubMenuList(int menuParentId) throws CommonException {
+	public Map<String, Object> getDataList(Map<String, Object> params) throws CommonException {
+		
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+		
+		int total = 0;
+		try{
+			
+		String tableName = params.get("tableName").toString();
+			
+		// 开始
+		Integer start = params.get("start") == null ? 0 : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+		
+		total = commonManagerMapper.selectTableCount(tableName);
+		rows = commonManagerMapper.selectTable(tableName, start, limit);
 
-		List<Map> menuList = getSubMenu(menuParentId);
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		result.put("total", total);
+		result.put("rows", rows);
+		
+		return result;
+		} catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+		
+	}
+	
+	
+	@Override
+	public List<Map> getSubMenuList(Integer userId, int menuParentId, boolean needAuthCheck) throws CommonException {
 
+		List<Map> menuList = getSubMenu(userId, menuParentId, needAuthCheck);
+		
 		return menuList;
 
 	}
@@ -41,26 +75,45 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	 * @param menuParentId
 	 * @return
 	 */
-	private List<Map> getSubMenu(int menuParentId) {
+	private List<Map> getSubMenu(Integer userId, int menuParentId, boolean needAuthCheck) {
 
 		List<Map> nodes = new ArrayList<Map>();
 		// 查询全部菜单项
 		List<Map> allMenuList = commonManagerMapper
 				.getAllSubMenuList(menuParentId);
-
+		
+		//查询权限菜单项
+		List<Map> authMenuList = null;
+		//判断是否需要权限检测
+		if(needAuthCheck){
+			authMenuList=commonManagerMapper.getAuthSubMenuList(menuParentId, userId);
+		}
 		if (allMenuList != null) {
 			// 标示符，防止重复
 			for (Map obj : allMenuList) {
-				obj.put("DISABLED", false);
-				// 指定菜单项变灰
-				if (obj.get("MENU_HREF") != null
-						&& "DISABLED".equals(obj.get("MENU_HREF").toString())) {
+				//权限过滤
+				if(needAuthCheck){
+					obj.put("DISABLED", true);
+					for(Map auth:authMenuList){
+						if(obj.get("SYS_MENU_ID").equals(auth.get("SYS_MENU_ID"))){
+							obj.put("DISABLED", false);
+						}
+					}
+				}else{
+					//所有权限
+					obj.put("DISABLED", false);
+				}
+				//指定菜单项变灰
+				if(obj.get("MENU_HREF")!=null&&"DISABLED".equals(obj.get("MENU_HREF").toString())){
 					obj.put("DISABLED", true);
 				}
 				nodes.add(obj);
 				if (menuParentId != 0) {
-					nodes.addAll(getSubMenu(Integer.parseInt(obj.get(
-							"SYS_MENU_ID").toString())));
+					nodes.addAll(getSubMenu(userId, Integer.parseInt(obj.get(
+							"SYS_MENU_ID").toString()),needAuthCheck));
+				}else{
+//					//目录菜单可用
+//					obj.put("DISABLED", false);
 				}
 			}
 		}

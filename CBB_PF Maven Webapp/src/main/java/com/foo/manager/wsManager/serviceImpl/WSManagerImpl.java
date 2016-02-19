@@ -17,7 +17,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.dom4j.util.XMLErrorHandler;
 import org.xml.sax.SAXException;
 
 import com.foo.common.CommonDefine;
@@ -37,6 +36,9 @@ public class WSManagerImpl extends WSManagerService{
 	@Override
 	public String ParseXml(String xmlString) {
 		
+		//上传log
+		uploadWsLog(1,xmlString);
+		
 		String xmlReturnString = "";
 		
 		//截取fileType
@@ -53,6 +55,8 @@ public class WSManagerImpl extends WSManagerService{
 			//返回运单状态
 			Map content = generateReturnMap(data,"",returnInfo,CommonDefine.FAILED);
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
+			//上传log
+			uploadWsLog(2,xmlReturnString);
 			return xmlReturnString;
 		}
 		
@@ -64,6 +68,9 @@ public class WSManagerImpl extends WSManagerService{
 		//处理报文
 		xmlReturnString = handleXml(fileType,xmlContent);
 
+		//上传log
+		uploadWsLog(2,xmlReturnString);
+		
 		return xmlReturnString;
 	}
 	
@@ -100,16 +107,16 @@ public class WSManagerImpl extends WSManagerService{
 			//生成订单数据
 			generateOrderDataToDb(head,OrderList);
 			//生成运单数据
-			String SNTNo = generateLogisticsDataToDb(head);
+			String logisticsNo = generateLogisticsDataToDb(head);
 			
 			//返回运单状态
-			Map content = generateReturnMap(head,SNTNo,"",CommonDefine.SUCCESS);
+			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
 		}else{
-			String SNTNo = getSntNo(OrderNo);
+			String logisticsNo = getLogisticsNo(OrderNo);
 			//返回运单状态
-			Map content = generateReturnMap(head,SNTNo,"",CommonDefine.SUCCESS);
+			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
 		}
@@ -118,7 +125,7 @@ public class WSManagerImpl extends WSManagerService{
 	}
 	
 	//组织返回数据
-	private Map generateReturnMap(Map head,String SNTNo,String returnInfo,int flag){
+	private Map generateReturnMap(Map head,String logisticsNo,String returnInfo,int flag){
 
 		String currentTime = new SimpleDateFormat(
 				CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
@@ -130,14 +137,14 @@ public class WSManagerImpl extends WSManagerService{
 		content.put("returnStatus", flag);
 		content.put("returnTime", currentTime);
 		content.put("returnInfo", returnInfo);
-		content.put("SNTNo", SNTNo);
+		content.put("LogisticsNo", logisticsNo);
 		
 		return content;
 	}
 	
 	//获取中外运订单编号
-	private String getSntNo(String OrderNo){
-		String SNTNo = "";
+	private String getLogisticsNo(String OrderNo){
+		String logisticsNo = "";
 		//获取SNTNo
 		List logisticsDataList = commonManagerMapper
 				.selectTableListByCol("t_nj_logistics", "ORDER_NO",
@@ -145,11 +152,11 @@ public class WSManagerImpl extends WSManagerService{
 		
 		if(logisticsDataList!=null && logisticsDataList.size()>0){
 			Map logisticsData = (Map)logisticsDataList.get(0);
-			if(logisticsData.get("LOGISTICS_ID") !=null){
-				SNTNo = logisticsData.get("LOGISTICS_ID").toString();
+			if(logisticsData.get("LOGISTICS_NO") !=null){
+				logisticsNo = logisticsData.get("LOGISTICS_NO").toString();
 			}
 		}
-		return SNTNo;
+		return logisticsNo;
 	}
 	
 	//在数据库中插入订单数据
@@ -232,6 +239,12 @@ public class WSManagerImpl extends WSManagerService{
 		// 设置创建时间
 		newHead.put("CREAT_TIME", new Date());
 		
+		String logisticsNo = CommonUtil.generalLogisticsNo(12, "LOGISTICS_NO", "t_nj_logistics");
+		
+		//生成运单号
+		newHead.put("IS_AUTO", CommonDefine.SUCCESS);
+		newHead.put("LOGISTICS_NO", logisticsNo);
+		
 		Map primary=new HashMap();
 		primary.put("primaryId", null);
 
@@ -241,7 +254,7 @@ public class WSManagerImpl extends WSManagerService{
 				new ArrayList<Object>(newHead.values()),
 				primary);
 		
-		return primary.get("primaryId").toString();
+		return logisticsNo;
 		
 	}
 	

@@ -28,16 +28,17 @@ import org.xml.sax.SAXException;
 
 public class TestWS {
 	
-	private String requestUrl = "http://127.0.0.1:8080/CBB_PF/WS/CBB_PF_WS?wsdl";
+//	private String requestUrl = "http://127.0.0.1:8080/CBB_PF/WS/CBB_PF_WS?wsdl";
+	private String requestUrl = "http://221.226.159.219:33789/CBB_PF/WS/CBB_PF_WS?wsdl";
 	
-//	@Test
+	@Test
 	public void testGetOrderReceipt() {
 		String xml = getDataFromXmlFile(null);
 		
 		System.out.println(formatXML(sendHttpCMD(xml)));
 	}
 	
-	@Test
+//	@Test
 	public void validateXml() {
 
 		try {
@@ -62,7 +63,7 @@ public class TestWS {
 					.currentThread()
 					.getContextClassLoader()
 					.getResourceAsStream(
-							"xmlDataSource/orderData.xml"));
+							"xmlDataSource/订单报文.xml"));
 			// 开始验证，成功输出success!!!，失败输出fail
 			validator.validate(sourceFile);
 			

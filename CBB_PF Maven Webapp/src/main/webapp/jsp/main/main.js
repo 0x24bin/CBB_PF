@@ -266,7 +266,7 @@ function initMenu() {
 		showMainWin();
 		// 添加登录，退出信息
 		toolbarPanel.add('->', 
-			/*{
+			{
                 id:"uidField",
 				xtype : 'displayfield',
 				value : "当前登录：" + displayName
@@ -284,7 +284,7 @@ function initMenu() {
 			}, {
 				xtype : 'tbspacer',
 				width : 5
-			},*/
+			},
 			hideBtn);
 
 		// 强制重新布局toolbar
@@ -331,7 +331,7 @@ function addMenu(item,callback){
 			MENU_DISPLAY_NAME: item.MENU_DISPLAY_NAME,
 			href : item.MENU_HREF,
 			iconCls : item.ICON_CLASS,
-			disabled : item.DISABLED,
+			disabled : isLeaf?item.DISABLED:false,
 			menu : isLeaf?undefined:{
 				items : []
 			},
@@ -420,9 +420,30 @@ function showMainWin(){
 		obj.items.itemAt(0).setWidth(resizeWidth);
 	});
 	win.fireEvent('resize',win,win.getWidth(),win.getHeight(),win.getWidth(),win.getHeight());
-	addTabPage("../nj_cbb_pf/skuManager/SKU.menu", "跨境电商（南京）/商品备案","",false);
+	addTabPage("../main/home.jsp", "首页","",false);
 }
 
 function invoker(fnName){
 	eval("(" + fnName + "())");
 }
+
+function logout() {
+	Ext.Msg.confirm("确认", "确认要注销吗？", function(r) {
+				if (r == "yes") {
+					Ext.Ajax.request({
+								url : 'login!logout.action',
+								method : 'POST',
+								success : function(response) {
+									window
+											.open('../login/login.jsp',
+													"_parent");
+								},
+								failure : function(response) {
+									window
+											.open('../login/login.jsp',
+													"_parent");
+								}
+							});
+				};
+			});
+};

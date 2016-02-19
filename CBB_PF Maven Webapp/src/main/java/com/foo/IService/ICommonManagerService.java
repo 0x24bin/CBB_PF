@@ -8,6 +8,12 @@ import com.foo.common.CommonException;
 public interface ICommonManagerService {
 	
 	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public Map<String, Object> getDataList(Map<String, Object> params) throws CommonException;
+	
+	/**
 	 * 获取菜单集合
 	 * @param menuIds
 	 * @return
@@ -21,7 +27,7 @@ public interface ICommonManagerService {
 	 * @return
 	 * @throws CommonException
 	 */
-	public List<Map> getSubMenuList (int menuId) throws CommonException;
+	public List<Map> getSubMenuList (Integer userId, int menuId, boolean needAuthCheck) throws CommonException;
 
 	/**
 	 * @param params: Integer start, Integer limit, ...

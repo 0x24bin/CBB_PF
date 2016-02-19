@@ -350,6 +350,31 @@ public class CommonUtil {
 		return target;
 	}
 	
+	
+	/**
+	 * 自动生成guid，从指定表获取指定字段的最大id值，用来生成guid流水号
+	 * @param prifix 前缀
+	 * @param number 补位位数
+	 * @param tableName 表名
+	 * @param column 字段名
+	 * @return
+	 */
+	public static synchronized String generalLogisticsNo(int number,String columnName,String tableName) {
+		
+		CommonManagerMapper commonManagerMapper = (CommonManagerMapper) SpringContextUtil
+				.getBean("commonManagerMapper");
+
+		Integer maxId = commonManagerMapper.selectMaxNoFromTable(columnName, tableName);
+
+		maxId = maxId == null ? 0 : maxId.intValue();
+
+		String formatNumber = String.format("%0"+number+"d", maxId+1);
+
+		String target = formatNumber;
+
+		return target;
+	}
+	
 	public static void main(String args[]){
 		System.out.println(generalGuid4NJ(CommonDefine.CEB601,"sdfsdf","2301"));
 	}

@@ -41,6 +41,17 @@
     
     <!-- È«¾Ö  -->
  	<package name="global" extends="struts-default,json-default">
+ 		<interceptors>
+            <interceptor name="loginStateInterceptor"
+                class="com.foo.filter.AuthInterceptor">
+            </interceptor>
+            <interceptor-stack name="UserStack">
+                <interceptor-ref name="loginStateInterceptor"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="UserStack"></default-interceptor-ref>
+        
     </package>
     
 </struts>

@@ -42,6 +42,13 @@
     <script type="text/javascript" src="styleswitcher.js"></script>
     <script type="text/javascript" src="main.js"></script>
     <script type="text/javascript">
+    
+    	userId="<%=session.getAttribute("SYS_USER_ID")%>";
+		displayName="<%=session.getAttribute("USER_NAME")%>";
+		userName="<%=session.getAttribute("LOGIN_NAME")%>";
+    	if(userId == null || userId == "null"){
+			window.open('../login/login.jsp', "_parent");
+		}
   		//禁用backspace
 		window.onload=function(){
 			document.getElementsByTagName("body")[0].onkeydown =function(){
@@ -80,6 +87,7 @@
 	
 				return false;
 		}
+
 	</script>
 </head>
 <body id="main" >

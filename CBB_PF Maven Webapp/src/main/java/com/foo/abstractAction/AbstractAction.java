@@ -5,26 +5,33 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.convention.annotation.Results;
 import org.apache.struts2.json.JSONException;
 import org.apache.struts2.json.JSONUtil;
 
+import com.foo.common.CommonException;
 import com.foo.common.CommonResult;
+import com.foo.common.MessageCodeDefine;
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.Preparable;
 
-@Results( {
+@Results({
 		@Result(name = "resultObj", type = "json", params = { "root",
 				"resultObj" }),
 		@Result(name = "resultArray", type = "json", params = { "root",
 				"resultArray" }),
-		//导入excel的返回值
+		// 导入excel的返回值
 		@Result(name = "upload", type = "json", params = { "contentType",
 				"text/html", "root", "resultObj" }) })
-public abstract class AbstractAction extends ActionSupport{
+public abstract class AbstractAction extends ActionSupport  implements Preparable{
 
 	/**
 	 * 
@@ -119,6 +126,21 @@ public abstract class AbstractAction extends ActionSupport{
 
 	public void setJsonString(String jsonString) {
 		this.jsonString = jsonString;
+	}
+	
+	public Integer getCurrentUserId() throws CommonException {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpSession session = request.getSession();
+		Integer userId = session.getAttribute("SYS_USER_ID") != null ? Integer
+				.valueOf(session.getAttribute("SYS_USER_ID").toString()) : null;
+		if(userId==null){
+			throw new CommonException(new NullPointerException(),MessageCodeDefine.USER_LOGIN_AGAIN);
+		}
+		return userId;
+	}
+	public Integer sysUserId;
+	public void prepare(){
+		try{sysUserId = getCurrentUserId();}catch(CommonException e){}
 	}
 
 }
