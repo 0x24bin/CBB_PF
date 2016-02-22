@@ -104,17 +104,26 @@ public class WSManagerImpl extends WSManagerService{
 		int count = commonManagerMapper.selectTableListCountByCol("t_nj_orders", "ORDER_NO", OrderNo);
 		
 		if(count == 0){
+			//生成商品数据
+			generateSkuDataToDb(head,OrderList);
 			//生成订单数据
 			generateOrderDataToDb(head,OrderList);
 			//生成运单数据
 			String logisticsNo = generateLogisticsDataToDb(head);
 			
+			//更新订单数据中的运单号
+			updateLogisticsNoToOrder(OrderNo,logisticsNo);
+			
 			//返回运单状态
 			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
+			
+//			xmlReturnString = "";
 		}else{
 			String logisticsNo = getLogisticsNo(OrderNo);
+			//更新订单数据中的运单号
+			updateLogisticsNoToOrder(OrderNo,logisticsNo);
 			//返回运单状态
 			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
@@ -122,6 +131,16 @@ public class WSManagerImpl extends WSManagerService{
 		}
 
 		return xmlReturnString;
+	}
+	
+	//更新订单中的运单号
+	private void updateLogisticsNoToOrder(String orderNo, String logisticsNo) {
+
+		Map data = new HashMap();
+		data.put("LOGISTICS_NO", logisticsNo);
+		commonManagerMapper.updateTableByNVList("t_nj_orders", "ORDER_NO",
+				orderNo, new ArrayList<String>(data.keySet()),
+				new ArrayList<Object>(data.values()));
 	}
 	
 	//组织返回数据
@@ -159,8 +178,77 @@ public class WSManagerImpl extends WSManagerService{
 		return logisticsNo;
 	}
 	
+	//在数据库中插入商品数据，返回id
+	private void generateSkuDataToDb(Map head,List<Map> data){
+
+		//在head中取需要的列名
+		String[] needColumn = new String[]{
+				"EBP_CODE","EBC_CODE","BIZ_TYPE","CURRENCY"
+		};
+		String tableName=T_NJ_SKU;
+		String uniqueCol="ITEM_NO";
+		String primaryCol="SKU_ID";
+		
+		//变换列名
+		head = changeDbColumn(head);
+		
+		//特殊字段
+		if(head.containsKey("ORDER_TYPE")){
+			head.put("BIZ_TYPE", head.get("ORDER_TYPE"));
+		}
+		
+		//在data中取需要的列名
+		String[] dataNeedColumn = new String[]{
+				"G_NO","G_NAME","ITEM_NO","PRICE","BAR_CODE","NOTE"
+		};
+		for(Map sku:data){
+			
+			//检查商品是否在数据库中存在
+			String ItemNo = sku.get("ItemNo").toString();
+			int count = commonManagerMapper.selectTableListCountByCol("T_NJ_SKU", "ITEM_NO", ItemNo);
+			
+			if(count == 0){
+				Map newHead = new HashMap();
+				//变换列名
+				sku = changeDbColumn(sku);
+				//添加字段
+				for(String column:needColumn){
+					newHead.put(column, head.get(column));
+				}
+				//添加商品信息字段
+				for(String column:dataNeedColumn){
+					newHead.put(column, sku.get(column));
+				}
+				// 设置空id
+				newHead.put(primaryCol, null);
+				
+				// 设置额外列
+				newHead.put("CUSTOM_CODE", CUSTOM_CODE);
+				newHead.put("RECEIVER_ID", CUSTOM_CODE);
+				newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB201,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+				
+				newHead.put("APP_UID", head.get("EBC_CODE"));
+				newHead.put("AGENT_CODE", head.get("EBC_CODE"));
+				
+				newHead.put("APP_STATUS", CommonDefine.APP_STATUS_UNUSE);
+				// 设置创建时间
+				newHead.put("CREAT_TIME", new Date());
+				
+				Map primary=new HashMap();
+				primary.put("primaryId", null);
+
+				//插入数据
+				commonManagerMapper.insertTableByNVList(tableName,
+						new ArrayList<String>(newHead.keySet()), 
+						new ArrayList<Object>(newHead.values()),
+						primary);
+			}
+		}
+		
+	}
+	
 	//在数据库中插入订单数据
-	private void generateOrderDataToDb(Map head,List<Map> data){
+	private void  generateOrderDataToDb(Map head,List<Map> data){
 		
 		//在head中取需要的列名
 		String[] needColumn = new String[]{
@@ -188,6 +276,12 @@ public class WSManagerImpl extends WSManagerService{
 		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
 		newHead.put("RECEIVER_ID", CUSTOM_CODE);
 		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB301,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+		//用户名称、申报企业名称填电商企业名称
+		newHead.put("AGENT_CODE", newHead.get("EBC_CODE"));
+		newHead.put("APP_UID", newHead.get("EBC_CODE"));
+		
+		newHead.put("APP_STATUS", CommonDefine.APP_STATUS_UNUSE);
+		
 		newHead.put("CREAT_TIME", new Date());
 		
 		Map primary=new HashMap();
@@ -202,13 +296,14 @@ public class WSManagerImpl extends WSManagerService{
 		data = changeDbColumn(data);
 		Object primaryId=primary.get("primaryId");
 		setGoodsList(data,head.get("ORDER_NO").toString(),primaryId);
-		
+
 	}
-	
-	
+
 	//在数据库中插入运单数据，返回id
 	private String generateLogisticsDataToDb(Map head){
 		
+		String orderType = head.get("OrderType").toString();
+
 		//在head中取需要的列名
 		String[] needColumn = new String[]{
 				"ORDER_NO","INSURE_FEE","NET_WEIGHT","GOODS_INFO","FREIGHT"
@@ -216,6 +311,10 @@ public class WSManagerImpl extends WSManagerService{
 		String tableName=T_NJ_LOGISTICS;
 		String uniqueCol="LOGISTICS_NO";
 		String primaryCol="LOGISTICS_ID";
+		
+		//获取联系人Id
+		Object consigneeId = handleAddress(head);
+		
 		//变换列名
 		head = changeDbColumn(head);
 		
@@ -236,6 +335,17 @@ public class WSManagerImpl extends WSManagerService{
 		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
 		newHead.put("RECEIVER_ID", CUSTOM_CODE);
 		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB501,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+		//件数
+		newHead.put("PACK_NO", 1);
+		//进出口标记
+		if("1".equals(orderType) || "3".equals(orderType)){
+			newHead.put("IE_FLAG", "I");
+		}else if("2".equals(orderType) || "4".equals(orderType)){
+			newHead.put("IE_FLAG", "E");
+		}
+		newHead.put("CONSIGNEE_ID", consigneeId);
+		
+		newHead.put("APP_UID", head.get("EBC_CODE"));
 		// 设置创建时间
 		newHead.put("CREAT_TIME", new Date());
 		
@@ -380,4 +490,5 @@ public class WSManagerImpl extends WSManagerService{
 		}
 		return result;
 	}
+
 }

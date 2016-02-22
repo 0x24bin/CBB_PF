@@ -128,6 +128,8 @@ public class CommonDefine {
 	//业务状态:1-暂存,2-申报中,默认为1  (自定义)99 申报完成
 	public static final int APP_STATUS_STORE = 1;
 	public static final int APP_STATUS_UPLOAD = 2;
+	
+	public static final int APP_STATUS_UNUSE = 4;
 	public static final int APP_STATUS_COMPLETE = 99;
 	
 	//电子口岸已暂存

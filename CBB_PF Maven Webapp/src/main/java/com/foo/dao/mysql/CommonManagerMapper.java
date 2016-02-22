@@ -1,4 +1,4 @@
-﻿package com.foo.dao.mysql;
+package com.foo.dao.mysql;
 
 import java.util.List;
 import java.util.Map;

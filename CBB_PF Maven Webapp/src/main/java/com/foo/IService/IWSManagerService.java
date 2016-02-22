@@ -26,9 +26,4 @@ public interface IWSManagerService {
 	@WebResult
 	public String ParseXml(String xmlString);
 	
-	
-
-	
-
-
 }

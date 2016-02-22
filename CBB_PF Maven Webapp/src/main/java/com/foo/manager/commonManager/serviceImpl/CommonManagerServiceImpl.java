@@ -1,4 +1,4 @@
-﻿package com.foo.manager.commonManager.serviceImpl;
+package com.foo.manager.commonManager.serviceImpl;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

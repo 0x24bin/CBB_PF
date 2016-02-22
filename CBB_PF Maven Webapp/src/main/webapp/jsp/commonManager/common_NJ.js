@@ -67,6 +67,8 @@ var Renderer={
     		}else{
     		return "申报中";
     		}
+    	case 4:
+    		return "无需申报";
     	case 99:
     		return "申报完成";
     	default:
