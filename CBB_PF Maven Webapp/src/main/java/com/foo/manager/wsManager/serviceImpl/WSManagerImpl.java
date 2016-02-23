@@ -402,9 +402,9 @@ public class WSManagerImpl extends WSManagerService{
 			Map primary=new HashMap();
 			primary.put("primaryId", null);
 			
-			String address = head.get("PROVINCE") + "_" + head.get("CITY")
-					+ "_" + head.get("DISTRICT") + "_"
-					+ head.get("SPECIFIC_ADDRESS");
+			String address = head.get("ConsigneeProvince") + "_" + head.get("ConsigneeCity")
+					+ "_" + head.get("ConsigneeDistrict") + "_"
+					+ head.get("ConsigneeAddress");
 			
 			Map contactData = new HashMap();
 			
