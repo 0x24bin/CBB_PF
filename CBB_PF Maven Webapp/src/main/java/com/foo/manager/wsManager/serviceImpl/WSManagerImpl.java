@@ -29,6 +29,8 @@ public class WSManagerImpl extends WSManagerService{
 	
 	private static String FILE_TYPE_SNT101 = "SNT101";
 	private static String FILE_TYPE_SNT102 = "SNT102";
+	private static String FILE_TYPE_SNT201 = "SNT201";
+	private static String FILE_TYPE_SNT202 = "SNT202";
 	
 	private static String CUSTOM_CODE = "2308";
 	
@@ -81,6 +83,8 @@ public class WSManagerImpl extends WSManagerService{
 		
 		if(FILE_TYPE_SNT101.equals(fileType)){
 			xmlReturnString = handleXml_SNT101(xmlString);
+		}else if(FILE_TYPE_SNT201.equals(fileType)){
+			xmlReturnString = handleXml_SNT201(xmlString);
 		}
 		
 		
@@ -132,6 +136,31 @@ public class WSManagerImpl extends WSManagerService{
 
 		return xmlReturnString;
 	}
+	
+	
+	//处理SNT201报文
+	private String handleXml_SNT201(String xmlString){
+		
+		String xmlReturnString = "";
+		
+		Map<String,Object> data =  XmlUtil.parseXmlSNT201_WS(xmlString);
+		
+		Map head = (Map) data.get("Head");
+		
+		//检查订单是否在数据库中存在
+		String LogisticsNo = head.get("LogisticsNo").toString();
+//		String OrderNo = head.get("OrderNo").toString();
+		
+		//查询数据
+		Map content = njCommonManagerMapper.selectDataForMessageSNT202(LogisticsNo);
+		
+		//返回数据
+		xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT202,content);
+
+		return xmlReturnString;
+	}
+	
+	
 	
 	//更新订单中的运单号
 	private void updateLogisticsNoToOrder(String orderNo, String logisticsNo) {
@@ -345,7 +374,7 @@ public class WSManagerImpl extends WSManagerService{
 		}
 		newHead.put("CONSIGNEE_ID", consigneeId);
 		
-		newHead.put("APP_UID", head.get("EBC_CODE"));
+//		newHead.put("APP_UID", head.get("EBC_CODE"));
 		// 设置创建时间
 		newHead.put("CREAT_TIME", new Date());
 		

@@ -11,12 +11,16 @@ import javax.annotation.Resource;
 import com.foo.IService.IWSManagerService;
 import com.foo.abstractService.AbstractService;
 import com.foo.dao.mysql.CommonManagerMapper;
+import com.foo.dao.mysql.NJCommonManagerMapper;
 import com.foo.util.CommonUtil;
 
 public abstract class WSManagerService extends AbstractService implements IWSManagerService {
 	
 	@Resource
 	protected CommonManagerMapper commonManagerMapper;
+	
+	@Resource
+	protected NJCommonManagerMapper njCommonManagerMapper;
 	
 	//加载资源文件
 	private static Map<String,String> bundleData = null;

@@ -930,5 +930,37 @@
 	    </set>
 	    where GUID = #{GUID}
 	  </update>
+	  
+	  <select id="selectDataForMessageSNT202" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(
+		    DATE_FORMAT(logistics.UPDATE_TIME, '%Y%m%d'),
+		    ''
+		  ) AS IeDate,
+		  IFNULL(logistics.TRAF_MODE, '') AS TrafMode,
+		  IFNULL(logistics.TRAF_NAME, '') AS TrafName,
+		  IFNULL(logistics.VOYAGE_NO, '') AS VoyageNo,
+		  IFNULL(logistics.BILL_NO, '') AS BillNo,
+		  "" AS LoctNo,
+		  "" AS LicenseNo,
+		  IFNULL(
+		    (SELECT 
+		      COUNTRY 
+		    FROM
+		      t_contact 
+		    WHERE CONTACT_ID = logistics.SHIPPER_ID),
+		    ''
+		  ) AS Country,
+		  "3201W" AS DestinationPort,
+		  IFNULL(logistics.FREIGHT, '') AS Freight,
+		  IFNULL(logistics.INSURE_FEE, '') AS InsuredFee,
+		  IFNULL(logistics.CURRENCY, '') AS Currency,
+		  IFNULL(logistics.WEIGHT, '') AS Weight,
+		  "5" AS WrapType,
+		  IFNULL(logistics.LOGISTICS_STATUS, '') AS GoodStatus 
+		FROM
+		  t_nj_logistics logistics 
+		WHERE logistics.LOGISTICS_NO = #{LogisticsNo};
+	</select>
 	
 </mapper>

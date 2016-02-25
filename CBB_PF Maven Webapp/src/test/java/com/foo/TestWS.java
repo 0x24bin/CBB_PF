@@ -28,18 +28,22 @@ import org.xml.sax.SAXException;
 
 public class TestWS {
 	
-//	private String requestUrl = "http://127.0.0.1:8080/CBB_PF/WS/CBB_PF_WS?wsdl";
-	private String requestUrl = "http://221.226.159.219:33789/CBB_PF/WS/CBB_PF_WS?wsdl";
+	private String requestUrl = "http://127.0.0.1:8080/CBB_PF/WS/CBB_PF_WS?wsdl";
+//	private String requestUrl = "http://221.226.159.219:33789/CBB_PF/WS/CBB_PF_WS?wsdl";
 	
 	@Test
 	public void testGetOrderReceipt() {
-		String xml = getDataFromXmlFile(null);
+		String xml = getDataFromXmlFile(null,"SNT201");
+		
+//		System.out.println(xml);
+		
+//		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ParseXml><xml><SNT101Message><OrderHead><EbpCode>1234567890</EbpCode><EbcCode>1234567890</EbcCode><OrderType>1</OrderType><OrderNo>2</OrderNo><GoodsInfo>1231</GoodsInfo><Consignee>陈似的</Consignee><ConsigneeCode>3202191093873487</ConsigneeCode><ConsigneeTelephone>莲花新城</ConsigneeTelephone><ConsigneeCountry>123</ConsigneeCountry><ConsigneeProvince>143</ConsigneeProvince><ConsigneeCity>条达成</ConsigneeCity><ConsigneeDistrict>320219198601221514</ConsigneeDistrict><ConsigneeAddress>高尔夫</ConsigneeAddress><GoodsValue>1</GoodsValue><TaxFee>0.3</TaxFee><Freight>2423</Freight><InsuredFee>123</InsuredFee><Currency>123</Currency><NetWeight>1.1</NetWeight><Note>123</Note></OrderHead><OrderList><Order><GNum>1111</GNum><ItemNo>G111113434</ItemNo><GName>洗衣机</GName><Qty>1.00000</Qty><Price>123.00000</Price><Total>123.00000</Total><BarCode>1</BarCode><Lottable1>234234</Lottable1><Note>123</Note></Order><Order><GNum>2222</GNum><ItemNo>G111113434</ItemNo><GName>洗衣机</GName><Qty>1.00000</Qty><Price>123.00000</Price><Total>123.00000</Total><BarCode>1</BarCode><Lottable1>234234</Lottable1><Note>123</Note></Order></OrderList></SNT101Message></xml><fileType>SNT101</fileType></ParseXml>";
 		
 		System.out.println(formatXML(sendHttpCMD(xml)));
 	}
 	
 //	@Test
-	public void validateXml() {
+	public void validateXml(String fileType) {
 
 		try {
 			// 建立schema工厂
@@ -50,7 +54,7 @@ public class TestWS {
 					.currentThread()
 					.getContextClassLoader()
 					.getResourceAsStream(
-							"xmlDataSource/SNT101.xsd"));
+							"xmlDataSource/"+fileType+".xsd"));
 			// 利用schema工厂，接收验证文档文件对象生成Schema对象
 			Schema schema = schemaFactory.newSchema(sourceSchema);
 			// 通过Schema产生针对于此Schema的验证器，利用schenaFile进行验证
@@ -63,7 +67,7 @@ public class TestWS {
 					.currentThread()
 					.getContextClassLoader()
 					.getResourceAsStream(
-							"xmlDataSource/订单报文.xml"));
+							"xmlDataSource/"+fileType+".xml"));
 			// 开始验证，成功输出success!!!，失败输出fail
 			validator.validate(sourceFile);
 			
@@ -98,7 +102,7 @@ public class TestWS {
 		return result;
 	}
 	
-	private String getDataFromXmlFile(String testDataFilePath){
+	private String getDataFromXmlFile(String testDataFilePath,String fileType){
 
 		InputStream in = null;
 		Document document = null;
@@ -113,7 +117,7 @@ public class TestWS {
 						.currentThread()
 						.getContextClassLoader()
 						.getResourceAsStream(
-								"xmlDataSource/orderData.xml");
+								"xmlDataSource/"+fileType+".xml");
 			}
 			document = saxReader.read(in);
 		} catch (DocumentException e) {

@@ -168,5 +168,14 @@ public interface NJCommonManagerMapper {
 	 * @return
 	 */
 	public void updateInventory_nj(Map data);
+	
+	/**
+	 * 获取SNT202报文数据
+	 * @param LogisticsNo
+	 * @param OrderNo
+	 * @return
+	 */
+	public Map selectDataForMessageSNT202(
+			@Param(value = "LogisticsNo") String LogisticsNo);
 
 }

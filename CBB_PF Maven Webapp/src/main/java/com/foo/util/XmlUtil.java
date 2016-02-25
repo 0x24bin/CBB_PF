@@ -1,4 +1,4 @@
-package com.foo.util;
+﻿package com.foo.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -388,7 +388,7 @@ public class XmlUtil {
 			if(data.containsKey("APP_STATUS")){
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
 			}
-			break;
+			break;			
 			
 		//SNT101
 		case CommonDefine.SNT101:
@@ -586,7 +586,7 @@ public class XmlUtil {
 		if (subDataList != null) {
 			// 设置第一级元素NjkjLogisticsLineEntityList
 			Element subRootElement = rootElement.addElement(subRootElementName);
-
+			
 			for (Map subData : subDataList) {
 
 				Element subSubRootElement = subRootElement
@@ -1033,11 +1033,11 @@ public class XmlUtil {
 			if(node == null && responseNode == null){
 				result = null;
 			}else{
-			if(node == null){
+				if(node == null){
 					result = "";
-			}else{
-				result = node.getText();
-			}
+				}else{
+					result = node.getText();
+				}
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
@@ -1150,6 +1150,38 @@ public class XmlUtil {
 				orderList.add(orderData);
 			}
 			result.put("OrderList", orderList);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	/**
+	 * 解析xml字符串,SNT201报文
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,Object> parseXmlSNT201_WS(String xmlString) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		String rootNode = "SNT201Message";
+		
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			//获取文件类型节点
+			XPath xpath = document.createXPath("//"+rootNode+"/Logistics/child::*"); 
+			
+			List<Node> HeadChildNodes = xpath.selectNodes(document);
+			
+			Map<String,String> Head = new HashMap<String,String>();
+			//添加OrderHead数据
+			for(Node node:HeadChildNodes){
+				Head.put(node.getName(), node.getText());
+			}
+			result.put("Head", Head);
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}
