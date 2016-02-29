@@ -54,9 +54,16 @@ public class WSManagerImpl extends WSManagerService{
 		//验证不通过，返回错误信息
 		if(!returnInfo.isEmpty()){
 			Map data = new HashMap();
-			//返回运单状态
-			Map content = generateReturnMap(data,"",returnInfo,CommonDefine.FAILED);
-			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
+			
+			Map content = null;
+			if(FILE_TYPE_SNT101.equals(fileType)){
+				content = generate102ReturnMap(data,"",returnInfo,CommonDefine.FAILED);
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
+			}else if(FILE_TYPE_SNT201.equals(fileType)){
+				content = generate202ReturnMap(returnInfo,CommonDefine.FAILED);
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT202,content);
+			}
+			 
 			//上传log
 			uploadWsLog(2,xmlReturnString);
 			return xmlReturnString;
@@ -119,7 +126,7 @@ public class WSManagerImpl extends WSManagerService{
 			updateLogisticsNoToOrder(OrderNo,logisticsNo);
 			
 			//返回运单状态
-			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
+			Map content = generate102ReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
 			
@@ -129,7 +136,7 @@ public class WSManagerImpl extends WSManagerService{
 			//更新订单数据中的运单号
 			updateLogisticsNoToOrder(OrderNo,logisticsNo);
 			//返回运单状态
-			Map content = generateReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
+			Map content = generate102ReturnMap(head,logisticsNo,"",CommonDefine.SUCCESS);
 			
 			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT102,content);
 		}
@@ -139,24 +146,69 @@ public class WSManagerImpl extends WSManagerService{
 	
 	
 	//处理SNT201报文
-	private String handleXml_SNT201(String xmlString){
-		
-		String xmlReturnString = "";
-		
-		Map<String,Object> data =  XmlUtil.parseXmlSNT201_WS(xmlString);
-		
-		Map head = (Map) data.get("Head");
-		
-		//检查订单是否在数据库中存在
-		String LogisticsNo = head.get("LogisticsNo").toString();
-//		String OrderNo = head.get("OrderNo").toString();
-		
-		//查询数据
-		Map content = njCommonManagerMapper.selectDataForMessageSNT202(LogisticsNo);
-		
-		//返回数据
-		xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT202,content);
+	private String handleXml_SNT201(String xmlString) {
 
+		String xmlReturnString = "";
+
+		Map<String, Object> data = XmlUtil.parseXmlSNT201_WS(xmlString);
+
+		Map head = (Map) data.get("Head");
+
+		// 检查运单是否在数据库中存在
+		String LogisticsNo = head.get("LogisticsNo").toString();
+		String OrderNo = head.get("OrderNo").toString();
+
+		List<String> colNames = new ArrayList<String>();
+		colNames.add("LOGISTICS_NO");
+		colNames.add("ORDER_NO");
+		List<Object> colValues = new ArrayList<Object>();
+		colValues.add(LogisticsNo);
+		colValues.add(OrderNo);
+		// 请求中的订单号和运单号，必须是对应的。
+		int count = commonManagerMapper.selectTableListCountByNVList(
+				"t_nj_logistics", colNames, colValues);
+
+		if (count == 0) {
+			// 返回运单状态
+			Map content = generate202ReturnMap("运单号和订单号不匹配！",
+					CommonDefine.FAILED);
+
+			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT202,
+					content);
+
+		} else {
+			String EbpCode = head.get("EbpCode").toString();
+			String EbcCode = head.get("EbcCode").toString();
+			// 请求中的电商平台编号，电商企业编号与订单号，必须在订单表中对应
+			colNames.clear();
+			colNames.add("ORDER_NO");
+			colNames.add("EBC_CODE");
+			colNames.add("EBP_CODE");
+			colValues.clear();
+			colValues.add(OrderNo);
+			colValues.add(EbcCode);
+			colValues.add(EbpCode);
+			count = commonManagerMapper.selectTableListCountByNVList(
+					"t_nj_orders", colNames, colValues);
+			if (count == 0) {
+				// 返回运单状态
+				Map content = generate202ReturnMap("订单号和电商平台编号、电商企业编号不匹配！",
+						CommonDefine.FAILED);
+
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(
+						FILE_TYPE_SNT202, content);
+			} else {
+				// 查询数据
+				Map content = njCommonManagerMapper
+						.selectDataForMessageSNT202(LogisticsNo);
+				content.put("returnStatus", CommonDefine.SUCCESS);
+				content.put("returnInfo", "");
+				// 返回数据
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(
+						FILE_TYPE_SNT202, content);
+			}
+
+		}
 		return xmlReturnString;
 	}
 	
@@ -173,7 +225,7 @@ public class WSManagerImpl extends WSManagerService{
 	}
 	
 	//组织返回数据
-	private Map generateReturnMap(Map head,String logisticsNo,String returnInfo,int flag){
+	private Map generate102ReturnMap(Map head,String logisticsNo,String returnInfo,int flag){
 
 		String currentTime = new SimpleDateFormat(
 				CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
@@ -186,6 +238,17 @@ public class WSManagerImpl extends WSManagerService{
 		content.put("returnTime", currentTime);
 		content.put("returnInfo", returnInfo);
 		content.put("LogisticsNo", logisticsNo);
+		
+		return content;
+	}
+	
+	
+	//组织返回数据
+	private Map generate202ReturnMap(String returnInfo,int flag){
+		
+		Map content = new LinkedHashMap();
+		content.put("returnStatus", flag);
+		content.put("returnInfo", returnInfo);
 		
 		return content;
 	}

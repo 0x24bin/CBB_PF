@@ -6,8 +6,8 @@
 			<Logistics>
 				<EbpCode>1234567890</EbpCode>
 				<EbcCode>1234567890</EbcCode>
-				<OrderNo>1</OrderNo>
-				<LogisticsNo>234</LogisticsNo>
+				<OrderNo>2</OrderNo>
+				<LogisticsNo>000000000001</LogisticsNo>
 			</Logistics>
 		</SNT201Message>
 	</xml>

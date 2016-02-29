@@ -1,4 +1,4 @@
-﻿package com.foo.util;
+package com.foo.util;
 
 import java.io.File;
 import java.io.FileInputStream;
