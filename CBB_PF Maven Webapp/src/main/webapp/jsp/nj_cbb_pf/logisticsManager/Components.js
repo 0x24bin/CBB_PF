@@ -639,6 +639,7 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 			fieldLabel:'系统唯一序号',
 			hidden: this.editType=="add"
 		},{
+			id:"ORDER_NO",
 	        fieldLabel:'订单编号',
 	        name: 'ORDER_NO',
 	        readOnly: true,
@@ -800,6 +801,16 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 		var validateButton=function (){
 			if(this.buttons==undefined)
 				this.buttons=[];
+			
+			this.buttons.push(new Ext.Button({
+		    	text : '打印面单', 
+		    	scale: 'medium',
+//		    	icon : '../../resource/images/btnImages/cancel.png',
+				handler : function(b,e){
+					print();
+		    	}.createDelegate(this)
+		    }));
+			
 			if(!this.readOnly){
 				this.buttons.push(new Ext.Button({
 					disabled: true,
@@ -1010,3 +1021,13 @@ Ext.ux.LogisticsPanel = Ext.extend(Ext.Panel, {
 		Ext.ux.LogisticsPanel.superclass.initComponent.call(this);
 	}
 });
+
+function print(){
+//	var orderNo = "2016030109395556";
+	var orderNo = Ext.getCmp('ORDER_NO').getValue();
+//	var host = "221.226.159.219:33789";
+	var host = window.location.host;
+	var url = "http://"+host+"/WebReport/ReportServer?reportlet=JP-EMS-100x130.cpt&order_no="+orderNo;
+	//http://221.226.159.219:33789/WebReport/ReportServer?reportlet=JP-EMS-100x130.cpt&order_no=2016030109395556
+	window.open(url);
+}

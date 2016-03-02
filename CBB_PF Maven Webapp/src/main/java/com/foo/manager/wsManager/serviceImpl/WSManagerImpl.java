@@ -395,6 +395,7 @@ public class WSManagerImpl extends WSManagerService{
 	private String generateLogisticsDataToDb(Map head){
 		
 		String orderType = head.get("OrderType").toString();
+		String orderNo = head.get("OrderNo").toString();
 
 		//在head中取需要的列名
 		String[] needColumn = new String[]{
@@ -427,8 +428,10 @@ public class WSManagerImpl extends WSManagerService{
 		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
 		newHead.put("RECEIVER_ID", CUSTOM_CODE);
 		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB501,head.get("EBC_CODE").toString(),CUSTOM_CODE));
-		//件数
-		newHead.put("PACK_NO", 1);
+		//件数 运单关联的订单中所有商品数量之和
+		int packNo = commonManagerMapper.selectTableListCountByCol("t_nj_order_detail", "ORDER_NO", orderNo);
+		
+		newHead.put("PACK_NO", packNo);
 		//进出口标记
 		if("1".equals(orderType) || "3".equals(orderType)){
 			newHead.put("IE_FLAG", "I");
