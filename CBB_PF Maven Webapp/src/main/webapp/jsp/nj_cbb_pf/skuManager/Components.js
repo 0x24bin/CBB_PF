@@ -24,7 +24,7 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 //				     "AGENT_CODE",
 //				     "CLASSIFY_CODE",
 				     "ITEM_NO",
-//				     "ITEM_NAME",
+				     "ITEM_NAME",
 				     "G_NO",
 				     "G_CODE",
 				     "G_NAME",
@@ -179,7 +179,7 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			     "AGENT_CODE",
 			     "CLASSIFY_CODE",
 			     "ITEM_NO",
-//			     "ITEM_NAME",
+			     "ITEM_NAME",
 			     "G_NO",
 			     "G_CODE",
 			     "G_NAME",
@@ -281,6 +281,10 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			    id : "ITEM_NO",
 			    header : "电商企业商品货号",
 			    dataIndex : "ITEM_NO"
+			},{
+			    id : "ITEM_NAME",
+			    header : "商品外文名称",
+			    dataIndex : "ITEM_NAME"
 			},{
 			    id : "G_NO",
 			    header : "备案编号",
@@ -694,6 +698,10 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        name: 'ITEM_NO',
 	        maxLength: 50
 	    },{
+	        fieldLabel:'商品外文名称',
+	        allowBlank : true,
+	        name: 'ITEM_NAME'
+	    },{
 	        fieldLabel:'商品名称',
 	        name: 'G_NAME',
 	        allowBlank : false,
@@ -877,14 +885,14 @@ function setTaxCode_Rate(bizType,needClearValue){
 	//出口 海关物品税号和行邮税率为空
 	else if(bizType == 2 || bizType == 4){
 		if(needClearValue){
-		Ext.getCmp("TAX_CODE").setValue("");
+			Ext.getCmp("TAX_CODE").setValue("");
 		}
 		Ext.getCmp("TAX_CODE").setDisabled(true);
 		Ext.getCmp("TAX_CODE").allowBlank = true;
 		Ext.getCmp("TAX_CODE").clearInvalid();
 		
 		if(needClearValue){
-		Ext.getCmp("TAX_RATE").setValue("");
+			Ext.getCmp("TAX_RATE").setValue("");
 		}
 		Ext.getCmp("TAX_RATE").setDisabled(true);
 		Ext.getCmp("TAX_RATE").allowBlank = true;

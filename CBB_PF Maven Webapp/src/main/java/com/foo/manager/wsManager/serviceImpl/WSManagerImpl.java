@@ -429,7 +429,7 @@ public class WSManagerImpl extends WSManagerService{
 		newHead.put("RECEIVER_ID", CUSTOM_CODE);
 		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB501,head.get("EBC_CODE").toString(),CUSTOM_CODE));
 		//件数 运单关联的订单中所有商品数量之和
-		int packNo = commonManagerMapper.selectTableListCountByCol("t_nj_order_detail", "ORDER_NO", orderNo);
+		int packNo = njCommonManagerMapper.selectSumPackNoForOrder(orderNo);
 		
 		newHead.put("PACK_NO", packNo);
 		//进出口标记

@@ -963,4 +963,12 @@
 		WHERE logistics.LOGISTICS_NO = #{LogisticsNo};
 	</select>
 	
+	<select id="selectSumPackNoForOrder" resultType="int" >
+		SELECT 
+		  SUM(QTY) 
+		FROM
+		  t_nj_order_detail 
+		WHERE ORDER_NO = #{orderNo}
+	</select>
+	
 </mapper>

@@ -177,5 +177,14 @@ public interface NJCommonManagerMapper {
 	 */
 	public Map selectDataForMessageSNT202(
 			@Param(value = "LogisticsNo") String LogisticsNo);
+	
+	/**
+	 * 获取SNT202报文数据
+	 * @param LogisticsNo
+	 * @param OrderNo
+	 * @return
+	 */
+	public int selectSumPackNoForOrder(
+			@Param(value = "orderNo") String orderNo);
 
 }
