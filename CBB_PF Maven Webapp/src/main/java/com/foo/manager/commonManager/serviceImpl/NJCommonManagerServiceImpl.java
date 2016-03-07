@@ -747,6 +747,13 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 								MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
 					}
 				}else{
+					//批量处理数据，空值设为null
+					for(Object obj:logistics.keySet()){
+						String key = (String)obj;
+						if(logistics.get(key)!=null && logistics.get(key).toString().isEmpty()){
+							logistics.put(key, null);
+						}
+					}
 					//更新数据
 					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
 							logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),

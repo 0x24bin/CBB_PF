@@ -582,7 +582,8 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	submitForm : function(opType){
 		var fp=this;
 		var form = fp.getForm();
-		if (form.isValid()) {
+		//表单验证，必须是保存，并且是编辑
+		if (form.isValid() || (opType == '1' && this.editType=="mod")) {
 			var param={
 		        editType: this.editType,
 		        APP_STATUS: opType
@@ -597,7 +598,7 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 			}
 			form.submit({
 				scope:fp,
-			    clientValidation: true,
+			    clientValidation: false,
 			    waitTitle: '正在执行',
 			    waitMsg: '请稍后……',
 			    url: 'n-jcommon!setLogistics.action',
@@ -812,9 +813,10 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 		    }));
 			
 			if(!this.readOnly){
-				this.buttons.push(new Ext.Button({
-					disabled: true,
-					formBind: true,
+				this.buttons.push(
+				new Ext.Button({
+					disabled: false,
+					formBind: false,
 			    	text : '保存', 
 			    	scale: 'large',
 			    	icon : '../../resource/images/btnImages/save.png',
@@ -822,7 +824,8 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 						Ext.apply(this.baseParams,{opType:'save'});
 						this.submitForm(1);
 			    	}.createDelegate(this)
-			    }),new Ext.Button({
+			    }),
+			    new Ext.Button({
 			    	disabled: true,
 			    	formBind: true,
 			    	text : '提交', 
