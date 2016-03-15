@@ -35,7 +35,7 @@ var relationCategory_wrapType = 'WRAP_TYPE';
 //业务类型
 var relationCategory_bizType = 'BIZ_TYPE';
 
-var myPageSize = 200;
+var myPageSize = 100;
 
 var CodeNameData={
 	ieFlag: [{"CODE":"I","NAME":"进口"},{"CODE":"E","NAME":"出口"}],
