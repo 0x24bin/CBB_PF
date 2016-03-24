@@ -768,6 +768,9 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
 		}
 	}
+	
+				
+	
 	@Override
 	public void addLogistics(Map<String, Object> logistics) throws CommonException {
 		try {
@@ -1142,6 +1145,8 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		}
 	}
 
+
+
 	// 生成xml文件
 	private String submitXml_SKU(String guid, Map<String, Object> data,int messageType,String currentTime) throws CommonException{
 		// 提交需要生成xml文件
@@ -1200,6 +1205,91 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			
 			//获取返回信息
 			return response;
+	}
+	
+
+	@Override
+	public void batchSubmit_LOGISTICS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> logisticsList = null;
+		Map logistics = null;
+		String tableName=T_NJ_LOGISTICS;
+		String primaryCol="LOGISTICS_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+		for(String guid:guidList){
+			try{
+				//获取运单信息
+				logisticsList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(logisticsList !=null && logisticsList.size() == 1){
+					logistics = logisticsList.get(0);
+				}else{
+					errorMessage.append(guid+"：运单数据不存在！;<br/>");
+					continue;
+				}
+				//数据完备性检查
+				if(logistics.get(primaryCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+primaryCol+"为空！）;<br/>");
+					continue;
+				}
+				// 唯一性校验
+				uniqueCol="LOGISTICS_NO";
+				//数据完备性检查
+				if(logistics.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+				
+				uniqueCol="ORDER_NO";
+				//数据完备性检查
+				if(logistics.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+	
+				Map data =  njCommonManagerMapper.selectDataForMessage501_NJ(guid);
+				
+				//获取订单详细信息
+				List<Map> subDataList = njCommonManagerMapper.selectSubDataForMessage501_NJ(logistics.get("ORDER_NO").toString());
+				
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				//测试
+	//			String reponse = "";
+				
+				String reponse = submitXml_LOGISTICS(guid,data,subDataList,CommonDefine.CEB501,currentTime);
+				
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
+						reponse.startsWith("P")){
+					
+					logistics.put("APP_TIME", currentTime);
+	//				order.put("PRE_NO", reponse);
+					logistics.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
+					logistics.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
+					//更新数据
+					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+							logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
+							new ArrayList<Object>(logistics.values()));
+					
+	//				njCommonManagerMapper.updateOrder_nj(order);
+				}else{
+					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
+				}
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+		
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
+		}
 	}
 	
 
@@ -1424,4 +1514,6 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		}
 		return result;
 	}
+
+
 }

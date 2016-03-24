@@ -115,6 +115,41 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			});
 //		}
 	},
+	batchSubmit : function (record){
+//		if(isOrderReadOnly(record)){
+			var jsonDataList = new Array();
+			for(var i = 0; i< record.length;i++){
+				jsonDataList.push(record[i].get('GUID'));
+		    }
+			var param={
+				guidList:jsonDataList
+			};
+			this.getEl().mask("执行中...");
+			Ext.Ajax.request({
+				scope: this,
+				url : 'n-jcommon!batchSubmit.action',
+				method : "POST",
+				params : param,
+				success : function(response) {
+					this.getEl().unmask();
+					var obj = Ext.decode(response.responseText);
+					if (obj.returnResult == 0) {
+						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+					}else{
+						this.reload();
+					}
+				},
+				error : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				},
+				failure : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				}
+			});
+//		}
+	},
 	isLogStatusValid: function(record,newLogStatus,preventMask){
 		var oldLogStatus=record.get('LOGISTICS_STATUS');
 		var returnStatus=record.get('RETURN_STATUS');
@@ -163,7 +198,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //		}
 	},
 	initComponent : function () {
-		this.sm= new Ext.grid.RowSelectionModel({singleSelect:true});
+		this.sm= new Ext.grid.RowSelectionModel({singleSelect:false});
 		var store = new Ext.data.Store(Ext.apply({
 			url : 'n-jcommon!getAllLogisticses.action',
 			reader : new Ext.data.JsonReader({
@@ -497,6 +532,18 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        		},this);
 			        		return menu;
 			        	}.createDelegate(this))()
+				},{
+			        text: '批量提交',
+			        scale: 'medium',
+			        name: 'batchSubmit',
+			        disabled: true,
+			        icon:'../../resource/images/btnImages/accept.png',
+			        handler: function(){
+			        	var data=this.checkSelect(false);
+			        	if(data){
+			        		this.batchSubmit(data);
+			        	}
+			        }.createDelegate(this)
 				}/*,{
 			        text: '复制',
 			        icon:'../../resource/images/btnImages/page_copy.png',
@@ -525,13 +572,20 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	        if (selections.length == 0) return;
 			var button=this.topToolbar.find("name",'delete')[0];
 			if(button){
+				if(selections.length>1){
+					 button.setDisabled(true);
+				}else{
 		        for ( var i = 0; i < selections.length; i++) {
 		            var record = selections[i];
 		            button.setDisabled(isLogisticsReadOnly(record));
 		        }
 			}
+			}
 			button=this.topToolbar.find("name",'setStatus')[0];
 			if(button){
+				if(selections.length>1){
+					button.setDisabled(true);
+				}else{
 		        for ( var i = 0; i < selections.length; i++) {
 		            var record = selections[i];
 		            button.setDisabled(isLogisticsStatusReadOnly(record));
@@ -539,6 +593,19 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		            	item.setDisabled(isLogisticsStatusReadOnly(record));
 		            },this);*/
 		        }
+			}
+			}
+			button=this.topToolbar.find("name",'batchSubmit')[0];
+			if(button){
+				var enableFlag = true;
+				for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            if(record.get("APP_STATUS") != 1){
+		            	enableFlag = false;
+		            	break;
+		            }
+		        }
+				button.setDisabled(!enableFlag);
 			}
 			
 	    },this);

@@ -272,6 +272,20 @@ public class NJCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "NJ批量提交运单")
+	public String batchSubmit(){
+		try {
+			njCommonManagerService.batchSubmit_LOGISTICS(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	public void setRELATION_CATEGORY(String RELATION_CATEGORY){
 		params.put("RELATION_CATEGORY", RELATION_CATEGORY);
 	}
@@ -577,6 +591,10 @@ public class NJCommonAction extends AbstractAction{
 	}
 	public void setMESSAGE_TYPE(Integer MESSAGE_TYPE){
 		params.put("MESSAGE_TYPE", MESSAGE_TYPE);
+	}
+	
+	public void setGuidList(List<String> guidList){
+		params.put("guidList", guidList);
 	}
 	
 	/*public void set(String ){

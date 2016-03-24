@@ -104,4 +104,10 @@ public interface INJCommonManagerService {
 	 */
 	public void addInventory(Map<String,Object> inventory) throws CommonException;
 	
+	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public void batchSubmit_LOGISTICS(Map<String,Object> params) throws CommonException;
+	
 }
