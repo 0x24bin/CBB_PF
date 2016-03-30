@@ -801,7 +801,9 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	    	xtype:'numberfield',
 	    	allowNegative: false,
 	        fieldLabel:'净重',
-	        name: 'NET_WEIGHT'
+	        name: 'NET_WEIGHT',
+	      //这里允许保留3位小数，所以你输入11.996就不会进位了
+	        decimalPrecision: 3
 	    },{
 	    	xtype:'numberfield',
 	    	allowNegative: false,
