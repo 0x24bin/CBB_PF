@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.jws.WebService;
 import javax.xml.transform.Source;
@@ -201,6 +202,22 @@ public class WSManagerImpl extends WSManagerService{
 				// 查询数据
 				Map content = njCommonManagerMapper
 						.selectDataForMessageSNT202(LogisticsNo);
+				
+				// 获取资源文件
+				ResourceBundle bundle = CommonUtil
+						.getMessageMappingResource("CEB_NJ");
+				
+				// 写死3201W改成从配置文件中读取
+				content.put(
+						"DestinationPort",
+						bundle.getString("DestinationPort_value") != null ? bundle
+								.getString("DestinationPort_value") : "3201W");
+				// 写死5改成从配置文件中读取
+				content.put(
+						"WrapType",
+						bundle.getString("WrapType_value") != null ? bundle
+								.getString("WrapType_value") : "5");
+				
 				content.put("returnStatus", CommonDefine.SUCCESS);
 				content.put("returnInfo", "");
 				// 返回数据
