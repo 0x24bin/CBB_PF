@@ -957,6 +957,7 @@
 		  IFNULL(logistics.CURRENCY, '') AS Currency,
 		  IFNULL(logistics.WEIGHT, '') AS Weight,
 		  "5" AS WrapType,
+		  IFNULL(logistics.PARCEL_INFO, '') AS ParcelInfo,
 		  IFNULL(logistics.LOGISTICS_STATUS, '') AS GoodStatus 
 		FROM
 		  t_nj_logistics logistics 
