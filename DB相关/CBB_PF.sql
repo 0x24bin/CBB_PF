@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/2/19 10:24:45                           */
+/* Created on:     2016/4/15 17:51:06                           */
 /*==============================================================*/
 
 
@@ -17,6 +17,8 @@ DROP VIEW IF EXISTS V_LOGISTICS_UNUSE;
 DROP VIEW IF EXISTS V_NJ_INVENTORY;
 
 DROP VIEW IF EXISTS V_NJ_INVENTORY_DETAIL;
+
+DROP VIEW IF EXISTS V_NJ_LOGISTICS;
 
 DROP VIEW IF EXISTS V_NJ_LOGISTICS_UNUSE;
 
@@ -878,6 +880,9 @@ CREATE TABLE T_SYS_ROLE
    SYS_ROLE_ID          INT NOT NULL AUTO_INCREMENT,
    NAME                 VARCHAR(128) COMMENT '角色名',
    NOTE                 VARCHAR(128) COMMENT '备注',
+   IS_DEL               INT DEFAULT 0 COMMENT '是否删除 0：不是 1：是',
+   CREATE_TIME          DATETIME COMMENT '创建时间',
+   UPDATE_TIME          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
    PRIMARY KEY (SYS_ROLE_ID)
 );
 
@@ -1054,16 +1059,34 @@ FROM
     );
 
 /*==============================================================*/
+/* View: V_NJ_LOGISTICS                                         */
+/*==============================================================*/
+CREATE VIEW  V_NJ_LOGISTICS
+ AS
+SELECT 
+  L.*,
+  C.NAME AS CONSIGNEE,
+  C.TEL AS CONSIGNEE_TELEPHONE 
+FROM
+  `T_NJ_LOGISTICS` L 
+  LEFT JOIN `T_CONTACT` C 
+    ON L.`CONSIGNEE_ID` = C.`CONTACT_ID`;
+
+/*==============================================================*/
 /* View: V_NJ_LOGISTICS_UNUSE                                   */
 /*==============================================================*/
 CREATE VIEW  V_NJ_LOGISTICS_UNUSE
  AS
 SELECT 
-  L.* 
+  L.*,
+  C.NAME AS CONSIGNEE,
+  C.TEL AS CONSIGNEE_TELEPHONE 
 FROM
   `T_NJ_LOGISTICS` L 
   LEFT JOIN `T_NJ_INVENTORY` I 
     ON L.`LOGISTICS_NO` = I.`LOGISTICS_NO` 
+  LEFT JOIN `T_CONTACT` C 
+    ON L.`CONSIGNEE_ID` = C.`CONTACT_ID` 
 WHERE ISNULL(I.`LOGISTICS_NO`);
 
 /*==============================================================*/
