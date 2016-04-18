@@ -96,6 +96,9 @@ public class CommonDefine {
 	//清单回执获取--列表
 	public static final int CEB601_RECEIPT_LIST = 9602;
 		
+	//申请ems单号
+	public static final int APPLY_EMS_NO = 9999;
+		
 	public static final int SNT101 = 1010;
 	public static final int SNT102 = 1020;
 	public static final int SNT103 = 1030;

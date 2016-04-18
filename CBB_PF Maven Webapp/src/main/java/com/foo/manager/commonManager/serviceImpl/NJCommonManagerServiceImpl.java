@@ -1307,6 +1307,73 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 	}
 	
 
+	@Override
+	public void applyExpressNo_LOGISTICS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+
+		// 提交需要生成xml文件
+		System.out.println("applyExpressNo_LOGISTICS"+CommonDefine.APPLY_EMS_NO);
+		
+		Map<String,String> leafNods = new HashMap<String,String>();
+		
+		leafNods.put("sysAccount", CommonUtil.getSystemConfigProperty("sysAccount"));
+		leafNods.put("passWord", CommonUtil.encryptionMD5((CommonUtil.getSystemConfigProperty("passWord"))));
+		leafNods.put("businessType", "1");
+		leafNods.put("billNoAmount", String.valueOf(guidList.size()));
+		
+		//xml报文
+		String resultXmlString = XmlUtil.generalCommonXml("XMLInfo", leafNods);
+		//获取返回数据
+		String soapResponseData = sendHttpCMD(resultXmlString,CommonDefine.APPLY_EMS_NO);
+			//摘取出返回信息
+/*		soapResponseData = 
+	        "<response>"+
+	            "<result>1</result>"+
+	            "<errorDesc>3123</errorDesc>"+
+				 "<errorCode>11231</errorCode>"+
+				  "<assignIds><assignId><billno>22222222</billno></assignId></assignIds>"+
+	        "</response>";*/
+		if(soapResponseData == null ||soapResponseData.isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无回执信息！");
+		}
+		Map<String,Object> response = XmlUtil.parseXmlStringForReceipt_EMS(soapResponseData);
+		if(response!=null&&response.size()>0){
+			//更新数据库，或上报异常
+			if (response.get("result") != null
+					&& CommonDefine.FAILED == Integer.valueOf(response.get(
+							"result").toString())) {
+				// 抛出错误信息
+				throw new CommonException(new Exception(),
+						MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "【"
+								+ response.get("errorCode").toString() + "】"
+								+ response.get("errorDesc").toString()+"！");
+			}else {
+				//更新数据
+				List<String> assignIds = (List<String>) response.get("assignIds");
+				
+				if(assignIds.size()!=guidList.size()){
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "返回订单号数量与所选项目数量不一致！");
+				}
+				//更新数据
+				for(int i = 0;i<assignIds.size();i++){
+					Map logistics = new HashMap();
+					logistics.put("GUID", guidList.get(i));
+					logistics.put("PARCEL_INFO", assignIds.get(i));
+					commonManagerMapper.updateLogistics(logistics, "t_nj_logistics");
+				}
+			}
+		}else{
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, soapResponseData);
+		}
+	}
+	
+
 	// 生成xml文件
 	public String submitXml_ORDER(String guid, Map<String, Object> data, List<Map> subDataList, int messageType,String currentTime)  throws CommonException{
 		

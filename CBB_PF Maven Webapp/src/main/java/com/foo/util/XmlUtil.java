@@ -614,7 +614,32 @@ public class XmlUtil {
 		return xmlString;
 	}
 	
+	//生成回执xml
+	public static String generalCommonXml(String root,Map content){
 
+		String resultXml = "";
+
+		try {
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement(root);
+			doc.setRootElement(rootElement);
+			
+			for(Object obj:content.keySet()){
+				String elementName = (String)obj;
+				Element leaf = rootElement.addElement(elementName);
+				leaf.addText(content.get(elementName) != null?content.get(elementName).toString():"");
+			}
+			//返回xml字符串
+			resultXml = doc.asXML();
+
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+		}
+		return resultXml;
+	}
 
 	/**
 	 * 解析xml文件
@@ -1045,6 +1070,7 @@ public class XmlUtil {
 		return result;
 	}
 	
+	
 	/**
 	 * 格式化xml字符串并生成文件，并生成文件，文件名为当前时刻
 	 * @param xmlString
@@ -1072,6 +1098,46 @@ public class XmlUtil {
 				}
 				result.add(data);
 			}
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	/**
+	 * 格式化xml字符串并生成文件，并生成文件，文件名为当前时刻
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,Object> parseXmlStringForReceipt_EMS(String xmlString) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		List<String> assignIds = new ArrayList<String>();
+		
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+//			Map uris = new HashMap();
+//			uris.put("aa", nameSpace_);
+			
+			XPath xpath = document.createXPath("//response"); 
+//			xpath.setNamespaceURIs(uris);
+			//查找response节点
+			Node root = xpath.selectSingleNode(document);
+			
+			Map<String,String> data = new HashMap<String,String>();
+			//查询节点值
+			List<Node> subNodes = root.selectNodes("*");
+			for(Node subNode:subNodes){
+				result.put(subNode.getName(), subNode.getText());
+			}
+			//搜索订单号
+			List<Node> billnoNodes = document.selectNodes("//billno");
+			for(Node billno:billnoNodes){
+				assignIds.add(billno.getText());
+			}
+			result.put("assignIds", assignIds);
+
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}

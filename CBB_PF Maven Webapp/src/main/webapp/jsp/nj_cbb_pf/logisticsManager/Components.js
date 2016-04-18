@@ -150,6 +150,41 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			});
 //		}
 	},
+	applyExpressNo : function (record){
+//		if(isOrderReadOnly(record)){
+			var jsonDataList = new Array();
+			for(var i = 0; i< record.length;i++){
+				jsonDataList.push(record[i].get('GUID'));
+		    }
+			var param={
+				guidList:jsonDataList
+			};
+			this.getEl().mask("执行中...");
+			Ext.Ajax.request({
+				scope: this,
+				url : 'n-jcommon!applyExpressNo.action',
+				method : "POST",
+				params : param,
+				success : function(response) {
+					this.getEl().unmask();
+					var obj = Ext.decode(response.responseText);
+					if (obj.returnResult == 0) {
+						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+					}else{
+						this.reload();
+					}
+				},
+				error : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				},
+				failure : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				}
+			});
+//		}
+	},
 	isLogStatusValid: function(record,newLogStatus,preventMask){
 		var oldLogStatus=record.get('LOGISTICS_STATUS');
 		var returnStatus=record.get('RETURN_STATUS');
@@ -546,6 +581,18 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        	}
 			        }.createDelegate(this)
 				},{
+			        text: '申请快递单号',
+			        scale: 'medium',
+			        name: 'applyExpressNo',
+			        disabled: true,
+			        icon:'../../resource/images/btnImages/email_go.png',
+			        handler: function(){
+			        	var data=this.checkSelect(false);
+			        	if(data){
+			        		this.applyExpressNo(data);
+			        	}
+			        }.createDelegate(this)
+				},{
 			        text: '查询',
 			        scale: 'medium',
 			        name: 'search',
@@ -780,6 +827,20 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		            	break;
 		            }
 		        }
+				button.setDisabled(!enableFlag);
+			}
+			
+			button=this.topToolbar.find("name",'applyExpressNo')[0];
+			if(button){
+				var enableFlag = true;
+				//设置可用条件--暂无
+//				for ( var i = 0; i < selections.length; i++) {
+//		            var record = selections[i];
+//		            if(record.get("APP_STATUS") != 1){
+//		            	enableFlag = false;
+//		            	break;
+//		            }
+//		        }
 				button.setDisabled(!enableFlag);
 			}
 			

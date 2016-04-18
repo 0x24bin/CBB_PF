@@ -2,10 +2,8 @@ package com.foo.manager.commonManager.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,15 +13,17 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.RequestEntity;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.io.OutputFormat;
-import org.dom4j.io.SAXReader;
-import org.dom4j.io.XMLWriter;
+import org.apache.cxf.endpoint.Client;
+import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
+import org.apache.cxf.transport.http.HTTPConduit;
+import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 
 import com.foo.abstractService.AbstractService;
 import com.foo.common.CommonDefine;
@@ -34,7 +34,6 @@ import com.foo.dao.mysql.NJCommonManagerMapper;
 import com.foo.handler.ExceptionHandler;
 import com.foo.util.CommonUtil;
 import com.foo.util.ConfigUtil;
-import com.foo.util.FileWriterUtil;
 import com.foo.util.FtpUtils;
 import com.foo.util.XmlUtil;
 
@@ -317,8 +316,63 @@ public abstract class CommonManagerService extends AbstractService {
 		}
 		return result;
 	}
+	
+	
+	// http请求调用webservice
+	public String sendHttpCMD(String xmlString,int cmdType) throws CommonException {
+		
+		String result = "";
+		
+		String requestUrl = "";
+
+		switch(cmdType){
+			
+		case CommonDefine.APPLY_EMS_NO:
+			requestUrl = CommonUtil.getSystemConfigProperty("applyEmsNo");
+			break;
+		}
+		
+		//测试ftp服务器有没有正常启动
+		checkFtpServerValid();
+		
+		Object[] obj = null;
+		try {
+			JaxWsDynamicClientFactory dcf = JaxWsDynamicClientFactory.newInstance();
+		    HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();    // 策略
+		    httpClientPolicy.setConnectionTimeout( 36000 );    //连接超时 
+		    httpClientPolicy.setAllowChunking( false );   
+		    httpClientPolicy.setReceiveTimeout( 10000 );       //接收超时
+		    Client client = dcf.createClient(requestUrl);
+		    HTTPConduit http = (HTTPConduit) client.getConduit();  
+		    http.setClient(httpClientPolicy);
+		    obj = client.invoke("getBillNoBySys", new Object[]{CommonUtil.encryptionBase64(xmlString)});
+		} catch (CommonException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(obj!=null && obj.length>0){
+			String soapResponseData = CommonUtil.decryptBase64((String)obj[0]);
+			
+			System.out.println("request xml String:"+xmlString);
+			System.out.println("reponse xml String:"+soapResponseData);
+			result = soapResponseData;
+			//上传请求回应数据
+			uploadRequestLog(cmdType,xmlString,soapResponseData,result);
+			
+			if(result == null){
+				//抛出错误信息
+				throw new CommonException(new Exception(),
+						MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无回执信息！");
+			}else{
+				System.out.println("reponse result String:"+result);
+			}
+		}
+		return result;
+	}
 
 	public static void main(String args[]){
+		
 		String soapResponseData = "<NewDataSet>"+"\n"+
 		        "<NJKJ_MESSAGE_APPR_RTN>"+"\n"+
 	            "<EBC_CODE>3215916102</EBC_CODE>"+"\n"+
@@ -364,4 +418,6 @@ public abstract class CommonManagerService extends AbstractService {
 //					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, soapResponseData);
 		}
 	}
+	
+
 }

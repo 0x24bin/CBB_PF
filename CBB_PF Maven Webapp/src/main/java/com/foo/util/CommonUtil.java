@@ -4,13 +4,17 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
+import java.security.MessageDigest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
+
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
 
 import com.foo.common.CommonDefine;
 import com.foo.dao.mysql.CommonManagerMapper;
@@ -375,8 +379,68 @@ public class CommonUtil {
 		return target;
 	}
 	
+    // 加密  
+    public static String encryptionBase64(String str) {  
+        byte[] b = null;  
+        String s = null;  
+        try {  
+            b = str.getBytes("utf-8");  
+        } catch (UnsupportedEncodingException e) {  
+            e.printStackTrace();  
+        }  
+        if (b != null) {  
+            s = new BASE64Encoder().encode(b);  
+        }  
+        return s;  
+    }  
+  
+    // 解密  
+    public static String decryptBase64(String s) {  
+        byte[] b = null;  
+        String result = null;  
+        if (s != null) {  
+        	BASE64Decoder decoder = new BASE64Decoder();  
+            try {  
+                b = decoder.decodeBuffer(s);
+                result = new String(b, "utf-8");
+            } catch (Exception e) {  
+                e.printStackTrace();  
+            }  
+        }  
+        return result;  
+    }  
+    
+    /*** 
+     * MD5加码 生成32位md5码 
+     */  
+    public static String encryptionMD5(String inStr){  
+        MessageDigest md5 = null;  
+        try{  
+            md5 = MessageDigest.getInstance("MD5");  
+        }catch (Exception e){  
+            System.out.println(e.toString());  
+            e.printStackTrace();  
+            return "";  
+        }  
+        char[] charArray = inStr.toCharArray();  
+        byte[] byteArray = new byte[charArray.length];  
+  
+        for (int i = 0; i < charArray.length; i++)  
+            byteArray[i] = (byte) charArray[i];  
+        byte[] md5Bytes = md5.digest(byteArray);  
+        StringBuffer hexValue = new StringBuffer();  
+        for (int i = 0; i < md5Bytes.length; i++){  
+            int val = ((int) md5Bytes[i]) & 0xff;  
+            if (val < 16)  
+                hexValue.append("0");  
+            hexValue.append(Integer.toHexString(val));  
+        }  
+        return hexValue.toString();  
+  
+    }  
+	
 	public static void main(String args[]){
-		System.out.println(generalGuid4NJ(CommonDefine.CEB601,"sdfsdf","2301"));
+		System.out.println(encryptionMD5("123456"));
 	}
 	
 }

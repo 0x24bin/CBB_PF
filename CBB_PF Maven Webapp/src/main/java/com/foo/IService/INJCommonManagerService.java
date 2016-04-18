@@ -110,4 +110,10 @@ public interface INJCommonManagerService {
 	 */
 	public void batchSubmit_LOGISTICS(Map<String,Object> params) throws CommonException;
 	
+	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public void applyExpressNo_LOGISTICS(Map<String,Object> params) throws CommonException;
+	
 }
