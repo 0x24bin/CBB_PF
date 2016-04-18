@@ -39,6 +39,7 @@ public abstract class AbstractService {
 
 	protected static String V_NJ_INVENTORY = "V_NJ_INVENTORY";
 	protected static String V_NJ_INVENTORY_DETAIL = "V_NJ_INVENTORY_DETAIL";
+	protected static String V_NJ_LOGISTICS= "V_NJ_LOGISTICS";
 	protected static String V_NJ_LOGISTICS_UNUSE = "V_NJ_LOGISTICS_UNUSE";
 	protected static String V_NJ_ORDERS_UNUSE = "V_NJ_ORDERS_UNUSE";
 	

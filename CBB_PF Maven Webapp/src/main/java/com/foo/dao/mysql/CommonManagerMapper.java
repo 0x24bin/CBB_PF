@@ -101,7 +101,31 @@ public interface CommonManagerMapper {
 	 * @param colNames 字段名
 	 * @param colValues 字段值
 	 */
+	public List<Map<String,Object>> selectTableListByNVList_Fuzzy(
+			@Param(value = "tableName") String tableName,
+			@Param(value = "colNames") List<String> colNames,
+			@Param(value = "colValues") List<Object> colValues,
+			@Param(value = "startNumber") Integer startNumber,
+			@Param(value = "pageSize") Integer pageSize);
+	
+	/**
+	 * 查询数据
+	 * @param tableName 表名
+	 * @param colNames 字段名
+	 * @param colValues 字段值
+	 */
 	public int selectTableListCountByNVList(
+			@Param(value = "tableName") String tableName,
+			@Param(value = "colNames") List<String> colNames,
+			@Param(value = "colValues") List<Object> colValues);
+	
+	/**
+	 * 查询数据
+	 * @param tableName 表名
+	 * @param colNames 字段名
+	 * @param colValues 字段值
+	 */
+	public int selectTableListCountByNVList_Fuzzy(
 			@Param(value = "tableName") String tableName,
 			@Param(value = "colNames") List<String> colNames,
 			@Param(value = "colValues") List<Object> colValues);

@@ -152,7 +152,9 @@ public class NJCommonAction extends AbstractAction{
 	@IMethodLog(desc = "NJ运单列表查询")
 	public String getAllLogisticses(){
 		try {
+			
 			Map<String,Object> data = njCommonManagerService.getAllLogisticses(params);
+
 			JsonConfig jsonConfig = new JsonConfig();
 		    PropertyFilter filter = new PropertyFilter() {
 		            public boolean apply(Object object, String fieldName, Object fieldValue) {
@@ -595,6 +597,10 @@ public class NJCommonAction extends AbstractAction{
 	
 	public void setGuidList(List<String> guidList){
 		params.put("guidList", guidList);
+	}
+	
+	public void setFuzzy(String fuzzy){
+		params.put("Fuzzy", fuzzy);
 	}
 	
 	/*public void set(String ){

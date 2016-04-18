@@ -111,6 +111,26 @@
 		</if>
     </select>
     
+    <select id="selectTableListByNVList_Fuzzy" resultType="hashmap" >
+        select * from  ${tableName}
+        <if test="colNames != null and colNames.size()>0">
+        	where 
+	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
+			  ${item}
+			  <choose>
+			  <when test="colValues.get(index)==null"> IS NULL </when>
+			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
+			  	in ${colValues[index]}
+			  </when>
+			  <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise>
+			  </choose>
+			</foreach>
+        </if>
+		<if test="pageSize != null and pageSize>0">
+			LIMIT #{startNumber}, #{pageSize}
+		</if>
+    </select>
+    
     <select id="selectTableListCountByNVList" resultType="int" >
         select count(1) from  ${tableName}
         <if test="colNames != null and colNames.size()>0">
@@ -123,6 +143,23 @@
 			  	in ${colValues[index]}
 			  </when>
 			  <otherwise> = #{colValues[${index}]}</otherwise>
+			  </choose>
+			</foreach>
+        </if>
+    </select>
+    
+    <select id="selectTableListCountByNVList_Fuzzy" resultType="int" >
+        select count(1) from  ${tableName}
+        <if test="colNames != null and colNames.size()>0">
+        	where 
+	        <foreach item="item" index="index" collection="colNames" open="(" separator="and" close=")">  
+			  ${item}
+			  <choose>
+			  <when test="colValues.get(index)==null"> IS NULL </when>
+			  <when test='"java.lang.String".equals(colValues.get(index).getClass().getName()) and colValues.get(index).matches("\\(.*\\)")'>
+			  	in ${colValues[index]}
+			  </when>
+			  <otherwise> like CONCAT(CONCAT('%', #{colValues[${index}]}), '%')</otherwise>
 			  </choose>
 			</foreach>
         </if>

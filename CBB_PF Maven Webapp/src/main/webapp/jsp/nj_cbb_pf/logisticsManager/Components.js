@@ -7,7 +7,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 
 	showColumns : [ 
 //        "LOGISTICS_ID",
-	     "GUID",
+//	     "GUID",
 	     "ORDER_NO",
 	     "CUSTOM_CODE",
 	     "RECEIVER_ID",
@@ -21,16 +21,16 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	     "LOGISTICS_STATUS",
 //	     "IE_FLAG",
 //	     "TRAF_MODE",
-//	     "TRAF_NAME",
-//	     "VOYAGE_NO",
-//	     "BILL_NO",
+	     "TRAF_NAME",
+	     "VOYAGE_NO",
+	     "BILL_NO",
 //	     "FREIGHT",
 //	     "INSURE_FEE",
 //	     "CURRENCY",
 //	     "WEIGHT",
 //	     "NET_WEIGHT",
 //	     "PACK_NO",
-//	     "PARCEL_INFO",
+	     "PARCEL_INFO",
 	     "GOODS_INFO",
 	     "CONSIGNEE",
 //	     "CONSIGNEE_ADDRESS",
@@ -270,6 +270,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "GUID",
 			    header : "系统唯一序号",
 			    dataIndex : "GUID",
+			    hidden : true,
 			    width : 320
 			},{
 			    id : "ORDER_NO",
@@ -544,16 +545,15 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        		this.batchSubmit(data);
 			        	}
 			        }.createDelegate(this)
-				}/*,{
-			        text: '复制',
-			        icon:'../../resource/images/btnImages/page_copy.png',
-			        handler: function(b,e){
-			        	var editType='add';
-			        	var data=this.checkSelect(true);
-			        	if(data)
-			        		this.edit('录入',{editType:editType,record:data});
+				},{
+			        text: '查询',
+			        scale: 'medium',
+			        name: 'search',
+			        icon:'../../resource/images/btnImages/search.png',
+			        handler: function(){
+			        	search(store);
 					}.createDelegate(this)
-				}*/]
+				}]
 			});
 			if(this.readOnly){
 				tbar.remove(3);
@@ -567,6 +567,181 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
 			this.tbar = tbar;
         }
+		this.on('render', function() {
+			//添加第二列查询控件
+			//搜索字段包括：订单编号，运单编号，备注，包裹单信息，收货人名称，收货人手机号，运输工具名称，航班航次号，提运单号，业务状态，物流运单状态，回执状态。
+			new Ext.Toolbar({
+				id : 'onebar',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '订单编号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"ORDER_NO_SEARCH",
+			        emptyText:"",
+			        width:100
+			    },{
+			        xtype: 'tbtext',
+			        text: '运单编号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"LOGISTICS_NO_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '备注:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"NOTE_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '包裹单信息:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"PARCEL_INFO_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '收货人名称:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"CONSIGNEE_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '收货人手机号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"CONSIGNEE_TELEPHONE_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add one tbar
+			new Ext.Toolbar({
+				id : 'twobar',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '运输工具名称:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"TRAF_NAME_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '航班航次号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"VOYAGE_NO_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '提运单号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"BILL_NO_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '业务状态:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"APP_STATUS_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue.APP_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '物流运单状态:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"LOGISTICS_STATUS_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue.LOGISTICS_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '回执状态:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"RETURN_STATUS_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue.RETURN_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add two tbar
+	    },this);
+		this.on('destroy', function() {
+			Ext.destroy(onebar);// 这一句不加可能会有麻烦滴
+	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
 	        var selections = grid.getSelectionModel().getSelections();
 	        if (selections.length == 0) return;
@@ -1103,3 +1278,50 @@ function print(){
 	//http://221.226.159.219:33789/WebReport/ReportServer?reportlet=JP-EMS-100x130.cpt&order_no=2016030109395556
 	window.open(url);
 }
+
+//查询数据
+function search(store){
+	
+	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
+	
+	if(Ext.getCmp('ORDER_NO_SEARCH').getValue()){
+		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('LOGISTICS_NO_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_NO":Ext.getCmp('LOGISTICS_NO_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('NOTE_SEARCH').getValue()){
+		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('PARCEL_INFO_SEARCH').getValue()){
+		Ext.apply(param,{"PARCEL_INFO":Ext.getCmp('PARCEL_INFO_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('TRAF_NAME_SEARCH').getValue()){
+		Ext.apply(param,{"TRAF_NAME":Ext.getCmp('TRAF_NAME_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('VOYAGE_NO_SEARCH').getValue()){
+		Ext.apply(param,{"VOYAGE_NO":Ext.getCmp('VOYAGE_NO_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('BILL_NO_SEARCH').getValue()){
+		Ext.apply(param,{"BILL_NO":Ext.getCmp('BILL_NO_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('APP_STATUS_SEARCH').getValue()){
+		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('LOGISTICS_STATUS_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_STATUS":Ext.getCmp('LOGISTICS_STATUS_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('RETURN_STATUS_SEARCH').getValue()){
+		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_SEARCH').getValue()});
+	}
+	
+	if(Ext.getCmp('CONSIGNEE_SEARCH').getValue()){
+		Ext.apply(param,{"CONSIGNEE":Ext.getCmp('CONSIGNEE_SEARCH').getValue()});
+	}
+	
+	if(Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()){
+		Ext.apply(param,{"CONSIGNEE_TELEPHONE":Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()});
+	}
+	store.load({params :param});
+}
+

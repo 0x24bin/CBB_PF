@@ -578,7 +578,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		params.remove("start");
 		params.remove("limit");
 		try {
-			String tableName = T_NJ_LOGISTICS;
+			String tableName = V_NJ_LOGISTICS;
 			if(params.get("IN_USE")!=null){
 				if(Boolean.FALSE.equals(params.get("IN_USE"))){
 					tableName = V_NJ_LOGISTICS_UNUSE;
@@ -588,10 +588,24 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
+			
+			if(!params.containsKey("Fuzzy")){
 			rows = commonManagerMapper.selectTableListByNVList(tableName, 
 					keys,values,start, limit);
 			total = commonManagerMapper.selectTableListCountByNVList(tableName,
 					keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
+						keys,values);
+			}
+			
+			
 			
 			for(Map<String, Object> row:rows){
 				Map<String, Object> additionInfo=getLogisticsOrder(row);
