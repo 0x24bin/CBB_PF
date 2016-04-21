@@ -1383,6 +1383,15 @@ function search(store){
 	if(Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()){
 		Ext.apply(param,{"CONSIGNEE_TELEPHONE":Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()});
 	}
-	store.load({params :param});
+	
+//	for(var data in param){
+//	if(param[data]){
+//		alert(data+"_"+param[data]);
+//	}
+//}
+	
+	store.baseParams = param;
+
+	store.load();
 }
 
