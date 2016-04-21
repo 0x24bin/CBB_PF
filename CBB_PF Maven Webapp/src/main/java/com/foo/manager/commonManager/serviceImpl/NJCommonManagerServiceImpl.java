@@ -1318,8 +1318,10 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		
 		leafNods.put("sysAccount", CommonUtil.getSystemConfigProperty("sysAccount"));
 		leafNods.put("passWord", CommonUtil.encryptionMD5((CommonUtil.getSystemConfigProperty("passWord"))));
-		leafNods.put("businessType", "1");
+		leafNods.put("appKey", CommonUtil.getSystemConfigProperty("appkey_ems"));
+		leafNods.put("businessType", CommonUtil.getSystemConfigProperty("businessType"));
 		leafNods.put("billNoAmount", String.valueOf(guidList.size()));
+		
 		
 		//xml报文
 		String resultXmlString = XmlUtil.generalCommonXml("XMLInfo", leafNods);
