@@ -186,8 +186,8 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			     "G_MODEL",
 			     "BAR_CODE",
 			     "BRAND",
-			     "TAX_CODE",
-			     "TAX_RATE",
+//			     "TAX_CODE",
+//			     "TAX_RATE",
 			     "UNIT",
 			     "PRICE",
 			     "CURRENCY",
@@ -309,7 +309,8 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			    id : "BRAND",
 			    header : "品牌",
 			    dataIndex : "BRAND"
-			},{
+			},
+/*			{
 			    id : "TAX_CODE",
 			    header : "物品行邮税号",
 			    dataIndex : "TAX_CODE"
@@ -317,7 +318,8 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			    id : "TAX_RATE",
 			    header : "行邮税率",
 			    dataIndex : "TAX_RATE"
-			},new Ext.ux.grid.CodeNameColumn({
+			},*/
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_unit,
 			    id : "UNIT",
 			    header : "计量单位",
@@ -674,7 +676,7 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 		    	}
 	        },relationCategory_bizType,CodeNameData.bizType
 	    ),GenerateCodeNameComboGrid({
-    		allowBlank : false,
+    		allowBlank : true,
 	    	fieldLabel:'电商平台名称',
 	    	name: 'EBP_CODE'
         	},relationCategory_ebp
@@ -684,7 +686,7 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 		    	name: 'EBC_CODE'
 	        },relationCategory_ebc
 	    ),GenerateCodeNameComboGrid({
-	    		allowBlank : true,
+	    		allowBlank : false,
 		    	fieldLabel:'代理企业名称',
 		    	name: 'AGENT_CODE'
 	        },relationCategory_agent
@@ -711,7 +713,8 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        fieldLabel:'备案编号',
 	        name: 'G_NO',
 	        hidden: !this.submited
-	    },{
+	    },
+/*	    {
 	    	xtype:'numberfield',
 	    	id : "TAX_CODE",
 	    	allowNegative: false,
@@ -729,7 +732,8 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        decimalPrecision:2,
 	        allowDecimals:true,
 	        name: 'TAX_RATE'
-	    },{
+	    },*/
+	    {
 	    	id : "G_CODE",
 	        fieldLabel:'海关商品编码HSCode',
 	        name: 'G_CODE',
@@ -868,13 +872,13 @@ function setTaxCode_Rate(bizType,needClearValue){
 	
 	//商品编码字段，”10位海关商品编码，出口商品备案必填，保税进口业务必填“。一般进口不需要必填，去掉限制就行
 	if(bizType == 1){
-		Ext.getCmp("G_CODE").allowBlank = true;
+		Ext.getCmp("G_CODE").allowBlank = false;
 		Ext.getCmp("G_CODE").clearInvalid();
 	}else{
 		Ext.getCmp("G_CODE").allowBlank = false;
 	}
 	
-	//进口 海关物品税号和行邮税率都直接填 必填
+/*	//进口 海关物品税号和行邮税率都直接填 必填
 	if(bizType == 1 || bizType == 3){
 		Ext.getCmp("TAX_CODE").setDisabled(false);
 		Ext.getCmp("TAX_CODE").allowBlank = false;
@@ -897,5 +901,5 @@ function setTaxCode_Rate(bizType,needClearValue){
 		Ext.getCmp("TAX_RATE").setDisabled(true);
 		Ext.getCmp("TAX_RATE").allowBlank = true;
 		Ext.getCmp("TAX_RATE").clearInvalid();
-	}
+	}*/
 }

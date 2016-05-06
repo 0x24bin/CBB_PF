@@ -184,8 +184,8 @@
 		    AND c.CODE = t.AGENT_CODE) AS AGENT_NAME,
 		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
 		  IFNULL(t.`G_NAME`, '') AS G_NAME,
-		  IFNULL(t.`TAX_CODE`, '') AS TAX_CODE,
-		  IFNULL(t.`TAX_RATE`, '') AS TAX_RATE,
+<!-- 		  IFNULL(t.`TAX_CODE`, '') AS TAX_CODE,
+		  IFNULL(t.`TAX_RATE`, '') AS TAX_RATE, -->
 		  IFNULL(t.`G_CODE`, '') AS G_CODE,
 		  IFNULL(t.`G_MODEL`, '') AS G_MODEL,
 		  IFNULL(t.`BAR_CODE`, '') AS BAR_CODE,
@@ -395,8 +395,8 @@
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
 		  IFNULL(s.`G_NO`, '') AS G_NO,
-		  IFNULL(s.`TAX_CODE`, '') AS TAX_CODE,
-		  IFNULL(s.`TAX_RATE`, '') AS TAX_RATE,
+<!-- 		  IFNULL(s.`TAX_CODE`, '') AS TAX_CODE,
+		  IFNULL(s.`TAX_RATE`, '') AS TAX_RATE, -->
 		  IFNULL(s.`G_CODE`, '') AS G_CODE,
 		  IFNULL(s.`G_NAME`, '') AS G_NAME,
 		  IFNULL(s.`G_MODEL`, '') AS G_MODEL,
@@ -743,7 +743,7 @@
 		SELECT 
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(logistics.`ORDER_NO`, '') AS ORDER_NO,
-		  IFNULL(sku.`G_NO`, '') AS G_NO,
+<!-- 		  IFNULL(sku.`G_NO`, '') AS G_NO, -->
 		  IFNULL(sku.`ITEM_NO`, '') AS ITEM_NO,
 		  IFNULL(sku.`G_CODE`, '') AS G_CODE,
 		  IFNULL(sku.`TAX_CODE`, '') AS TAX_CODE,

@@ -187,6 +187,11 @@ public abstract class AbstractService {
 	
 	//格式化xml字符串输出
 	protected String formatXML(String inputXML) {
+		
+		if(inputXML == null || inputXML.isEmpty()){
+			return "【无内容！】";
+		}
+		
         SAXReader reader = new SAXReader();  
         Document document = null;
 		try {

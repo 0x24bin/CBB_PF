@@ -240,7 +240,7 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    dataIndex : "FREIGHT"
 			},{
 			    id : "TAX_FEE",
-			    header : "行邮税费",
+			    header : "综合税费",
 			    dataIndex : "TAX_FEE"
 			}
 			,{
@@ -646,7 +646,7 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	    	id:'TAX_FEE',
 	    	xtype:'numberfield',
 	    	allowNegative: false,
-	        fieldLabel:'行邮税费',
+	        fieldLabel:'综合税费',
 	        maxLength: 4,
 	        decimalPrecision:2,
 	        allowDecimals:true,
@@ -763,7 +763,7 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 				     "G_MODEL",
 				     "BAR_CODE",
 				     "BRAND",
-				     "TAX_CODE",
+//				     "TAX_CODE",
 				     "UNIT",
 				     "UNIT1",
 				     "UNIT2",

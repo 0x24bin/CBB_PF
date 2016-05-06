@@ -774,21 +774,21 @@ Ext.ux.InventoryFormPanel = Ext.extend(Ext.form.FormPanel, {
 			submitValue: false,
 	        fieldLabel:'运输工具',
 	        name: 'TRAF_NAME',
-	        allowBlank : true,
+	        allowBlank : false,
 	        maxLength: 100
 		},{
 			readOnly: true,
 			submitValue: false,
 	        fieldLabel:'航次号',
 	        name: 'VOYAGE_NO',
-	        allowBlank : true,
+	        allowBlank : false,
 	        maxLength: 32
 		},{
 			readOnly: true,
 			submitValue: false,
 	        fieldLabel:'分运单号',
 	        name: 'BILL_NO',
-	        allowBlank : true,
+	        allowBlank : false,
 	        maxLength: 37
 		},GenerateCodeNameComboGrid({
 				readOnly: true,
@@ -1046,11 +1046,13 @@ Ext.ux.InventoryFormPanel = Ext.extend(Ext.form.FormPanel, {
 				    id : "ITEM_NAME",
 				    header : "商品上架品名",
 				    dataIndex : "ITEM_NAME"
-				},{
+				},
+/*				{
 				    id : "G_NO",
 				    header : "海关商品备案编号",
 				    dataIndex : "G_NO"
-				},{
+				},*/
+				{
 				    id : "G_CODE",
 				    header : "海关商品编码",
 				    dataIndex : "G_CODE"
