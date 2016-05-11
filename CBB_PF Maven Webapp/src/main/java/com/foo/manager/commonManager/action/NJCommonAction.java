@@ -617,6 +617,10 @@ public class NJCommonAction extends AbstractAction{
 		params.put("Fuzzy", fuzzy);
 	}
 	
+	public void setMAIN_BILL_NO(String mainBillNo){
+		params.put("MAIN_BILL_NO", mainBillNo);
+	}
+	
 	/*public void set(String ){
 		params.put("", );
 	}*/

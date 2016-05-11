@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/5/6 21:55:33                            */
+/* Created on:     2016/5/10 21:40:55                           */
 /*==============================================================*/
 
 
@@ -543,6 +543,7 @@ CREATE TABLE T_NJ_INVENTORY
    PACK_NO              INT COMMENT '件数--单个运单下包裹数',
    WEIGHT               NUMERIC(18,5) COMMENT '毛重--单位为千克',
    NET_WEIGHT           NUMERIC(18,5) COMMENT '净重--单位为千克',
+   MAIN_BILL_NO         VARCHAR(50) COMMENT '总运单号',
    NOTE                 VARCHAR(1000) COMMENT '备注',
    RETURN_STATUS        INT COMMENT '回执状态--操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库成功/399海关审结）,若小于0数字表示处理异常回执',
    RETURN_TIME          VARCHAR(64) COMMENT '回执时间--操作时间(格式:YYYYMMDDhhmmss)',

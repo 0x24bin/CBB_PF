@@ -142,6 +142,12 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 				String currentTime = new SimpleDateFormat(
 						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
 				
+				//201中业务类型的四个值都保留不变，只是1和3两种情况不需要往海关发送备案数据。但商品数据还是要录入我们的系统，否则在301订单信息中无法选择商品。
+				if(!checkSkuNeedSendToHaiGuan(sku,currentTime)){
+					
+					return;
+				}
+				
 				String reponse = submitXml_SKU(guid,data,messageType,currentTime);
 				
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) ||
@@ -173,6 +179,28 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			throw new CommonException(e,
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
 		}
+	}
+
+	//201中业务类型的四个值都保留不变，只是1和3两种情况不需要往海关发送备案数据。但商品数据还是要录入我们的系统，否则在301订单信息中无法选择商品。
+	private boolean checkSkuNeedSendToHaiGuan(Map sku,String currentTime){
+		boolean result = true;
+		if("1".equals(sku.get("BIZ_TYPE").toString()) || 
+				"3".equals(sku.get("BIZ_TYPE").toString())){
+			//不需要发送给海关 ,直接更新成审批完成
+			//1.一般进口 3.保税进口
+			sku.put("APP_TIME", currentTime);
+			sku.put("PRE_NO", "");
+			sku.put("RETURN_STATUS", 2);
+			sku.put("RETURN_TIME", currentTime);
+			sku.put("RETURN_INFO", "");
+			sku.put("G_NO", "");
+			sku.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
+			njCommonManagerMapper.updateSku_nj(sku);
+			result = false;
+		}else{
+			
+		}
+		return result;
 	}
 
 	@Override
@@ -215,6 +243,12 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 				//更新申报时间
 				String currentTime = new SimpleDateFormat(
 						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				//201中业务类型的四个值都保留不变，只是1和3两种情况不需要往海关发送备案数据。但商品数据还是要录入我们的系统，否则在301订单信息中无法选择商品。
+				if(!checkSkuNeedSendToHaiGuan(sku,currentTime)){
+					
+					return;
+				}
 				
 				String reponse = submitXml_SKU(guid,data,CommonDefine.CEB201,currentTime);
 				
@@ -1420,7 +1454,23 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		
 		switch(messageType){
 		case CommonDefine.CEB601:
+			//关联order中的orderType
+			//一般进口
+			if("1".equals(data.get("BIZ_TYPE").toString())){
 			head.put("MESSAGE_TYPE", CommonDefine.CEB601);
+			}
+			//一般出口
+			if("2".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB607);
+			}
+			//保税进口
+			if("3".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB604);
+			}
+			//保税出口
+			if("4".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB610);
+			}
 			break;
 		case CommonDefine.CEB603:
 			head.put("MESSAGE_TYPE", CommonDefine.CEB603);

@@ -86,6 +86,12 @@ public class CommonDefine {
 	
 	public static final int CEB603 = 603;
 	
+	public static final int CEB604 = 604;
+	
+	public static final int CEB607 = 607;
+	
+	public static final int CEB610 = 610;
+	
 	//商品备案回执获取--单条
 	public static final int CEB201_RECEIPT_SINGLE = 9201;
 	//商品备案回执获取--列表

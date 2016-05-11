@@ -115,6 +115,10 @@ public abstract class AbstractService {
 		resultString = resultString.replaceAll("&lt;", '<' + "");
 		resultString = resultString.replaceAll("&gt;", '>'+"");
 		
+		System.out.println("request xml String:"+request);
+		System.out.println("reponse xml String:"+reponse);
+		System.out.println("reponse result String:"+resultString);
+		
 		Map resultData = new HashMap();
 		resultData.put("请求数据", formatXML(request));
 		resultData.put("返回数据", formatXML(reponse));

@@ -290,8 +290,8 @@ public abstract class CommonManagerService extends AbstractService {
 			int statusCode = httpClient.executeMethod(postMethod);
 			if (statusCode == 200) {
 				String soapResponseData = postMethod.getResponseBodyAsString();
-				System.out.println("request xml String:"+xmlString);
-				System.out.println("reponse xml String:"+soapResponseData);
+//				System.out.println("request xml String:"+xmlString);
+//				System.out.println("reponse xml String:"+soapResponseData);
 				result = XmlUtil.getResponseFromXmlString(soapResponseData,messageType);
 				//上传请求回应数据
 				uploadRequestLog(messageType,xmlString,soapResponseData,result);
@@ -301,10 +301,11 @@ public abstract class CommonManagerService extends AbstractService {
 					throw new CommonException(new Exception(),
 							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无回执信息！");
 				}else{
-					System.out.println("reponse result String:"+result);
+//					System.out.println("reponse result String:"+result);
 				}
 				
 			} else {
+				uploadRequestLog(messageType,xmlString,"",result);
 				//抛出错误信息
 				throw new CommonException(new Exception(),
 						MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "调用失败！错误码：" + statusCode);

@@ -787,7 +787,9 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}).render(this.tbar); // add two tbar
 	    },this);
 		this.on('destroy', function() {
-			Ext.destroy(onebar);// 这一句不加可能会有麻烦滴
+			if(Ext.getCmp('onebar')){
+				Ext.destroy(Ext.getCmp('onebar'));// 这一句不加可能会有麻烦滴
+			}
 	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
 	        var selections = grid.getSelectionModel().getSelections();
