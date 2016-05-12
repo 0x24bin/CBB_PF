@@ -712,7 +712,7 @@
 		  IFNULL(logistics.`TRAF_NAME`, '') AS TRAF_NAME,
 		  IFNULL(logistics.`VOYAGE_NO`, '') AS VOYAGE_NO,
 		  IFNULL(logistics.`BILL_NO`, '') AS BILL_NO,
-		  IFNULL(t.`MAIN_BILL_NO`, '') AS MAIN_BILL_NO,
+		  IFNULL(logistics.`MAIN_BILL_NO`, '') AS MAIN_BILL_NO,
 		  IFNULL(t.`LOCT_NO`, '') AS LOCT_NO,
 		  IFNULL(t.`LICENSE_NO`, '') AS LICENSE_NO,
 		  IFNULL(t.`COUNTRY`, '') AS COUNTRY,
@@ -942,6 +942,7 @@
 		  IFNULL(logistics.TRAF_NAME, '') AS TrafName,
 		  IFNULL(logistics.VOYAGE_NO, '') AS VoyageNo,
 		  IFNULL(logistics.BILL_NO, '') AS BillNo,
+		  IFNULL(logistics.MAIN_BILL_NO, '') AS MainBillNo,
 		  "" AS LoctNo,
 		  "" AS LicenseNo,
 		  IFNULL(

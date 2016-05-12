@@ -288,6 +288,20 @@ public class NJCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "NJ批量提交运单状态")
+	public String batchSubmit_logisticsStatus(){
+		try {
+			njCommonManagerService.batchSubmit_LOGISTICS_STATUS(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	@IMethodLog(desc = "NJ批量申请快递单号")
 	public String applyExpressNo(){
 		try {

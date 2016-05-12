@@ -1342,6 +1342,82 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 	
 
 	@Override
+	public void batchSubmit_LOGISTICS_STATUS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> logisticsList = null;
+		Map logistics = null;
+		String tableName=T_NJ_LOGISTICS;
+		String primaryCol="LOGISTICS_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+
+		for(String guid:guidList){
+			try{
+				//获取运单信息
+				logisticsList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(logisticsList !=null && logisticsList.size() == 1){
+					logistics = logisticsList.get(0);
+				}else{
+					errorMessage.append(guid+"：运单数据不存在！;<br/>");
+					continue;
+				}
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				Map data =  njCommonManagerMapper.selectDataForMessage503_NJ(guid);
+				
+				//填充数据
+				data.put("LOGISTICS_STATUS", params.get("LOGISTICS_STATUS"));
+				data.put("LOGISTICS_TIME", currentTime);
+				
+	//			String reponse = "";
+				
+				String reponse = submitXml_LOGISTICS(guid,data,null,CommonDefine.CEB503,currentTime);
+				
+				if (reponse.isEmpty()
+						|| CommonDefine.RESPONSE_OK.equals(reponse)
+						|| reponse.startsWith("P")) {
+
+					// logistics.put("APP_TIME", currentTime);
+					// order.put("PRE_NO", reponse);
+					logistics
+							.put("RETURN_STATUS", CommonDefine.RETURN_STATUS_2);
+					logistics.put("APP_STATUS",
+							CommonDefine.APP_STATUS_COMPLETE);
+					// 更新数据
+					List<String> keys = Arrays.asList(new String[] {
+							"LOGISTICS_STATUS", "RETURN_STATUS", "RETURN_TIME",
+							"RETURN_INFO" });
+					List<Object> values = Arrays.asList(new Object[] {
+							params.get("LOGISTICS_STATUS"),
+							logistics.get("RETURN_STATUS"), null, null });
+
+					commonManagerMapper
+							.updateTableByNVList(tableName, primaryCol,
+									logistics.get(primaryCol), keys, values);
+
+					// njCommonManagerMapper.updateOrder_nj(order);
+				} else{
+					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
+				}
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
+		}
+	}
+	
+	
+	
+
+	@Override
 	public void applyExpressNo_LOGISTICS(Map<String, Object> params) throws CommonException {
 		List<String> guidList = (List<String>) params.get("guidList");
 

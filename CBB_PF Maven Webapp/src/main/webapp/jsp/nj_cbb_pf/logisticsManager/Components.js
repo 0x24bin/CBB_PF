@@ -24,6 +24,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	     "TRAF_NAME",
 	     "VOYAGE_NO",
 	     "BILL_NO",
+	     "MAIN_BILL_NO",
 //	     "FREIGHT",
 //	     "INSURE_FEE",
 //	     "CURRENCY",
@@ -232,6 +233,45 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			});
 //		}
 	},
+	batchSubmitLogisticsStatus : function (record,newLogStatus){
+//		if(isOrderReadOnly(record)){
+			var jsonDataList = new Array();
+			for(var i = 0; i< record.length;i++){
+				jsonDataList.push(record[i].get('GUID'));
+		    }
+			var param={
+				'LOGISTICS_STATUS':newLogStatus,
+				guidList:jsonDataList
+			};
+			this.getEl().mask("执行中...");
+			Ext.Ajax.request({
+				scope: this,
+				url : 'n-jcommon!batchSubmit_logisticsStatus.action',
+				method : "POST",
+				params : param,
+				success : function(response) {
+					this.getEl().unmask();
+					var obj = Ext.decode(response.responseText);
+					if (obj.returnResult == 0) {
+						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+					}else{
+						this.reload();
+					}
+				},
+				error : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				},
+				failure : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				}
+			});
+//		}
+	},
+	
+	
+	
 	initComponent : function () {
 		this.sm= new Ext.grid.RowSelectionModel({singleSelect:false});
 		var store = new Ext.data.Store(Ext.apply({
@@ -257,6 +297,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "TRAF_NAME",
 			     "VOYAGE_NO",
 			     "BILL_NO",
+			     "MAIN_BILL_NO",
 			     "FREIGHT",
 			     "INSURE_FEE",
 			     "CURRENCY",
@@ -387,6 +428,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "BILL_NO",
 			    header : "提运单号",
 			    dataIndex : "BILL_NO"
+			},{
+			    id : "MAIN_BILL_NO",
+			    header : "总运单号",
+			    dataIndex : "MAIN_BILL_NO"
 			},{
 			    id : "FREIGHT",
 			    header : "订单商品运费",
@@ -559,9 +604,9 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        				text:item['text'],
 			        				value:item['value'],
 			        				handler: function(b){
-		        			        	var data=this.checkSelect(true);
+		        			        	var data=this.checkSelect(false);
 			        			        if(data)
-			        			        	this.setLogStatus(data,b.value);
+			        			        	this.batchSubmitLogisticsStatus(data,b.value);
 			        			        
 			        				}.createDelegate(this)
 			        			});
@@ -807,17 +852,26 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
 			button=this.topToolbar.find("name",'setStatus')[0];
 			if(button){
-				if(selections.length>1){
+				var enableFlag = true;
+				for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            if(record.get("APP_STATUS") != 99){
+		            	enableFlag = false;
+		            	break;
+		            }
+		        }
+				button.setDisabled(!enableFlag);
+/*				if(selections.length>1){
 					button.setDisabled(true);
 				}else{
 		        for ( var i = 0; i < selections.length; i++) {
 		            var record = selections[i];
 		            button.setDisabled(isLogisticsStatusReadOnly(record));
-		            /*button.menu.items.each(function(item,index,length){
+			            button.menu.items.each(function(item,index,length){
 		            	item.setDisabled(isLogisticsStatusReadOnly(record));
-		            },this);*/
-		        }
+			            },this);
 			}
+				}*/
 			}
 			button=this.topToolbar.find("name",'batchSubmit')[0];
 			if(button){
@@ -1015,6 +1069,10 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        fieldLabel:'提运单号',
 	        name: 'BILL_NO',
 	        maxLength: 37
+		},{
+	        fieldLabel:'总运单号',
+	        name: 'MAIN_BILL_NO',
+	        maxLength: 50
 		},{
 	    	xtype:'numberfield',
 	    	allowNegative: false,

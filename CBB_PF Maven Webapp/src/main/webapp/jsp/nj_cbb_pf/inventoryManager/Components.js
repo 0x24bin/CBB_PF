@@ -37,7 +37,6 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //		"PACK_NO",
 //		"WEIGHT",
 //		"NET_WEIGHT",
-//		"MAIN_BILL_NO"
 		"NOTE",
 		"RETURN_STATUS",
 		"RETURN_TIME",
@@ -57,6 +56,7 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //		"TRAF_NAME",
 //		"VOYAGE_NO",
 //		"BILL_NO"
+//		"MAIN_BILL_NO"
 
 	],
 	checkSelect : function(single,preventMask){
@@ -208,7 +208,6 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "PACK_NO",
 			     "WEIGHT",
 			     "NET_WEIGHT",
-			     "MAIN_BILL_NO",
 			     "NOTE",
 			     "RETURN_STATUS",
 			     "RETURN_TIME",
@@ -228,7 +227,8 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "TRAF_MODE",
 			     "TRAF_NAME",
 			     "VOYAGE_NO",
-			     "BILL_NO"
+			     "BILL_NO",
+			     "MAIN_BILL_NO"
 		    ]),
 			listeners:{
 			  	"exception": function(proxy,type,action,options,response,arg){
@@ -430,10 +430,6 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "NET_WEIGHT",
 			    header : "净重",
 			    dataIndex : "NET_WEIGHT"
-			},{
-			    id : "MAIN_BILL_NO",
-			    header : "总运单号",
-			    dataIndex : "MAIN_BILL_NO"
 			},{
 			    id : "NOTE",
 			    header : "备注",
@@ -961,11 +957,6 @@ Ext.ux.InventoryFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        fieldLabel:'净重',
 	        name: 'NET_WEIGHT'
 	    },{
-			fieldLabel : "总运单号",
-			name : "MAIN_BILL_NO",
-			allowBlank : false,
-		    maxLength: 50
-		},{
 	        xtype: 'textarea',
 	        maxLength: 1000,
 	        fieldLabel:'备注',
