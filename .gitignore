@@ -1,0 +1,3 @@
+*.class
+target
+CBB_PF Maven Webapp/src/main/webapp/WEB-INF/classes
