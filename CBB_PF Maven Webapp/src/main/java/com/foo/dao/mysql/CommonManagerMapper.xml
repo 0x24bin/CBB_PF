@@ -67,7 +67,7 @@
 		  MAX(${columnName} ) 
 		FROM
 		  ${tableName} 
-		WHERE IS_AUTO = 1 ;
+		WHERE LENGTH(${columnName})=12;
 	</select>
 	
 	<select id="getMenuList" resultType="hashmap" >

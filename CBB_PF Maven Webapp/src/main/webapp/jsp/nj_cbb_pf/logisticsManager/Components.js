@@ -942,7 +942,10 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 		var fp=this;
 		var form = fp.getForm();
 		//表单验证，必须是保存，并且是编辑
-		if (form.isValid() || (opType == '1' && this.editType=="mod")) {
+		if (form.isValid() || 
+			(opType == '1' 
+				&& this.editType=="mod" 
+				&& Ext.getCmp('LOGISTICS_NO').isValid())) {
 			var param={
 		        editType: this.editType,
 		        APP_STATUS: opType
@@ -1043,9 +1046,13 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        },relationCategory_logistics
 	    ),{
 	        fieldLabel:'物流运单编号',
+	        id:'LOGISTICS_NO',
 	        name: 'LOGISTICS_NO',
 //	        readOnly: this.editType!=="add",
-	        maxLength: 20
+	        maxLength: 12,
+	        minLength:12,
+	        regex:/(\d){12}/,
+	        regexText:"只能输入12位数字！"
 		},GenerateCodeNameComboGrid({
 	    		allowBlank : false,
 		    	fieldLabel:'进出口标记',
