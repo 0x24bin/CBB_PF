@@ -427,6 +427,138 @@
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
+	<select id="selectDataForMessage40X_NJ_head" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
+		  '' AS MESSAGE_TYPE,
+		  IFNULL(t.`CUSTOM_CODE`, '') AS SEND_ID,
+		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
+		  IFNULL(t.`VERSION`, '') AS VERSION
+		FROM
+		  t_nj_pay t 
+		WHERE t.`GUID` = #{guid} 
+	</select>
+	
+	
+	<select id="selectDataForMessage401_NJ" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
+		    AND c.CODE = t.APP_UID) AS APP_UNAME,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`PAY_CODE`, '') AS PAY_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'PAY' 
+		    AND c.CODE = t.PAY_CODE) AS PAY_NAME,
+		  
+		  IFNULL(t.`PAY_TYPE`, '') AS PAY_TYPE,
+		  IFNULL(t.`PAY_NO`, '') AS PAY_NO,
+		  IFNULL(t.`ORDER_NO`, '') AS ORDER_NO,
+		  IFNULL(t.`EBP_CODE`, '') AS EBP_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
+		    AND c.CODE = t.EBP_CODE) AS EBP_NAME,
+		  IFNULL(orders.`GOODS_VALUE`+orders.`TAX_FEE`+orders.`FREIGHT`, '') AS CHARGE,
+		  IFNULL(orders.`GOODS_VALUE`, '') AS GOODS_VALUE,
+		  IFNULL(orders.`TAX_FEE`, '') AS TAX_FEE,
+		  IFNULL(orders.`FREIGHT`, '') AS FREIGHT,
+		  IFNULL(orders.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`PAY_STATUS`, '') AS PAY_STATUS,
+		  IFNULL(contact1.`NAME`, '') AS DRAWEE,
+		  IFNULL(contact1.`CODE`, '') AS DRAWEE_INDENTITY,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  t_nj_pay t 
+		  LEFT JOIN T_NJ_ORDERS orders 
+		    ON t.ORDER_NO = orders.ORDER_NO
+		  LEFT JOIN T_CONTACT contact1 
+		    ON orders.CONSIGNEE_ID = contact1.CONTACT_ID 
+		WHERE t.`GUID` = #{guid}   
+	</select>
+	
+	<update id="updatePay_nj" parameterType="hashmap" >
+	    update T_NJ_PAY
+	    <set >
+	      <if test="RECEIVER_ID != null" >
+	        RECEIVER_ID = #{RECEIVER_ID},
+	      </if>
+	      <if test="APP_TYPE != null" >
+	        APP_TYPE = #{APP_TYPE},
+	      </if>
+	      <if test="APP_TIME != null" >
+	        APP_TIME = #{APP_TIME},
+	      </if>
+	      <if test="APP_STATUS != null" >
+	        APP_STATUS = #{APP_STATUS},
+	      </if>
+	      <if test="APP_UID != null" >
+	        APP_UID = #{APP_UID},
+	      </if>
+	      <if test="APP_UNAME != null" >
+	        APP_UNAME = #{APP_UNAME},
+	      </if>
+	      <if test="PAY_CODE != null" >
+	        PAY_CODE = #{PAY_CODE},
+	      </if>
+	      <if test="PAY_NAME != null" >
+	        PAY_NAME = #{PAY_NAME},
+	      </if>
+	      <if test="PAY_TYPE != null" >
+	        PAY_TYPE = #{PAY_TYPE},
+	      </if>
+	      <if test="PAY_NO != null" >
+	        PAY_NO = #{PAY_NO},
+	      </if>
+	      <if test="EBP_CODE != null" >
+	        EBP_CODE = #{EBP_CODE},
+	      </if>
+	      <if test="EBP_NAME != null" >
+	        EBP_NAME = #{EBP_NAME},
+	      </if>
+	      <if test="CHARGE != null" >
+	        CHARGE = #{CHARGE},
+	      </if>
+	      <if test="PAY_STATUS != null" >
+	        PAY_STATUS = #{PAY_STATUS},
+	      </if>
+	      <if test="DRAWEE != null" >
+	        DRAWEE = #{DRAWEE},
+	      </if>
+	      <if test="DRAWEE_INDENTIFY != null" >
+	        DRAWEE_INDENTIFY = #{DRAWEE_INDENTIFY},
+	      </if>
+	      <if test="NOTE != null" >
+	        NOTE = #{NOTE},
+	      </if>
+	      <if test="RETURN_STATUS != null" >
+	        RETURN_STATUS = #{RETURN_STATUS},
+	      </if>
+	      <if test="RETURN_TIME != null" >
+	        RETURN_TIME = #{RETURN_TIME},
+	      </if>
+	      <if test="RETURN_INFO != null" >
+	        RETURN_INFO = #{RETURN_INFO},
+	      </if>
+	      <if test="CREAT_TIME != null" >
+	        CREAT_TIME = #{CREAT_TIME},
+	      </if>
+	    </set>
+	    where GUID = #{GUID}
+	  </update>
+	
 	<select id="selectDataForMessage501_NJ" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
@@ -730,13 +862,25 @@
 		  IFNULL(t.`PACK_NO`, '') AS PACK_NO,
 		  IFNULL(t.`WEIGHT`, '') AS WEIGHT,
 		  IFNULL(t.`NET_WEIGHT`, '') AS NET_WEIGHT_SP,
-		  IFNULL(t.`NOTE`, '') AS NOTE 
+		  IFNULL(t.`NOTE`, '') AS NOTE,
+		  <!-- 发送的报文中，在进口时，收发货人代码自动填收货人的身份证号，收发货人名称自动填收货人姓名； -->
+		  <!-- 出口时，收发货人代码自动填物流企业代码，收发货人名称自动填物流企业名称 -->
+		  logistics.`IE_FLAG` AS IE_FLAG,
+		  CODENAME.`CODE` AS CODE_CODE,
+		  CODENAME.`NAME` AS CODE_NAME,
+		  CONTACT.`CODE` AS CONTACT_CODE,
+		  CONTACT.`NAME` AS CONTACT_NAME
+		   
 		FROM
 		  T_NJ_INVENTORY t 
 		  LEFT JOIN T_NJ_LOGISTICS logistics 
 		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
 		  LEFT JOIN t_nj_orders orders 
 		    ON orders.ORDER_NO = logistics.ORDER_NO 
+		  LEFT JOIN `T_CODE_NAME` CODENAME 
+    		ON logistics.LOGISTICS_CODE = CODENAME.CODE AND CODENAME.RELATION_CATEGORY="LOGISTICS_CODE"
+  		  LEFT JOIN `T_CONTACT` CONTACT 
+    		ON logistics.CONSIGNEE_ID = CONTACT.CONTACT_ID
 		WHERE t.`GUID` = #{guid}  
 	</select>
 

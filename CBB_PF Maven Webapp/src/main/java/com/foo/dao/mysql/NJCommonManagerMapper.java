@@ -82,6 +82,31 @@ public interface NJCommonManagerMapper {
 	public Map selectDataForMessage303_NJ(
 			@Param(value = "guid") String guid);
 	
+	
+	/**
+	 * 获取401报文数据
+	 * @param guid
+	 * @return
+	 */
+	public Map selectDataForMessage40X_NJ_head(
+			@Param(value = "guid") String guid);
+	
+	/**
+	 * 获取401报文数据
+	 * @param guid
+	 * @return
+	 */
+	public Map selectDataForMessage401_NJ(
+			@Param(value = "guid") String guid);
+	
+	
+	/**
+	 * 更新pay数据信息
+	 * @param data
+	 * @return
+	 */
+	public void updatePay_nj(Map data);
+	
 	/**
 	 * 获取501报文数据
 	 * @param guid

@@ -283,6 +283,7 @@ public interface CommonManagerMapper {
 	 */
 	public void updateInventory(Map data);
 
+
 	/**
 	 * 获取所有code列表distinct
 	 * @return

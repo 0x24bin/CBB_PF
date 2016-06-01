@@ -316,6 +316,70 @@ public class NJCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	
+	@IMethodLog(desc = "NJ订单列表查询")
+	public String getAllPayes(){
+		try {
+			
+			Map<String,Object> data = njCommonManagerService.getAllPayes(params);
+
+			JsonConfig jsonConfig = new JsonConfig();
+		    PropertyFilter filter = new PropertyFilter() {
+		            public boolean apply(Object object, String fieldName, Object fieldValue) {
+		            	return null == fieldValue;
+		            }
+		    };
+		    jsonConfig.setJsonPropertyFilter(filter);
+			resultObj = JSONObject.fromObject(data,jsonConfig);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	@IMethodLog(desc = "NJ支付保存/提交")
+	public String setPay(){
+		try {
+			String editType="add";
+			if(params.get("editType")!=null){
+				editType=""+params.get("editType");
+				params.remove("editType");
+			}
+			if("mod".equals(editType)){
+				njCommonManagerService.setPay(params);
+			}else{
+				njCommonManagerService.addPay(params);
+			}
+			Map<String,Object> data = new HashMap<String, Object>();
+			data.put("success", true);
+			resultObj = JSONObject.fromObject(data);
+		} catch (CommonException e) {
+			Map<String,Object> data = new HashMap<String, Object>();
+			data.put("success", false);
+			data.put("msg", e.getErrorMessage());
+			resultObj = JSONObject.fromObject(data);
+		}
+		return RESULT_OBJ;
+	}
+	
+	@IMethodLog(desc = "NJ订单删除")
+	public String delPay(){
+		try {
+			njCommonManagerService.delPay(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	
+	
 	public void setRELATION_CATEGORY(String RELATION_CATEGORY){
 		params.put("RELATION_CATEGORY", RELATION_CATEGORY);
 	}
@@ -544,6 +608,13 @@ public class NJCommonAction extends AbstractAction{
 		params.put("IN_USE", IN_USE);
 	}
 	
+	public void setIN_USE_LOGISTICS(Boolean IN_USE_LOGISTICS){
+		params.put("IN_USE_LOGISTICS", IN_USE_LOGISTICS);
+	}
+	public void setIN_USE_PAY(Boolean IN_USE_PAY){
+		params.put("IN_USE_PAY", IN_USE_PAY);
+	}
+	
 	//清单
 	public void setINVENTORY_ID(Integer INVENTORY_ID){
 		params.put("INVENTORY_ID", INVENTORY_ID);
@@ -564,6 +635,9 @@ public class NJCommonAction extends AbstractAction{
 	}
 	public void setOWNER_CODE(String OWNER_CODE){
 		params.put("OWNER_CODE", OWNER_CODE);
+	}
+	public void setOWNER_NAME(String OWNER_NAME){
+		params.put("OWNER_NAME", OWNER_NAME);
 	}
 	public void setLOCT_NO(String LOCT_NO){
 		params.put("LOCT_NO", LOCT_NO);
@@ -635,6 +709,19 @@ public class NJCommonAction extends AbstractAction{
 		params.put("MAIN_BILL_NO", mainBillNo);
 	}
 	
+	//支付
+	public void setPAY_CODE(String PAY_CODE){
+		params.put("PAY_CODE", PAY_CODE);
+	}
+	public void setPAY_NO(String PAY_NO){
+		params.put("PAY_NO", PAY_NO);
+	}
+	public void setPAY_STATUS(String PAY_STATUS){
+		params.put("PAY_STATUS", PAY_STATUS);
+	}
+	public void setPAY_ID(String PAY_ID){
+		params.put("PAY_ID", PAY_ID);
+	}
 	/*public void set(String ){
 		params.put("", );
 	}*/

@@ -295,11 +295,17 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		params.remove("limit");
 		try {
 			String tableName = T_NJ_ORDERS;
-			if(params.get("IN_USE")!=null){
-				if(Boolean.FALSE.equals(params.get("IN_USE"))){
+			if(params.get("IN_USE_LOGISTICS")!=null){
+				if(Boolean.FALSE.equals(params.get("IN_USE_LOGISTICS"))){
 					tableName = V_NJ_ORDERS_UNUSE;
 				}
-				params.remove("IN_USE");
+				params.remove("IN_USE_LOGISTICS");
+			}
+			if(params.get("IN_USE_PAY")!=null){
+				if(Boolean.FALSE.equals(params.get("IN_USE_PAY"))){
+					tableName = V_NJ_ORDERS_UNUSE_PAY;
+				}
+				params.remove("IN_USE_PAY");
 			}
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
@@ -642,7 +648,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			
 			
 			for(Map<String, Object> row:rows){
-				Map<String, Object> additionInfo=getLogisticsOrder(row);
+				Map<String, Object> additionInfo=getRelOrder(row);
 				if(additionInfo!=null)
 					row.putAll(additionInfo);
 			}
@@ -895,9 +901,9 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		}
 	}
 	
-	public Map<String, Object> getLogisticsOrder(Map<String, Object> logistics){
+	public Map<String, Object> getRelOrder(Map<String, Object> data){
 		Map<String, Object> resultMap=null;
-		Object ORDER_NO=logistics.get("ORDER_NO");
+		Object ORDER_NO=data.get("ORDER_NO");
 		if(ORDER_NO!=null){
 			List<Map<String, Object>> orders=commonManagerMapper.selectTableListByCol(
 					T_NJ_ORDERS, "ORDER_NO", ORDER_NO, null, null);
@@ -913,6 +919,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		}
 		return resultMap;
 	}
+	
 	
 	@Override
 	public Map<String, Object> getAllInventorys(Map<String, Object> params)
@@ -947,6 +954,15 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 					keys,values);
 			
 			for(Map<String, Object> row:rows){
+				
+				//在进口时，收发货人代码自动填收货人的身份证号，收发货人名称自动填收货人姓名；
+				//出口时，收发货人代码自动填物流企业代码，收发货人名称自动填物流企业名称。
+				//界面上只要显示收发货人名称，不用显示身份证号或物流企业代码
+				if ("I".equals(row.get("IE_FLAG").toString())) {
+					row.put("OWNER_NAME", row.get("CONTACT_NAME"));
+				} else if ("E".equals(row.get("IE_FLAG").toString())) {
+					row.put("OWNER_NAME", row.get("CODE_NAME"));
+				}
 				row.put("GOODSList", 
 					commonManagerMapper.selectTableListByCol(
 						V_NJ_INVENTORY_DETAIL, "INVENTORY_ID", row.get("INVENTORY_ID"), null, null));
@@ -1194,6 +1210,256 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 	}
 
 
+	@Override
+	public Map<String, Object> getAllPayes(Map<String, Object> params)
+			throws CommonException {
+		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+
+		int total = 0;
+
+		// 开始
+		Integer start = params.get("start") == null ? null : Integer
+				.valueOf(params.get("start").toString());
+		// 结束
+		Integer limit = params.get("limit") == null ? null : Integer
+				.valueOf(params.get("limit").toString());
+
+		params.remove("start");
+		params.remove("limit");
+		try {
+			String tableName = V_NJ_PAY;
+			
+			List<String> keys=new ArrayList<String>(params.keySet());
+			List<Object> values=new ArrayList<Object>(params.values());
+			
+			rows = commonManagerMapper.selectTableListByNVList(tableName, 
+					keys,values,start, limit);
+			total = commonManagerMapper.selectTableListCountByNVList(tableName,
+					keys,values);
+
+			for(Map<String, Object> row:rows){
+				Map<String, Object> additionInfo=getRelOrder(row);
+				if(additionInfo!=null)
+					row.putAll(additionInfo);
+			}
+
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("total", total);
+			result.put("rows", rows);
+			return result;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	
+	@Override
+	public void addPay(Map<String, Object> pay) throws CommonException {
+		try {
+			String tableName=T_NJ_PAY;
+			List<String> uniqueCol = new ArrayList<String>();
+			uniqueCol.add("PAY_NO");
+			List<Object> uniqueVal = new ArrayList<Object>();
+			uniqueVal.add(pay.get("PAY_NO"));
+			
+			String primaryCol="PAY_ID";
+			// 货号/业务类型唯一性校验
+			uniqueCheck(tableName,uniqueCol,uniqueVal,null,null,false);
+			
+			pay.remove("editType");
+			// 设置空id
+			pay.put(primaryCol, null);
+			// 设置guid
+			pay.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB401,pay.get("EBP_CODE").toString(),pay.get("CUSTOM_CODE").toString()));
+			// 设置创建时间
+			pay.put("CREAT_TIME", new Date());
+
+			Map primary=new HashMap();
+			primary.put("primaryId", null);
+			
+			//无用数据
+			pay.remove("GOODS_VALUE");
+			pay.remove("TAX_FEE");
+			pay.remove("FREIGHT");
+			pay.remove("CURRENCY");
+			
+			pay.put("PAY_TYPE", "M");
+			
+
+			//插入数据
+			commonManagerMapper.insertTableByNVList(tableName,
+					new ArrayList<String>(pay.keySet()), 
+					new ArrayList<Object>(pay.values()),
+					primary);
+			//生成报文
+			if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
+					pay.get("APP_STATUS"))) {
+				String guid = pay.get("GUID").toString();
+				Map data =  njCommonManagerMapper.selectDataForMessage401_NJ(guid);
+				
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				String reponse = submitXml_PAY(guid,data,CommonDefine.CEB401,currentTime);
+				
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
+						reponse.startsWith("P")){
+					
+					pay.put("APP_TIME", currentTime);
+					pay.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
+					pay.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
+					
+					njCommonManagerMapper.updatePay_nj(pay);
+				}else{
+					//删除数据
+					commonManagerMapper.delTableById(T_NJ_PAY, "GUID",
+							guid);
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
+				}
+			}
+		} catch (CommonException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	@Override
+	public void setPay(Map<String, Object> pay)
+			throws CommonException {
+		try {
+			String tableName=T_NJ_PAY;
+			List<String> uniqueCol = new ArrayList<String>();
+			uniqueCol.add("PAY_NO");
+			List<Object> uniqueVal = new ArrayList<Object>();
+			uniqueVal.add(pay.get("PAY_NO"));
+			
+			String primaryCol="PAY_ID";
+			
+			Map oldData = commonManagerMapper.selectTableById("T_NJ_PAY",
+					"PAY_ID", Integer.valueOf(pay.get("PAY_ID").toString()));
+
+			if (!oldData.get("PAY_NO").toString()
+					.equals(pay.get("PAY_NO").toString())) {
+				// 货号/业务类型唯一性校验
+				uniqueCheck(tableName, uniqueCol, uniqueVal, primaryCol,
+						pay.get(primaryCol), false);
+			}
+			pay.remove("editType");
+			
+			//无用数据
+			pay.remove("GOODS_VALUE");
+			pay.remove("TAX_FEE");
+			pay.remove("FREIGHT");
+			pay.remove("CURRENCY");
+
+			pay.put("PAY_TYPE", "M");
+			//生成报文
+			if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
+					pay.get("APP_STATUS"))) {
+				String guid = pay.get("GUID").toString();
+				Map data =  njCommonManagerMapper.selectDataForMessage401_NJ(guid);
+				
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				String reponse = submitXml_PAY(guid,data,CommonDefine.CEB401,currentTime);
+
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) ||
+						reponse.startsWith("P")){
+					
+					pay.put("APP_TIME", currentTime);
+					pay.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
+					pay.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
+					
+//					njCommonManagerMapper.updateSku_nj(sku);
+					//更新数据
+					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+							pay.get(primaryCol), new ArrayList<String>(pay.keySet()),
+							new ArrayList<Object>(pay.values()));
+				}else{
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
+				}
+			}else{
+				//更新数据
+				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+						pay.get(primaryCol), new ArrayList<String>(pay.keySet()),
+						new ArrayList<Object>(pay.values()));
+			}
+		} catch (CommonException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	
+	@Override
+	public void delPay(Map<String, Object> params) throws CommonException {
+		try {
+			
+			//删除数据
+			commonManagerMapper.delTableById(T_NJ_PAY, "PAY_ID",
+					params.get("PAY_ID"));
+			
+			
+//			//生成报文
+//			if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
+//					params.get("APP_STATUS"))) {
+//				String guid = params.get("GUID").toString();
+//				//
+//				Map data =  njCommonManagerMapper.selectDataForMessage502_NJ(guid);
+//				
+//				if(data.get("APP_TIME")!=null){
+//					data.remove("APP_TIME");
+//					
+//					//更新申报时间
+//					String currentTime = new SimpleDateFormat(
+//							CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+//					
+//					String reponse = submitXml_LOGISTICS(guid,data,null,CommonDefine.CEB502,currentTime);
+//					
+//					if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse)){
+//						//删除数据
+//						commonManagerMapper.delTableById(T_NJ_LOGISTICS, "LOGISTICS_ID",
+//								params.get("LOGISTICS_ID"));
+//					}else{
+//						//抛出错误信息
+//						throw new CommonException(new Exception(),
+//								MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
+//					}
+//				}
+//			}else if(Integer.valueOf(CommonDefine.APP_STATUS_STORE).equals(
+//					params.get("APP_STATUS"))){
+//				//删除数据
+//				commonManagerMapper.delTableById(T_NJ_PAY, "PAY_ID",
+//						params.get("PAY_ID"));
+//			}
+			
+			
+		} 
+//		catch (CommonException e) {
+//			throw e;
+//		} 
+		catch (Exception e) {
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+
+
 
 	// 生成xml文件
 	private String submitXml_SKU(String guid, Map<String, Object> data,int messageType,String currentTime) throws CommonException{
@@ -1223,6 +1489,37 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			//获取返回信息
 			return response;
 	}
+	
+	
+	// 生成xml文件
+	private String submitXml_PAY(String guid, Map<String, Object> data,int messageType,String currentTime) throws CommonException{
+		// 提交需要生成xml文件
+			System.out.println("submitXml_PAY_NJ_"+messageType);
+			
+			Map head = njCommonManagerMapper.selectDataForMessage40X_NJ_head(guid);
+			
+			head.put("SEND_TIME", currentTime);
+			
+			switch(messageType){
+			case CommonDefine.CEB401:
+				head.put("MESSAGE_TYPE", CommonDefine.CEB401);
+				break;
+//			case CommonDefine.CEB402:
+//				head.put("MESSAGE_TYPE", CommonDefine.CEB402);
+//				break;
+//			case CommonDefine.CEB403:
+//				head.put("MESSAGE_TYPE", CommonDefine.CEB403);
+//				break;	
+			}
+			//xml报文
+			String resultXmlString = XmlUtil.generalRequestXml4NJ(head, data, null, messageType);
+			//获取返回xml字符串
+			String response = sendHttpCMD(resultXmlString,messageType,CommonDefine.CMD_TYPE_DECLARE);
+			
+			//获取返回信息
+			return response;
+	}
+	
 	
 	// 生成xml文件
 	private String submitXml_LOGISTICS(String guid, Map<String, Object> data,List<Map> subDataList, int messageType,String currentTime) throws CommonException{
@@ -1552,6 +1849,20 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			head.put("MESSAGE_TYPE", CommonDefine.CEB603);
 			break;
 		}
+		//在进口时，收发货人代码自动填收货人的身份证号，收发货人名称自动填收货人姓名
+		//出口时，收发货人代码自动填物流企业代码，收发货人名称自动填物流企业名称
+		if("I".equals(data.get("IE_FLAG").toString())){
+			data.put("OWNER_CODE", data.get("CONTACT_CODE"));
+			data.put("OWNER_NAME", data.get("CONTACT_NAME"));
+		}else if("E".equals(data.get("IE_FLAG").toString())){
+			data.put("OWNER_CODE", data.get("CODE_CODE"));
+			data.put("OWNER_NAME", data.get("CODE_NAME"));
+		}
+		data.remove("CONTACT_CODE");
+		data.remove("CONTACT_NAME");
+		data.remove("CODE_CODE");
+		data.remove("CODE_NAME");
+
 		//xml报文
 		String resultXmlString = XmlUtil.generalRequestXml4NJ(head, data, subDataList, messageType);
 		//获取返回xml字符串

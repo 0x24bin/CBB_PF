@@ -1322,7 +1322,7 @@ Ext.ux.LogisticsPanel = Ext.extend(Ext.Panel, {
 				     "CONSIGNEE_COUNTRY",
 				     "NOTE"],
 				storeCfg:{
-					baseParams:Ext.applyIf({'IN_USE':false},OrderCompleteParam)
+					baseParams:Ext.applyIf({'IN_USE_LOGISTICS':false},OrderCompleteParam)
 				},
 				buttons:[new Ext.Button({
 					name: "addInto",

@@ -35,12 +35,18 @@ var relationCategory_wrapType = 'WRAP_TYPE';
 //业务类型
 var relationCategory_bizType = 'BIZ_TYPE';
 
+//支付企业代码
+var relationCategory_pay = 'PAY';
+//支付状态
+var relationCategory_payStatus = 'PAY_STATUS';
+
 var myPageSize = 100;
 
 var CodeNameData={
 	ieFlag: [{"CODE":"I","NAME":"进口"},{"CODE":"E","NAME":"出口"}],
 	feeMark:[{"CODE":1,"NAME":"率"},{"CODE":2,"NAME":"单价"},{"CODE":3,"NAME":"总价"}],
-	bizType:[{"CODE":1,"NAME":"一般进口"},{"CODE":2,"NAME":"一般出口"},{"CODE":3,"NAME":"保税进口"},{"CODE":4,"NAME":"保税出口"}]
+	bizType:[{"CODE":1,"NAME":"一般进口"},{"CODE":2,"NAME":"一般出口"},{"CODE":3,"NAME":"保税进口"},{"CODE":4,"NAME":"保税出口"}],
+	payStatus:[{"CODE":"D","NAME":"代扣"},{"CODE":"S","NAME":"实扣"},{"CODE":"R","NAME":"部分退款"},{"CODE":"C","NAME":"取消(退款)"}]
 };
 
 

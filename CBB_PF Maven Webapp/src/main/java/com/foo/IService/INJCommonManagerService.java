@@ -122,4 +122,27 @@ public interface INJCommonManagerService {
 	 */
 	public void applyExpressNo_LOGISTICS(Map<String,Object> params) throws CommonException;
 	
+	/**
+	 * @param params: Integer start, Integer limit, ...
+	 * @return Map.key: Integer total, List<Map<String,Object>> rows
+	 * @throws CommonException
+	 */
+	public Map<String,Object> getAllPayes(Map<String,Object> params) throws CommonException;
+	
+	/**
+	 * @param pay
+	 * @throws CommonException
+	 */
+	public void setPay(Map<String,Object> pay) throws CommonException;
+	/**
+	 * @param pay
+	 * @throws CommonException
+	 */
+	public void addPay(Map<String,Object> pay) throws CommonException;
+	
+	/**
+	 * @param params: Integer PAY_ID, .
+	 * @throws CommonException
+	 */
+	public void delPay(Map<String,Object> params) throws CommonException;
 }

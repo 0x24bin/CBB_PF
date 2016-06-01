@@ -21,7 +21,7 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		"INVT_NO",
 		"PORT_CODE",
 		"IE_DATE",
-		"OWNER_CODE",
+		"OWNER_NAME",
 //		"TRADE_MODE",
 //		"LOCT_NO",
 //		"LICENSE_NO",
@@ -192,7 +192,7 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "INVT_NO",
 			     "PORT_CODE",
 			     {name:"IE_DATE",convert:Renderer.DATE},
-			     "OWNER_CODE",
+			     "OWNER_NAME",
 			     "TRADE_MODE",
 			     "LOCT_NO",
 			     "LICENSE_NO",
@@ -358,12 +358,19 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    header : "出口日期",
 			    dataIndex : "IE_DATE"/*,
 			    renderer: Renderer.DATE*/
-			},new Ext.ux.grid.CodeNameColumn({
+			}
+/*			,new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_ebc,
 			    id : "OWNER_CODE",
-			    header : "发货人",
+			    header : "收发货人",
 			    dataIndex : "OWNER_CODE"
-			}),{
+			})*/
+			,{
+			    id : "OWNER_NAME",
+			    header : "收发货人",
+			    dataIndex : "OWNER_NAME"
+			}
+			,{
 			    id : "TRADE_MODE",
 			    header : "贸易方式",
 			    dataIndex : "TRADE_MODE"
@@ -873,12 +880,20 @@ Ext.ux.InventoryFormPanel = Ext.extend(Ext.form.FormPanel, {
 					this.blur();
 				}
 			}
-		},GenerateCodeNameComboGrid({
-	    	fieldLabel:'发货人',
+		}
+/*		,GenerateCodeNameComboGrid({
+	    	fieldLabel:'收发货人',
 	    	name: 'OWNER_CODE',
 	        allowBlank : false
         	},relationCategory_ebc
-	    ),/*GenerateCodeNameComboGrid({
+	    )*/
+	    ,{
+		    fieldLabel : "收发货人",
+		    name : "OWNER_NAME",
+		    allowBlank : true,
+		    maxLength: 100,
+		    disabled:true
+		},/*GenerateCodeNameComboGrid({
 	    	fieldLabel:'贸易方式',
 	    	name: 'TRADE_MODE',
 	        allowBlank : false

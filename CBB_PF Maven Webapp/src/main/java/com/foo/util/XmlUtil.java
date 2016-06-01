@@ -333,6 +333,14 @@ public class XmlUtil {
 			break;
 		//CEB401支付凭证数据
 		case CommonDefine.CEB401:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB401;
+			
+			rootElementName = rootPrefix +"NjkjPaymentHeadEntity";
+//			subRootElementName = rootPrefix+"NjkjOrderListEntityList";
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
 			break;
 		//CEB402支付凭证回执
 		case CommonDefine.CEB402:
@@ -1295,6 +1303,7 @@ public class XmlUtil {
 		switch(messageType){
 		case CommonDefine.CEB201:
 		case CommonDefine.CEB301:
+		case CommonDefine.CEB401:
 		case CommonDefine.CEB501:
 		case CommonDefine.CEB503:
 		case CommonDefine.CEB601:
