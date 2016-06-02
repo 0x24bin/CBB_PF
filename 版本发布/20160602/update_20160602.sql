@@ -1,0 +1,1 @@
+insert  into `t_code_name`(`CODE_NAME_ID`,`RELATION_CATEGORY`,`RELATION_NAME`,`CODE`,`SN_CODE`,`NAME`) values (NULL,'PAY','支付企业名称',1,NULL,'支付企业名称');  

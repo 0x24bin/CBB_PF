@@ -9,7 +9,7 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //        "PAY_ID",
 	     "GUID",
 	     "ORDER_NO",
-	     "CUSTOM_CODE",
+//	     "CUSTOM_CODE",
 	     "RECEIVER_ID",
 //	     "APP_TYPE",
 	     "APP_TIME",
@@ -149,7 +149,7 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				"PAY_ID",
 				"GUID",
 				"ORDER_NO",
-				"CUSTOM_CODE",
+//				"CUSTOM_CODE",
 				"RECEIVER_ID",
 				//"APP_TYPE",
 				"APP_TIME",
@@ -200,12 +200,14 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "ORDER_NO",
 			    header : "订单编号",
 			    dataIndex : "ORDER_NO"
-			},new Ext.ux.grid.CodeNameColumn({
+			},
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_custom,
-			    id : "CUSTOM_CODE",
-			    header : "支付企业代码",
-			    dataIndex : "CUSTOM_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
+			    id : "PAY_CODE",
+			    header : "支付企业名称",
+			    dataIndex : "PAY_CODE"
+			}),
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_custom,
 			    id : "RECEIVER_ID",
 			    header : "接收海关代码",
@@ -230,12 +232,14 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "EBP_CODE",
 			    header : "电商平台",
 			    dataIndex : "EBP_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_pay,
-			    id : "PAY_CODE",
-			    header : "支付企业名称",
-			    dataIndex : "PAY_CODE"
-			}),{
+			}),
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_pay,
+//			    id : "PAY_CODE",
+//			    header : "支付企业名称",
+//			    dataIndex : "PAY_CODE"
+//			}),
+			{
 			    id : "PAY_TYPE",
 			    header : "支付交易类型",
 			    dataIndex : "PAY_TYPE",
@@ -558,9 +562,9 @@ Ext.ux.PayFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        maxLength: 30
 		},GenerateCodeNameComboGrid({
 	    		allowBlank : false,
-		    	fieldLabel:'支付企业代码',
-		    	name: 'CUSTOM_CODE'
-	        },relationCategory_custom
+		    	fieldLabel:'支付企业名称',
+		    	name: 'PAY_CODE'
+	        },relationCategory_pay
 	    ),GenerateCodeNameComboGrid({
 			allowBlank : false,
 			fieldLabel:'接收海关代码',
@@ -582,13 +586,15 @@ Ext.ux.PayFormPanel = Ext.extend(Ext.form.FormPanel, {
 		    	name: 'EBP_CODE',
 		    	readOnly: false
 	        },relationCategory_ebp
-	    ),GenerateCodeNameComboGrid({
-	    		allowBlank : false,
-		    	fieldLabel:'支付企业名称',
-		    	name: 'PAY_CODE',
-		    	readOnly: false
-	        },relationCategory_pay
-	    ),{
+	    ),
+//	    GenerateCodeNameComboGrid({
+//	    		allowBlank : false,
+//		    	fieldLabel:'支付企业名称',
+//		    	name: 'PAY_CODE',
+//		    	readOnly: false
+//	        },relationCategory_pay
+//	    ),
+	    {
 	        fieldLabel:'支付交易编号',
 	        name: 'PAY_NO',
 	        maxLength: 50

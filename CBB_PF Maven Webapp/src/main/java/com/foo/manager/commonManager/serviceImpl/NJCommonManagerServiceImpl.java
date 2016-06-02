@@ -1272,7 +1272,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			// 设置空id
 			pay.put(primaryCol, null);
 			// 设置guid
-			pay.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB401,pay.get("EBP_CODE").toString(),pay.get("CUSTOM_CODE").toString()));
+			pay.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB401,pay.get("EBP_CODE").toString(),pay.get("PAY_CODE").toString()));
 			// 设置创建时间
 			pay.put("CREAT_TIME", new Date());
 
