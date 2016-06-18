@@ -394,7 +394,15 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        	if(data)
 			        		this.del(data);
 			        }.createDelegate(this)
-				},
+				},{
+			        text: '查询',
+			        scale: 'medium',
+			        name: 'search',
+			        icon:'../../resource/images/btnImages/search.png',
+			        handler: function(){
+			        	pay_search(this.store);
+					}.createDelegate(this)
+				}
 /*				{
 			        text: '批量提交',
 			        scale: 'medium',
@@ -421,9 +429,168 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
 			this.tbar = tbar;
         }
+        this.on('render', function() {
+			//添加第二列查询控件
+			//搜索字段包括：进出口业务类型，电商企业，商品货号，业务状态，回执状态，备注
+			new Ext.Toolbar({
+				id : 'onebar_pay',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '订单编号:',
+			        width:80
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"ORDER_NO_PAY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '支付交易编号:',
+			        width:100
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"PAY_NO_PAY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '支付企业:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"PAY_CODE_PAY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "PAY"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:120,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '电商平台:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"EBP_CODE_PAY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "EBP_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:120,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '支付状态:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"PAY_STATUS_PAY_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_pay.PAY_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add one tbar
+			new Ext.Toolbar({
+				id : 'twobar_pay',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '业务状态:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"APP_STATUS_PAY_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_pay.APP_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '回执状态:',
+			        width:100
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"RETURN_STATUS_PAY_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_pay.RETURN_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '备注:',
+			        width:80
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"NOTE_PAY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add two tbar
+	    },this);
 		this.on('destroy', function() {
-			if(Ext.getCmp('onebar')){
-				Ext.destroy(Ext.getCmp('onebar'));// 这一句不加可能会有麻烦滴
+			if(Ext.getCmp('onebar_pay')){
+				Ext.destroy(Ext.getCmp('onebar_pay'));// 这一句不加可能会有麻烦滴
 			}
 	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
@@ -895,4 +1062,37 @@ Ext.ux.PayPanel = Ext.extend(Ext.Panel, {
 		Ext.ux.PayPanel.superclass.initComponent.call(this);
 	}
 });
+//查询数据
+function pay_search(store){
 
+	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
+	
+	if(Ext.getCmp('ORDER_NO_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('PAY_NO_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"PAY_NO":Ext.getCmp('PAY_NO_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('PAY_CODE_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"PAY_CODE":Ext.getCmp('PAY_CODE_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('EBP_CODE_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"EBP_CODE":Ext.getCmp('EBP_CODE_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('PAY_STATUS_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"PAY_STATUS":Ext.getCmp('PAY_STATUS_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('APP_STATUS_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('RETURN_STATUS_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_PAY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('NOTE_PAY_SEARCH').getValue()){
+		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_PAY_SEARCH').getValue()});
+	}
+
+	store.baseParams = param;
+
+	store.load();
+}

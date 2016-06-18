@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.annotation.Resource;
 
 import net.sf.json.JSONArray;
@@ -101,6 +102,27 @@ public class CommonAction extends AbstractAction{
 	public String getAllCodeCategory(){
 		try {
 			List<Map> dataList = commonManagerService.getAllCodeCategory();
+			// 将返回的结果转成JSON对象，返回前台
+			Map data = new HashMap();
+			data.put("rows", dataList);
+			resultObj = JSONObject.fromObject(data);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	/**
+	 * 获取codeName所有类别
+	 * @return
+	 */
+	public String getCodeCategory(){
+		try {
+			String relationCategory = params.get("relationCategory").toString();
+
+			List<Map<String, Object>> dataList = commonManagerService.getCodeCategory(relationCategory);
 			// 将返回的结果转成JSON对象，返回前台
 			Map data = new HashMap();
 			data.put("rows", dataList);
@@ -758,6 +780,10 @@ public class CommonAction extends AbstractAction{
 	}
 	public void setLOGISTICS_ORDER_ID(String LOGISTICS_ORDER_ID){
 		params.put("LOGISTICS_ORDER_ID", LOGISTICS_ORDER_ID);
+	}
+	
+	public void setRelationCategory(String relationCategory){
+		params.put("relationCategory", relationCategory);
 	}
 	
 	/*public void set(String ){

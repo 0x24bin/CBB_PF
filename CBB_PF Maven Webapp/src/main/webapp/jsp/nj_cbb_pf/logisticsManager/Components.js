@@ -1,4 +1,4 @@
-﻿Ext.namespace("Ext.ux");
+Ext.namespace("Ext.ux");
 Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	stripeRows : true, // 交替行效果
 	loadMask : true,
@@ -643,7 +643,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        name: 'search',
 			        icon:'../../resource/images/btnImages/search.png',
 			        handler: function(){
-			        	search(store);
+			        	logistics_search(this.store);
 					}.createDelegate(this)
 				}]
 			});
@@ -663,7 +663,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			//添加第二列查询控件
 			//搜索字段包括：订单编号，运单编号，备注，包裹单信息，收货人名称，收货人手机号，运输工具名称，航班航次号，提运单号，业务状态，物流运单状态，回执状态。
 			new Ext.Toolbar({
-				id : 'onebar',
+				id : 'onebar_logistics',
 //				enableOverflow:true,
 				items : [{
 			        xtype: 'tbtext',
@@ -672,7 +672,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"ORDER_NO_SEARCH",
+			        id:"ORDER_NO_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100
 			    },{
@@ -682,7 +682,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"LOGISTICS_NO_SEARCH",
+			        id:"LOGISTICS_NO_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -693,7 +693,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"NOTE_SEARCH",
+			        id:"NOTE_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -704,7 +704,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"PARCEL_INFO_SEARCH",
+			        id:"PARCEL_INFO_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -715,7 +715,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"CONSIGNEE_SEARCH",
+			        id:"CONSIGNEE_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -726,14 +726,14 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"CONSIGNEE_TELEPHONE_SEARCH",
+			        id:"CONSIGNEE_TELEPHONE_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
 			    }]
 			}).render(this.tbar); // add one tbar
 			new Ext.Toolbar({
-				id : 'twobar',
+				id : 'twobar_logistics',
 //				enableOverflow:true,
 				items : [{
 			        xtype: 'tbtext',
@@ -742,7 +742,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"TRAF_NAME_SEARCH",
+			        id:"TRAF_NAME_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -753,7 +753,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"VOYAGE_NO_SEARCH",
+			        id:"VOYAGE_NO_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -764,7 +764,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
-			        id:"BILL_NO_SEARCH",
+			        id:"BILL_NO_LOGISTICS_SEARCH",
 			        emptyText:"",
 			        width:100,
 			        anchor:'50%'
@@ -775,10 +775,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'combo',
 			        fieldLabel: '',
-			        id:"APP_STATUS_SEARCH",
+			        id:"APP_STATUS_LOGISTICS_SEARCH",
 			        store: new Ext.data.ArrayStore({
 			            fields: ['text','value'],
-			            data: ComboBoxValue.APP_STATUS
+			            data: ComboBoxValue_logistics.APP_STATUS
 			        }),
 			        displayField:'text',
 			        valueField: 'value',
@@ -795,10 +795,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'combo',
 			        fieldLabel: '',
-			        id:"LOGISTICS_STATUS_SEARCH",
+			        id:"LOGISTICS_STATUS_LOGISTICS_SEARCH",
 			        store: new Ext.data.ArrayStore({
 			            fields: ['text','value'],
-			            data: ComboBoxValue.LOGISTICS_STATUS
+			            data: ComboBoxValue_logistics.LOGISTICS_STATUS
 			        }),
 			        displayField:'text',
 			        valueField: 'value',
@@ -815,10 +815,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    },{
 			        xtype: 'combo',
 			        fieldLabel: '',
-			        id:"RETURN_STATUS_SEARCH",
+			        id:"RETURN_STATUS_LOGISTICS_SEARCH",
 			        store: new Ext.data.ArrayStore({
 			            fields: ['text','value'],
-			            data: ComboBoxValue.RETURN_STATUS
+			            data: ComboBoxValue_logistics.RETURN_STATUS
 			        }),
 			        displayField:'text',
 			        valueField: 'value',
@@ -830,10 +830,67 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        anchor:'50%'
 			    }]
 			}).render(this.tbar); // add two tbar
+			new Ext.Toolbar({
+				id : 'threebar_logistics',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '电商平台:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"EBP_CODE_PAY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "EBP_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:150,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '物流企业:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"LOGISTICS_CODE_INVENTORY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "LOGISTICS_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:150,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add three tbar
 	    },this);
 		this.on('destroy', function() {
-			if(Ext.getCmp('onebar')){
-				Ext.destroy(Ext.getCmp('onebar'));// 这一句不加可能会有麻烦滴
+			if(Ext.getCmp('onebar_logistics')){
+				Ext.destroy(Ext.getCmp('onebar_logistics'));// 这一句不加可能会有麻烦滴
 			}
 	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
@@ -864,13 +921,13 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 /*				if(selections.length>1){
 					button.setDisabled(true);
 				}else{
-		        for ( var i = 0; i < selections.length; i++) {
-		            var record = selections[i];
-		            button.setDisabled(isLogisticsStatusReadOnly(record));
+			        for ( var i = 0; i < selections.length; i++) {
+			            var record = selections[i];
+			            button.setDisabled(isLogisticsStatusReadOnly(record));
 			            button.menu.items.each(function(item,index,length){
-		            	item.setDisabled(isLogisticsStatusReadOnly(record));
+			            	item.setDisabled(isLogisticsStatusReadOnly(record));
 			            },this);
-			}
+			        }
 				}*/
 			}
 			button=this.topToolbar.find("name",'batchSubmit')[0];
@@ -1408,47 +1465,47 @@ function print(){
 }
 
 //查询数据
-function search(store){
-	
+function logistics_search(store){
+
 	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
 	
-	if(Ext.getCmp('ORDER_NO_SEARCH').getValue()){
-		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_SEARCH').getValue()});
+	if(Ext.getCmp('ORDER_NO_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('LOGISTICS_NO_SEARCH').getValue()){
-		Ext.apply(param,{"LOGISTICS_NO":Ext.getCmp('LOGISTICS_NO_SEARCH').getValue()});
+	if(Ext.getCmp('LOGISTICS_NO_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_NO":Ext.getCmp('LOGISTICS_NO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('NOTE_SEARCH').getValue()){
-		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_SEARCH').getValue()});
+	if(Ext.getCmp('NOTE_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('PARCEL_INFO_SEARCH').getValue()){
-		Ext.apply(param,{"PARCEL_INFO":Ext.getCmp('PARCEL_INFO_SEARCH').getValue()});
+	if(Ext.getCmp('PARCEL_INFO_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"PARCEL_INFO":Ext.getCmp('PARCEL_INFO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('TRAF_NAME_SEARCH').getValue()){
-		Ext.apply(param,{"TRAF_NAME":Ext.getCmp('TRAF_NAME_SEARCH').getValue()});
+	if(Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"TRAF_NAME":Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('VOYAGE_NO_SEARCH').getValue()){
-		Ext.apply(param,{"VOYAGE_NO":Ext.getCmp('VOYAGE_NO_SEARCH').getValue()});
+	if(Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"VOYAGE_NO":Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('BILL_NO_SEARCH').getValue()){
-		Ext.apply(param,{"BILL_NO":Ext.getCmp('BILL_NO_SEARCH').getValue()});
+	if(Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"BILL_NO":Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('APP_STATUS_SEARCH').getValue()){
-		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_SEARCH').getValue()});
+	if(Ext.getCmp('APP_STATUS_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('LOGISTICS_STATUS_SEARCH').getValue()){
-		Ext.apply(param,{"LOGISTICS_STATUS":Ext.getCmp('LOGISTICS_STATUS_SEARCH').getValue()});
+	if(Ext.getCmp('LOGISTICS_STATUS_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_STATUS":Ext.getCmp('LOGISTICS_STATUS_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('RETURN_STATUS_SEARCH').getValue()){
-		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_SEARCH').getValue()});
-	}
-	
-	if(Ext.getCmp('CONSIGNEE_SEARCH').getValue()){
-		Ext.apply(param,{"CONSIGNEE":Ext.getCmp('CONSIGNEE_SEARCH').getValue()});
+	if(Ext.getCmp('RETURN_STATUS_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_LOGISTICS_SEARCH').getValue()});
 	}
 	
-	if(Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()){
-		Ext.apply(param,{"CONSIGNEE_TELEPHONE":Ext.getCmp('CONSIGNEE_TELEPHONE_SEARCH').getValue()});
+	if(Ext.getCmp('CONSIGNEE_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"CONSIGNEE":Ext.getCmp('CONSIGNEE_LOGISTICS_SEARCH').getValue()});
+	}
+	
+	if(Ext.getCmp('CONSIGNEE_TELEPHONE_LOGISTICS_SEARCH').getValue()){
+		Ext.apply(param,{"CONSIGNEE_TELEPHONE":Ext.getCmp('CONSIGNEE_TELEPHONE_LOGISTICS_SEARCH').getValue()});
 	}
 	
 //	for(var data in param){

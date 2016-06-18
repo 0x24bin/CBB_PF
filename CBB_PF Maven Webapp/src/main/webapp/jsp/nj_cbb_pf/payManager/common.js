@@ -8,7 +8,8 @@ var PayCompleteParam={
 	RETURN_STATUS:2
 };
 
-var ComboBoxValue={
+var ComboBoxValue_pay={
 	APP_STATUS:[["暂存","1"],["审批中/申报中","2"],["无需申报","4"],["申报完成","99"]],
+	PAY_STATUS:[["代扣","D"],["实扣","S"],["部分退款","R"],["取消(退款)","C"]],
 	RETURN_STATUS:[["审批通过","2"],["审批不通过","3"]]
 };

@@ -9,3 +9,8 @@ function isInventoryComplete(record){
 	if(Ext.isEmpty(record)) return false;
 	return (record.get("RETURN_STATUS")==2);	//结关
 }
+
+var ComboBoxValue_inventory={
+	APP_STATUS:[["暂存","1"],["审批中/申报中","2"],["无需申报","4"],["申报完成","99"]],
+	RETURN_STATUS:[["审批通过","2"],["审批不通过","3"]]
+};

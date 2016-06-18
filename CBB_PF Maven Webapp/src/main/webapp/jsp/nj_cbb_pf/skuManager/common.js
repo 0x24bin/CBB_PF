@@ -6,3 +6,9 @@ function isSkuReadOnly(record){
 var SkuCompleteParam={
 	RETURN_STATUS: 2//海关审结
 };
+
+var ComboBoxValue_sku={
+	APP_STATUS:[["暂存","1"],["审批中/申报中","2"],["无需申报","4"],["申报完成","99"]],
+	BIZ_TYPE:[["一般进口","1"],["一般出口","2"],["保税进口","3"],["保税出口","4"]],
+	RETURN_STATUS:[["审批通过","2"],["审批不通过","3"]]
+};

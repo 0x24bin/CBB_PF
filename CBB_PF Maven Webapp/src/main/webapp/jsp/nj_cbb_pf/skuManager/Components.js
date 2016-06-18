@@ -1,4 +1,4 @@
-﻿Ext.Ajax.timeout=360000000; 
+Ext.Ajax.timeout=360000000; 
 Ext.namespace("Ext.ux");
 Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 	stripeRows : true, // 交替行效果
@@ -481,7 +481,15 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 	   		        	if(data)
 	   		        		this.getReceiptSku_single(data);
 	   		        }.createDelegate(this)
-	   			}]
+	   			},{
+			        text: '查询',
+			        scale: 'medium',
+			        name: 'search',
+			        icon:'../../resource/images/btnImages/search.png',
+			        handler: function(){
+			        	sku_search(this.store);
+					}.createDelegate(this)
+				}]
 	   		});
 			if(this.readOnly){
 				tbar.remove(4);
@@ -497,7 +505,128 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			}
             this.tbar = tbar;
         }
-
+		this.on('render', function() {
+			//添加第二列查询控件
+			//搜索字段包括：进出口业务类型，电商企业，商品货号，业务状态，回执状态，备注
+			new Ext.Toolbar({
+				id : 'onebar_sku',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '进出口业务类型:',
+			        width:120
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"BIZ_TYPE_SKU_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_sku.BIZ_TYPE
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '电商企业:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"EBC_CODE_SKU_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "EBC_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:120,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '商品货号:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"ITEM_NO_SKU_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '业务状态:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"APP_STATUS_SKU_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_sku.APP_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '回执状态:',
+			        width:95
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"RETURN_STATUS_SKU_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_sku.RETURN_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '备注:',
+			        width:95
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"NOTE_SKU_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add one tbar
+	    },this);
+		this.on('destroy', function() {
+			if(Ext.getCmp('onebar_sku')){
+				Ext.destroy(Ext.getCmp('onebar_sku'));// 这一句不加可能会有麻烦滴
+			}
+	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
 //			var getReceiptButton=this.topToolbar.find("name",'getReceipt')[0];
 			var delButton=this.topToolbar.find("name",'delete')[0];
@@ -902,4 +1031,39 @@ function setTaxCode_Rate(bizType,needClearValue){
 		Ext.getCmp("TAX_RATE").allowBlank = true;
 		Ext.getCmp("TAX_RATE").clearInvalid();
 	}*/
+}
+
+//查询数据
+function sku_search(store){
+
+	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
+	
+	if(Ext.getCmp('BIZ_TYPE_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"BIZ_TYPE":Ext.getCmp('BIZ_TYPE_SKU_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('EBC_CODE_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"EBC_CODE":Ext.getCmp('EBC_CODE_SKU_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('ITEM_NO_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"ITEM_NO":Ext.getCmp('ITEM_NO_SKU_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('APP_STATUS_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_SKU_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('RETURN_STATUS_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_SKU_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('NOTE_SKU_SEARCH').getValue()){
+		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_SKU_SEARCH').getValue()});
+	}
+	
+//	for(var data in param){
+//	if(param[data]){
+//		alert(data+"_"+param[data]);
+//	}
+//}
+	
+	store.baseParams = param;
+
+	store.load();
 }

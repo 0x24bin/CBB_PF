@@ -69,6 +69,12 @@ public interface ICommonManagerService {
 	
 	
 	/**
+	 * @return Map.key RELATION_CATEGORY,RELATION_NAME
+	 * @throws CommonException
+	 */
+	public List<Map<String, Object>>  getCodeCategory(String relationCategory) throws CommonException;
+	
+	/**
 	 * 新增codeName数据
 	 * @param dataList
 	 */

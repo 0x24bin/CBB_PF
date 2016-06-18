@@ -41,11 +41,28 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		try {
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
-			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
-					keys,values,start, limit);
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(T_NJ_SKU, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(T_NJ_SKU,
+						keys,values);
+			}
 
-			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
-					keys,values);
+//			rows = commonManagerMapper.selectTableListByNVList(T_NJ_SKU, 
+//					keys,values,start, limit);
+//
+//			total = commonManagerMapper.selectTableListCountByNVList(T_NJ_SKU,
+//					keys,values);
 
 			Map<String, Object> result = new HashMap<String, Object>();
 			result.put("total", total);
@@ -149,7 +166,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 				}
 				
 				String reponse = submitXml_SKU(guid,data,messageType,currentTime);
-				
+
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) ||
 						reponse.startsWith("P")){
 					
@@ -180,7 +197,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
 		}
 	}
-
+	
 	//201中业务类型的四个值都保留不变，只是1和3两种情况不需要往海关发送备案数据。但商品数据还是要录入我们的系统，否则在301订单信息中无法选择商品。
 	private boolean checkSkuNeedSendToHaiGuan(Map sku,String currentTime){
 		boolean result = true;
@@ -309,10 +326,27 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			}
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
-			rows = commonManagerMapper.selectTableListByNVList(tableName, 
-					keys,values,start, limit);
-			total = commonManagerMapper.selectTableListCountByNVList(tableName,
-					keys,values);
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(tableName,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
+						keys,values);
+			}
+
+//			rows = commonManagerMapper.selectTableListByNVList(tableName, 
+//					keys,values,start, limit);
+//			total = commonManagerMapper.selectTableListCountByNVList(tableName,
+//					keys,values);
 			
 			for(Map<String, Object> row:rows){
 				row.put("GOODSList", getGoodsList(row));
@@ -630,10 +664,10 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			List<Object> values=new ArrayList<Object>(params.values());
 			
 			if(!params.containsKey("Fuzzy")){
-			rows = commonManagerMapper.selectTableListByNVList(tableName, 
-					keys,values,start, limit);
-			total = commonManagerMapper.selectTableListCountByNVList(tableName,
-					keys,values);
+				rows = commonManagerMapper.selectTableListByNVList(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(tableName,
+						keys,values);
 			}else{
 				//模糊查询
 				params.remove("Fuzzy");
@@ -644,8 +678,6 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
 						keys,values);
 			}
-			
-			
 			
 			for(Map<String, Object> row:rows){
 				Map<String, Object> additionInfo=getRelOrder(row);
@@ -948,10 +980,27 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
-			rows = commonManagerMapper.selectTableListByNVList(tableName, 
-					keys,values,start, limit);
-			total = commonManagerMapper.selectTableListCountByNVList(tableName,
-					keys,values);
+			
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(tableName,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
+						keys,values);
+			}
+			
+//			rows = commonManagerMapper.selectTableListByNVList(tableName, 
+//					keys,values,start, limit);
+//			total = commonManagerMapper.selectTableListCountByNVList(tableName,
+//					keys,values);
 			
 			for(Map<String, Object> row:rows){
 				
@@ -1208,8 +1257,8 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			}
 		}
 	}
-
-
+	
+	
 	@Override
 	public Map<String, Object> getAllPayes(Map<String, Object> params)
 			throws CommonException {
@@ -1232,10 +1281,26 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
 			
-			rows = commonManagerMapper.selectTableListByNVList(tableName, 
-					keys,values,start, limit);
-			total = commonManagerMapper.selectTableListCountByNVList(tableName,
-					keys,values);
+			if(!params.containsKey("Fuzzy")){
+				rows = commonManagerMapper.selectTableListByNVList(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList(tableName,
+						keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
+						keys,values);
+			}
+			
+//			rows = commonManagerMapper.selectTableListByNVList(tableName, 
+//					keys,values,start, limit);
+//			total = commonManagerMapper.selectTableListCountByNVList(tableName,
+//					keys,values);
 
 			for(Map<String, Object> row:rows){
 				Map<String, Object> additionInfo=getRelOrder(row);
@@ -1637,7 +1702,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		}
 	}
 	
-
+	
 	@Override
 	public void batchSubmit_LOGISTICS_STATUS(Map<String, Object> params) throws CommonException {
 		List<String> guidList = (List<String>) params.get("guidList");
@@ -1830,7 +1895,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			//关联order中的orderType
 			//一般进口
 			if("1".equals(data.get("BIZ_TYPE").toString())){
-			head.put("MESSAGE_TYPE", CommonDefine.CEB601);
+				head.put("MESSAGE_TYPE", CommonDefine.CEB601);
 			}
 			//一般出口
 			if("2".equals(data.get("BIZ_TYPE").toString())){

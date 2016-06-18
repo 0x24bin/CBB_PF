@@ -1,4 +1,4 @@
-﻿Ext.namespace("Ext.ux");
+Ext.namespace("Ext.ux");
 Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	stripeRows : true, // 交替行效果
 	loadMask : true,
@@ -566,7 +566,15 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        	if(data)
 	   		        		this.getReceiptInventory_single(data);
 					}.createDelegate(this)
-	   			}]
+	   			},{
+			        text: '查询',
+			        scale: 'medium',
+			        name: 'search',
+			        icon:'../../resource/images/btnImages/search.png',
+			        handler: function(){
+			        	inventory_search(this.store);
+					}.createDelegate(this)
+				}]
 			});
         	if(this.readOnly){
 //				tbar.remove(3);
@@ -580,6 +588,161 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
             this.tbar = tbar;
         }
+        this.on('render', function() {
+			//添加第二列查询控件
+			//搜索字段包括：进出口业务类型，电商企业，商品货号，业务状态，回执状态，备注
+			new Ext.Toolbar({
+				id : 'onebar_inventory',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '订单编号:',
+			        width:80
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"ORDER_NO_INVENTORY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '物流运单编号:',
+			        width:100
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"LOGISTICS_NO_INVENTORY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '企业内部编号:',
+			        width:100
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"COP_NO_INVENTORY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '经营单位:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"EBC_CODE_INVENTORY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "EBC_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:120,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '物流企业:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"LOGISTICS_CODE_INVENTORY_SEARCH",
+			        store: new Ext.data.Store({
+			        	url : 'common!getCodeCategory.action',
+			        	baseParams : {
+			        		"relationCategory" : "LOGISTICS_CODE"
+			        	},
+			        	reader : new Ext.data.JsonReader({
+			        		totalProperty : 'total',
+			        		root : "rows"
+			        	}, [ "NAME", "CODE" ])
+			        }),
+			        displayField:'NAME',
+			        valueField: 'CODE',
+//			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:120,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add one tbar
+			new Ext.Toolbar({
+				id : 'twobar_inventory',
+//				enableOverflow:true,
+				items : [{
+			        xtype: 'tbtext',
+			        text: '业务状态:',
+			        width:80
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"APP_STATUS_INVENTORY_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_inventory.APP_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '回执状态:',
+			        width:100
+			    },{
+			        xtype: 'combo',
+			        fieldLabel: '',
+			        id:"RETURN_STATUS_INVENTORY_SEARCH",
+			        store: new Ext.data.ArrayStore({
+			            fields: ['text','value'],
+			            data: ComboBoxValue_inventory.RETURN_STATUS
+			        }),
+			        displayField:'text',
+			        valueField: 'value',
+			        mode: 'local',
+//			        forceSelection: true,
+			        triggerAction: 'all',
+//			        selectOnFocus:true,
+			        width:100,
+			        anchor:'50%'
+			    },{
+			        xtype: 'tbtext',
+			        text: '备注:',
+			        width:100
+			    },{
+			        xtype: 'textfield',
+			        fieldLabel: '',
+			        id:"NOTE_INVENTORY_SEARCH",
+			        emptyText:"",
+			        width:100,
+			        anchor:'50%'
+			    }]
+			}).render(this.tbar); // add two tbar
+	    },this);
+		this.on('destroy', function() {
+			if(Ext.getCmp('onebar_inventory')){
+				Ext.destroy(Ext.getCmp('onebar_inventory'));// 这一句不加可能会有麻烦滴
+			}
+	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
 			var delButton=this.topToolbar.find("name",'delete')[0];
 			if(delButton){
@@ -1490,3 +1653,38 @@ Ext.ux.InventoryPanel = Ext.extend(Ext.Panel, {
 		Ext.ux.InventoryPanel.superclass.initComponent.call(this);
 	}
 });
+
+//查询数据
+function inventory_search(store){
+
+	var param = {"limit":myPageSize,"start":0,"fuzzy":true};
+	
+	if(Ext.getCmp('ORDER_NO_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"ORDER_NO":Ext.getCmp('ORDER_NO_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('LOGISTICS_NO_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_NO":Ext.getCmp('LOGISTICS_NO_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('COP_NO_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"COP_NO":Ext.getCmp('COP_NO_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('EBC_CODE_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"EBC_CODE":Ext.getCmp('EBC_CODE_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('LOGISTICS_CODE_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"LOGISTICS_CODE":Ext.getCmp('LOGISTICS_CODE_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('APP_STATUS_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('RETURN_STATUS_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"RETURN_STATUS":Ext.getCmp('RETURN_STATUS_INVENTORY_SEARCH').getValue()});
+	}
+	if(Ext.getCmp('NOTE_INVENTORY_SEARCH').getValue()){
+		Ext.apply(param,{"NOTE":Ext.getCmp('NOTE_INVENTORY_SEARCH').getValue()});
+	}
+
+	store.baseParams = param;
+
+	store.load();
+}

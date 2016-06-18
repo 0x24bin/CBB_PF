@@ -3,7 +3,6 @@ package com.foo.manager.commonManager.service;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,9 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
@@ -100,6 +96,25 @@ public abstract class CommonManagerService extends AbstractService {
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
 		}
 	}
+	
+	//获取类别列表
+	public List<Map<String, Object>> getCodeCategory(String relationCategory)
+			throws CommonException {
+		
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		try {
+			String tableName = "t_code_name";
+			
+			result = commonManagerMapper.selectTableListByCol(tableName, "RELATION_CATEGORY", relationCategory, null, null);
+			
+			return result;
+		} catch (Exception e) {
+			ExceptionHandler.handleException(e);
+			throw new CommonException(e,
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
 	
 	public boolean uniqueCheck(String tableName,String uniqueCol,Object uniqueVal,
 			String primaryCol,Object primaryVal,
