@@ -612,8 +612,6 @@
 <default_target_step/>
 <cases><case><value>sku.xlsx</value>
 <target_step>sku</target_step>
-</case><case><value>sku&#x6a21;&#x677f;&#x6570;&#x636e;</value>
-<target_step>sku</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>320</xloc>
