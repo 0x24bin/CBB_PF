@@ -603,29 +603,29 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        fieldLabel: '',
 			        id:"ORDER_NO_INVENTORY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '物流运单编号:',
-			        width:100
+			        width:95
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
 			        id:"LOGISTICS_NO_INVENTORY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '企业内部编号:',
-			        width:100
+			        width:95
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
 			        id:"COP_NO_INVENTORY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
@@ -651,7 +651,7 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:120,
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
@@ -677,14 +677,9 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:120,
+			        width:95,
 			        anchor:'50%'
-			    }]
-			}).render(this.tbar); // add one tbar
-			new Ext.Toolbar({
-				id : 'twobar_inventory',
-//				enableOverflow:true,
-				items : [{
+			    },{
 			        xtype: 'tbtext',
 			        text: '业务状态:',
 			        width:80
@@ -702,12 +697,12 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:100,
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '回执状态:',
-			        width:100
+			        width:80
 			    },{
 			        xtype: 'combo',
 			        fieldLabel: '',
@@ -722,21 +717,21 @@ Ext.ux.InventoryGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '备注:',
-			        width:100
+			        width:60
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
 			        id:"NOTE_INVENTORY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add two tbar
+			}).render(this.tbar); // add one tbar
 	    },this);
 		this.on('destroy', function() {
 			if(Ext.getCmp('onebar_inventory')){

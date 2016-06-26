@@ -444,18 +444,18 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        fieldLabel: '',
 			        id:"ORDER_NO_PAY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '支付交易编号:',
-			        width:100
+			        width:95
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
 			        id:"PAY_NO_PAY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
@@ -481,7 +481,7 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:120,
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
@@ -507,7 +507,7 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:120,
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
@@ -527,14 +527,9 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:100,
+			        width:95,
 			        anchor:'50%'
-			    }]
-			}).render(this.tbar); // add one tbar
-			new Ext.Toolbar({
-				id : 'twobar_pay',
-//				enableOverflow:true,
-				items : [{
+			    },{
 			        xtype: 'tbtext',
 			        text: '业务状态:',
 			        width:80
@@ -552,12 +547,12 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			        forceSelection: true,
 			        triggerAction: 'all',
 //			        selectOnFocus:true,
-			        width:100,
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '回执状态:',
-			        width:100
+			        width:80
 			    },{
 			        xtype: 'combo',
 			        fieldLabel: '',
@@ -571,22 +566,22 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        mode: 'local',
 //			        forceSelection: true,
 			        triggerAction: 'all',
-//			        selectOnFocus:true,
-			        width:100,
+//			        selectOnFocus:true,   
+			        width:95,
 			        anchor:'50%'
 			    },{
 			        xtype: 'tbtext',
 			        text: '备注:',
-			        width:80
+			        width:60
 			    },{
 			        xtype: 'textfield',
 			        fieldLabel: '',
 			        id:"NOTE_PAY_SEARCH",
 			        emptyText:"",
-			        width:100,
+			        width:80,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add two tbar
+			}).render(this.tbar); // add one tbar
 	    },this);
 		this.on('destroy', function() {
 			if(Ext.getCmp('onebar_pay')){
