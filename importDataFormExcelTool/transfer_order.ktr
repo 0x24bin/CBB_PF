@@ -106,9 +106,8 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</from><to>&#x751f;&#x6210;guid</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</from><to>&#x751f;&#x6210;guid&#x2f;address</to><enabled>Y</enabled> </hop>
   <hop> <from>order</from><to>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x751f;&#x6210;guid</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_sku</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>EBC_CODE-&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>EBP_CODE-&#x7535;&#x5546;&#x5e73;&#x53f0;&#x540d;&#x79f0;</to><enabled>Y</enabled> </hop>
   <hop> <from>EBC_CODE-&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_sku</to><enabled>Y</enabled> </hop>
@@ -165,6 +164,12 @@
   <hop> <from>itemNo&#x5408;&#x6cd5;</from><to>t_nj_orders&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>itemNo&#x5408;&#x6cd5;</from><to>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</from><to>t_nj_order_detail&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_CONSIGNEE_CODE</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO&#x2f;ITEM_NO</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_CONSIGNEE_CODE</from><to>&#x8054;&#x7cfb;&#x4eba;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO&#x2f;ITEM_NO</from><to>&#x8ba2;&#x5355;&#x8be6;&#x7ec6;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO</from><to>&#x8ba2;&#x5355;&#x4e3b;&#x4f53;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>AGENT_CODE-&#x7533;&#x62a5;&#x4f01;&#x4e1a;&#x540d;&#x79f0;&#x28;&#x4ee3;&#x7406;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;&#x29;</name>
@@ -1099,6 +1104,42 @@
         <group/>
       </field>
       <field>
+        <name>&#x6536;&#x8d27;&#x4eba;&#x7701;</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format>&#x23;</format>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>&#x6536;&#x8d27;&#x4eba;&#x5e02;</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format>&#x23;</format>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
+        <name>&#x6536;&#x8d27;&#x4eba;&#x533a;</name>
+        <type>String</type>
+        <length>-1</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+        <repeat>N</repeat>
+        <format>&#x23;</format>
+        <currency/>
+        <decimal/>
+        <group/>
+      </field>
+      <field>
         <name>&#x6536;&#x8d27;&#x4eba;&#x5730;&#x5740;</name>
         <type>String</type>
         <length>-1</length>
@@ -1186,8 +1227,8 @@
     <spreadsheet_type>POI</spreadsheet_type>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>180</xloc>
-      <yloc>100</yloc>
+      <xloc>99</xloc>
+      <yloc>81</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1205,8 +1246,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>380</xloc>
-      <yloc>100</yloc>
+      <xloc>247</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1556,6 +1597,22 @@
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_PROVINCE</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_CITY</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_DISTRICT</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_SPECIFIC_ADDRESS</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>CONSIGNEE_ADDRESS</name>
         <rename/>
         <length>-2</length>
@@ -1724,8 +1781,20 @@
         <rename>CONSIGNEE_COUNTRY</rename>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>&#x6536;&#x8d27;&#x4eba;&#x7701;</name>
+        <rename>CONSIGNEE_PROVINCE</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>&#x6536;&#x8d27;&#x4eba;&#x5e02;</name>
+        <rename>CONSIGNEE_CITY</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>&#x6536;&#x8d27;&#x4eba;&#x533a;</name>
+        <rename>CONSIGNEE_DISTRICT</rename>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>&#x6536;&#x8d27;&#x4eba;&#x5730;&#x5740;</name>
-        <rename>CONSIGNEE_ADDRESS</rename>
+        <rename>CONSIGNEE_SPECIFIC_ADDRESS</rename>
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>&#x660e;&#x7ec6;&#x884c;&#x4e2d;&#x5546;&#x54c1;&#x8d27;&#x53f7;</name>
@@ -1751,8 +1820,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>520</xloc>
-      <yloc>100</yloc>
+      <xloc>387</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1833,6 +1902,22 @@
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>CONSIGNEE_COUNTRY</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_PROVINCE</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_CITY</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_DISTRICT</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_SPECIFIC_ADDRESS</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1969,7 +2054,7 @@
     </step>
 
   <step>
-    <name>&#x751f;&#x6210;guid</name>
+    <name>&#x751f;&#x6210;guid&#x2f;address</name>
     <type>UserDefinedJavaClass</type>
     <description/>
     <distribute>N</distribute>
@@ -2032,8 +2117,17 @@ public boolean processRow(StepMetaInterface smi, StepDataInterface sdi) throws K
 	String customsCode = get(Fields.In, "CUSTOM_CODE").getString(r);
 	String guid = generalGuid4NJ("CEB_301",ebcCode,customsCode);
 
+
+	String province = get(Fields.In, "CONSIGNEE_PROVINCE").getString(r);
+	String city = get(Fields.In, "CONSIGNEE_CITY").getString(r);
+	String district = get(Fields.In, "CONSIGNEE_DISTRICT").getString(r);
+	String specificAddress = get(Fields.In, "CONSIGNEE_SPECIFIC_ADDRESS").getString(r);
+
+	String address = generalAddress(province,city,district,specificAddress);
+
 	get(Fields.Out, "GUID").setValue(r, guid);
 	get(Fields.Out, "CREAT_TIME").setValue(r, new Date());
+	get(Fields.Out, "CONSIGNEE_ADDRESS").setValue(r, address);
 
 
     /* TODO: Your code here. (See Sample)
@@ -2066,6 +2160,15 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
 		return target;
 
 }
+
+private String generalAddress(String province,String city,String district,String specificAddress){
+
+		String target = province + "_" + city
+				+ "_" + district + "_"
+				+ specificAddress;
+		return target;
+
+}
 ]]></class_source>
         </definition>
     </definitions>
@@ -2090,14 +2193,24 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
         <field_precision>-1</field_precision>
 
         </field>
+        <field>
+        <field_name>CONSIGNEE_ADDRESS</field_name>
+
+        <field_type>String</field_type>
+
+        <field_length>-1</field_length>
+
+        <field_precision>-1</field_precision>
+
+        </field>
     </fields><clear_result_fields>N</clear_result_fields>
 <info_steps></info_steps><target_steps><target_step><step_tag/>
 <step_name>t_nj_orders&#x8868;&#x8f93;&#x51fa;</step_name>
 <step_description/>
 </target_step></target_steps><usage_parameters></usage_parameters>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>640</xloc>
-      <yloc>100</yloc>
+      <xloc>507</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2412,6 +2525,22 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_PROVINCE</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_CITY</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_DISTRICT</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>CONSIGNEE_SPECIFIC_ADDRESS</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
       </field>      <field>        <name>CONSIGNEE_ADDRESS</name>
         <rename/>
         <length>-2</length>
@@ -2607,6 +2736,406 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1727</xloc>
       <yloc>659</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_CONSIGNEE_CODE</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>CONSIGNEE_CODE</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>164</xloc>
+      <yloc>206</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO&#x2f;ITEM_NO</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>ORDER_NO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+      <field>
+        <name>ITEM_NO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>356</xloc>
+      <yloc>203</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>ORDER_NO</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>552</xloc>
+      <yloc>205</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x5168;&#x91cf;&#x6570;&#x636e;</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>634</xloc>
+      <yloc>79</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x8054;&#x7cfb;&#x4eba;&#x6570;&#x636e;</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <all_rows>N</all_rows>
+      <ignore_aggregate>N</ignore_aggregate>
+      <field_ignore/>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>grp</prefix>
+      <add_linenr>N</add_linenr>
+      <linenr_fieldname/>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>CONSIGNEE_CODE</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>CONSIGNEE_NAME</aggregate>
+          <subject>CONSIGNEE_NAME</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_TELEPHONE</aggregate>
+          <subject>CONSIGNEE_TELEPHONE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_COUNTRY</aggregate>
+          <subject>CONSIGNEE_COUNTRY</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_PROVINCE</aggregate>
+          <subject>CONSIGNEE_PROVINCE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_CITY</aggregate>
+          <subject>CONSIGNEE_CITY</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_DISTRICT</aggregate>
+          <subject>CONSIGNEE_DISTRICT</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_SPECIFIC_ADDRESS</aggregate>
+          <subject>CONSIGNEE_SPECIFIC_ADDRESS</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_ADDRESS</aggregate>
+          <subject>CONSIGNEE_ADDRESS</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>160</xloc>
+      <yloc>315</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x8ba2;&#x5355;&#x8be6;&#x7ec6;&#x6570;&#x636e;</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <all_rows>N</all_rows>
+      <ignore_aggregate>N</ignore_aggregate>
+      <field_ignore/>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>grp</prefix>
+      <add_linenr>N</add_linenr>
+      <linenr_fieldname/>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>ORDER_NO</name>
+        </field>
+        <field>
+          <name>ITEM_NO</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>NUMBER</aggregate>
+          <subject>NUMBER</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>PRICE</aggregate>
+          <subject>PRICE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>TOTAL</aggregate>
+          <subject>TOTAL</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>354</xloc>
+      <yloc>315</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x8ba2;&#x5355;&#x4e3b;&#x4f53;&#x6570;&#x636e;</name>
+    <type>GroupBy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <all_rows>N</all_rows>
+      <ignore_aggregate>N</ignore_aggregate>
+      <field_ignore/>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>grp</prefix>
+      <add_linenr>N</add_linenr>
+      <linenr_fieldname/>
+      <give_back_row>N</give_back_row>
+      <group>
+        <field>
+          <name>ORDER_NO</name>
+        </field>
+      </group>
+      <fields>
+        <field>
+          <aggregate>EBC_CODE</aggregate>
+          <subject>EBC_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>RECEIVER_ID</aggregate>
+          <subject>RECEIVER_ID</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CUSTOM_CODE</aggregate>
+          <subject>CUSTOM_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>EBP_CODE</aggregate>
+          <subject>EBP_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>AGENT_CODE</aggregate>
+          <subject>AGENT_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>ORDER_TYPE</aggregate>
+          <subject>ORDER_TYPE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>ORDER_NO</aggregate>
+          <subject>ORDER_NO</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>GOODS_VALUE</aggregate>
+          <subject>GOODS_VALUE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>FREIGHT</aggregate>
+          <subject>FREIGHT</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>TAX_FEE</aggregate>
+          <subject>TAX_FEE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CURRENCY</aggregate>
+          <subject>CURRENCY</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>LOGISTICS_CODE</aggregate>
+          <subject>LOGISTICS_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>NOTE</aggregate>
+          <subject>NOTE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CONSIGNEE_CODE</aggregate>
+          <subject>CONSIGNEE_CODE</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>ITEM_NO</aggregate>
+          <subject>ITEM_NO</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>GUID</aggregate>
+          <subject>GUID</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+        <field>
+          <aggregate>CREAT_TIME</aggregate>
+          <subject>CREAT_TIME</subject>
+          <type>FIRST_INCL_NULL</type>
+          <valuefield/>
+        </field>
+      </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>552</xloc>
+      <yloc>315</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
