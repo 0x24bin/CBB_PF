@@ -492,12 +492,16 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 				}]
 	   		});
 			if(this.readOnly){
+				//移除按钮
+				tbar.remove(5);
 				tbar.remove(4);
 				tbar.remove(3);
 				tbar.remove(2);
 				tbar.get(1).setText("商品信息");
 				tbar.remove(0);
 			}else if(this.mode=="local"){
+				//移除按钮
+				tbar.remove(5);
 				tbar.remove(4);
 				tbar.remove(3);
 				tbar.get(1).setText("商品信息");
@@ -508,7 +512,8 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 		this.on('render', function() {
 			//添加第二列查询控件
 			//搜索字段包括：进出口业务类型，电商企业，商品货号，业务状态，回执状态，备注
-			new Ext.Toolbar({
+
+			var onebar_sku = new Ext.Toolbar({
 				id : 'onebar_sku',
 //				enableOverflow:true,
 				items : [{
@@ -620,7 +625,14 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			        width:100,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add one tbar
+			});
+			if(this.readOnly){
+				
+			}else if(this.mode=="local"){
+				
+			}else{
+				onebar_sku.render(this.tbar); // add one tbar
+			}
 	    },this);
 		this.on('destroy', function() {
 			if(Ext.getCmp('onebar_sku')){

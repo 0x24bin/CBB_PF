@@ -401,12 +401,12 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}]
 			});
         	if(this.readOnly){
-//				tbar.remove(3);
+				tbar.remove(3);
 				tbar.remove(2);
 				tbar.get(1).setText("订单信息");
 				tbar.remove(0);
 			}else if(this.mode=="local"){
-//				tbar.remove(3);
+				tbar.remove(3);
 				tbar.get(1).setText("订单信息");
 				tbar.remove(0);
 			}
@@ -415,7 +415,7 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
         this.on('render', function() {
 			//添加第二列查询控件
 			//搜索字段包括：进出口业务类型，电商企业，商品货号，业务状态，回执状态，备注
-			new Ext.Toolbar({
+			var onebar_order = new Ext.Toolbar({
 				id : 'onebar_order',
 //				enableOverflow:true,
 				items : [{
@@ -538,7 +538,14 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        width:100,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add one tbar
+			});
+			if(this.readOnly){
+				
+			}else if(this.mode=="local"){
+				
+			}else{
+				onebar_order.render(this.tbar); // add one tbar
+			}
 	    },this);
 		this.on('destroy', function() {
 			if(Ext.getCmp('onebar_order')){

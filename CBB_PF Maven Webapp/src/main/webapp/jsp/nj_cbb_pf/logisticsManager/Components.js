@@ -648,11 +648,17 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}]
 			});
 			if(this.readOnly){
+				tbar.remove(6);
+				tbar.remove(5);
+				tbar.remove(4);
 				tbar.remove(3);
 				tbar.remove(2);
 				tbar.get(1).setText("运单信息");
 				tbar.remove(0);
 			}else if(this.mode=="local"){
+				tbar.remove(6);
+				tbar.remove(5);
+				tbar.remove(4);
 				tbar.remove(3);
 				tbar.get(1).setText("运单信息");
 				tbar.remove(0);
@@ -662,7 +668,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		this.on('render', function() {
 			//添加第二列查询控件
 			//搜索字段包括：订单编号，运单编号，备注，包裹单信息，收货人名称，收货人手机号，运输工具名称，航班航次号，提运单号，业务状态，物流运单状态，回执状态。
-			new Ext.Toolbar({
+			var onebar_logistics = new Ext.Toolbar({
 				id : 'onebar_logistics',
 //				enableOverflow:true,
 				items : [{
@@ -757,8 +763,8 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        width:95,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add one tbar
-			new Ext.Toolbar({
+			});
+			var twobar_logistics = new Ext.Toolbar({
 				id : 'twobar_logistics',
 //				enableOverflow:true,
 				items : [{
@@ -881,7 +887,15 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        width:95,
 			        anchor:'50%'
 			    }]
-			}).render(this.tbar); // add two tbar
+			});
+			if(this.readOnly){
+				
+			}else if(this.mode=="local"){
+			
+			}else{
+				onebar_logistics.render(this.tbar); // add one tbar
+				twobar_logistics.render(this.tbar); // add two tbar
+			}
 	    },this);
 		this.on('destroy', function() {
 			if(Ext.getCmp('onebar_logistics')){
