@@ -497,9 +497,9 @@ public class NJCommonAction extends AbstractAction{
 	public void setTAX_RATE(Double TAX_RATE){
 		params.put("TAX_RATE", TAX_RATE);
 	}
-	public void setCOUNTRY(Integer COUNTRY){
-		params.put("COUNTRY", COUNTRY);
-	}
+//	public void setCOUNTRY(Integer COUNTRY){
+//		params.put("COUNTRY", COUNTRY);
+//	}
 	
 	//电子订单
 	public void setORDERS_ID(Integer ORDERS_ID){
