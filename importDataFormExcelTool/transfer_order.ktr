@@ -170,12 +170,13 @@
   <hop> <from>&#x8ba2;&#x5355;&#x4e3b;&#x4f53;&#x6570;&#x636e;</from><to>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;contact&#x65b0;&#x589e;&#x5b8c;&#x6210;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x8054;&#x7cfb;&#x4eba;&#x6570;&#x636e;</from><to>&#x63d2;&#x5165; &#x2f; &#x66f4;&#x65b0;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;contact&#x65b0;&#x589e;&#x5b8c;&#x6210;</from><to>&#x67e5;&#x8be2; CONTACT_ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2; CONTACT_ID</from><to>t_nj_orders&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x6570;&#x636e;&#x5e93;&#x67e5;&#x8be2;</from><to>t_nj_order_detail&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x8ba2;&#x5355;&#x8be6;&#x7ec6;&#x6570;&#x636e;</from><to>&#x751f;&#x6210;gNum</to><enabled>Y</enabled> </hop>
   <hop> <from>itemNo&#x5408;&#x6cd5;</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_ORDER_NO&#x2f;ITEM_NO</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x751f;&#x6210;gNum</from><to>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;t_nj_orders&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;t_nj_orders&#x8f93;&#x51fa;</from><to>&#x6570;&#x636e;&#x5e93;&#x67e5;&#x8be2;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x67e5;&#x8be2; CONTACT_ID</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS</from><to>t_nj_orders&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>AGENT_CODE-&#x7533;&#x62a5;&#x4f01;&#x4e1a;&#x540d;&#x79f0;&#x28;&#x4ee3;&#x7406;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;&#x29;</name>
@@ -1691,11 +1692,15 @@
           <column_name>CONSIGNEE_ID</column_name>
           <stream_name>CONTACT_ID</stream_name>
         </field>
+        <field>
+          <column_name>APP_STATUS</column_name>
+          <stream_name>APP_STATUS</stream_name>
+        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1980</xloc>
-      <yloc>980</yloc>
+      <yloc>1066</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3450,6 +3455,39 @@ private String generalAddress(String province,String city,String district,String
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1801</xloc>
       <yloc>875</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>APP_STATUS</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1980</xloc>
+      <yloc>978</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
