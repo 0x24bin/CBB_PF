@@ -143,13 +143,8 @@
   <hop> <from>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_logistics</to><enabled>Y</enabled> </hop>
   <hop> <from>TRAF_MODE-&#x8fd0;&#x8f93;&#x65b9;&#x5f0f;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_logistics</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x4fee;&#x6539;&#x5b57;&#x6bb5;&#x7c7b;&#x578b;</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_orderNo</to><enabled>Y</enabled> </hop>
-  <hop> <from>orderNo&#x5408;&#x6cd5;</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_SHIPPER_NO</to><enabled>Y</enabled> </hop>
-  <hop> <from>t_contact&#x8868;&#x8f93;&#x5165;</from><to>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_3</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_3</from><to>&#x8bb0;&#x5f55;&#x96c6;&#x8fde;&#x63a5;_CODE</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_SHIPPER_NO</from><to>&#x8bb0;&#x5f55;&#x96c6;&#x8fde;&#x63a5;_CODE</to><enabled>Y</enabled> </hop>
   <hop> <from>shipperNo&#x975e;&#x6cd5;</from><to>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8bb0;&#x5f55;&#x96c6;&#x8fde;&#x63a5;_CODE</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_shipperNo</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf; 2</from><to>logistics_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_shipperNo</from><to>shipperNo&#x975e;&#x6cd5;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_shipperNo</from><to>shipperNo&#x5408;&#x6cd5;</to><enabled>Y</enabled> </hop>
@@ -163,6 +158,10 @@
   <hop> <from>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2 2</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf; 3</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_LOGISTICS_ID</from><to>LOGISTICS_ID&#x975e;&#x6cd5;</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf; 3</from><to>logistics_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>orderNo&#x5408;&#x6cd5;</from><to>&#x67e5;&#x8be2; CONTACT_ID</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x67e5;&#x8be2; CONTACT_ID</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_shipperNo</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS</from><to>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</from><to>&#x6267;&#x884c;SQL&#x811a;&#x672c;</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>AGENT_CODE-&#x7533;&#x62a5;&#x4f01;&#x4e1a;&#x540d;&#x79f0;&#x28;&#x4ee3;&#x7406;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;&#x29;</name>
@@ -551,7 +550,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1040</xloc>
-      <yloc>400</yloc>
+      <yloc>500</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1157,7 +1156,7 @@
            <schema_name/>
            </partitioning>
     <connection>DB</connection>
-    <sql>SELECT&#xd;&#xa;  ORDER_NO&#xd;&#xa;,ORDER_TYPE&#xd;&#xa;,EBC_CODE&#xd;&#xa;FROM t_nj_orders&#xd;&#xa;</sql>
+    <sql>SELECT&#xd;&#xa; ORDER_NO&#xd;&#xa;,ORDER_TYPE&#xd;&#xa;,EBC_CODE&#xd;&#xa;,FREIGHT&#xd;&#xa;,CONSIGNEE_ID&#xd;&#xa;FROM t_nj_orders&#xd;&#xa;</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -1167,32 +1166,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1420</xloc>
       <yloc>280</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>t_contact&#x8868;&#x8f93;&#x5165;</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <sql>SELECT&#xd;&#xa;  CODE&#xd;&#xa;,CONTACT_ID&#xd;&#xa;FROM t_contact&#xd;&#xa;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1420</xloc>
-      <yloc>480</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1279,6 +1252,14 @@
           <stream_name>MAIN_BILL_NO</stream_name>
         </field>
         <field>
+          <column_name>FREIGHT</column_name>
+          <stream_name>FREIGHT</stream_name>
+        </field>
+        <field>
+          <column_name>INSURE_FEE</column_name>
+          <stream_name>INSURE_FEE</stream_name>
+        </field>
+        <field>
           <column_name>CURRENCY</column_name>
           <stream_name>CURRENCY</stream_name>
         </field>
@@ -1303,6 +1284,10 @@
           <stream_name>GOODS_INFO</stream_name>
         </field>
         <field>
+          <column_name>CONSIGNEE_ID</column_name>
+          <stream_name>CONSIGNEE_ID</stream_name>
+        </field>
+        <field>
           <column_name>SHIPPER_ID</column_name>
           <stream_name>CONTACT_ID</stream_name>
         </field>
@@ -1318,7 +1303,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>1080</yloc>
+      <yloc>1060</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1367,6 +1352,10 @@
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>MAIN_BILL_NO</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>INSURE_FEE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1452,7 +1441,7 @@
     <name>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS</name>
     <type>Constant</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1476,7 +1465,7 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>1000</yloc>
+      <yloc>960</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1526,6 +1515,10 @@
         <precision>-2</precision>
       </field>      <field>        <name>&#x603b;&#x8fd0;&#x5355;&#x53f7;</name>
         <rename>MAIN_BILL_NO</rename>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>&#x4fdd;&#x4ef7;&#x8d39;</name>
+        <rename>INSURE_FEE</rename>
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>&#x5e01;&#x5236;&#x4ee3;&#x7801;</name>
@@ -1700,74 +1693,6 @@
     </step>
 
   <step>
-    <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>CODE</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1560</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_SHIPPER_NO</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>SHIPPER_NO</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1800</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_orderNo</name>
     <type>SortRows</type>
     <description/>
@@ -1932,7 +1857,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
 </target_step></target_steps><usage_parameters></usage_parameters>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>840</yloc>
+      <yloc>780</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1995,34 +1920,6 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     </step>
 
   <step>
-    <name>&#x8bb0;&#x5f55;&#x96c6;&#x8fde;&#x63a5;_CODE</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>LEFT OUTER</join_type>
-<step1>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_SHIPPER_NO</step1>
-<step2>&#x6392;&#x5e8f;&#x8bb0;&#x5f55;_3</step2>
-    <keys_1>
-      <key>SHIPPER_NO</key>
-    </keys_1>
-    <keys_2>
-      <key>CODE</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>shipperNo&#x975e;&#x6cd5;</name>
     <type>Dummy</type>
     <description/>
@@ -2036,7 +1933,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1540</xloc>
-      <yloc>600</yloc>
+      <yloc>500</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2068,8 +1965,8 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1340</xloc>
-      <yloc>600</yloc>
+      <xloc>1320</xloc>
+      <yloc>500</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2160,8 +2057,8 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1440</xloc>
-      <yloc>600</yloc>
+      <xloc>1420</xloc>
+      <yloc>500</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2182,7 +2079,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     <compare>
 <condition>
  <negated>N</negated>
- <leftvalue>CODE</leftvalue>
+ <leftvalue>CONTACT_ID</leftvalue>
  <function>IS NOT NULL</function>
  <rightvalue/>
  </condition>
@@ -2190,7 +2087,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1680</xloc>
-      <yloc>600</yloc>
+      <yloc>500</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2208,8 +2105,8 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1800</xloc>
-      <yloc>600</yloc>
+      <xloc>1680</xloc>
+      <yloc>580</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2249,7 +2146,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>920</yloc>
+      <yloc>880</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2291,7 +2188,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>660</yloc>
+      <yloc>580</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2320,7 +2217,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1800</xloc>
-      <yloc>740</yloc>
+      <yloc>660</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2339,7 +2236,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1640</xloc>
-      <yloc>740</yloc>
+      <yloc>660</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2372,7 +2269,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1360</xloc>
-      <yloc>740</yloc>
+      <yloc>660</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2472,10 +2369,6 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
       </field>      <field>        <name>CONTACT_ID</name>
         <rename/>
         <length>-2</length>
@@ -2488,7 +2381,108 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1480</xloc>
-      <yloc>740</yloc>
+      <yloc>660</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x67e5;&#x8be2; CONTACT_ID</name>
+    <type>DBLookup</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>DB</connection>
+    <cache>N</cache>
+    <cache_load_all>N</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema/>
+      <table>t_contact</table>
+      <orderby/>
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>SHIPPER_NO</name>
+        <field>CODE</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>CONTACT_ID</name>
+        <rename>CONTACT_ID</rename>
+        <default/>
+        <type>Integer</type>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1800</xloc>
+      <yloc>500</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x6267;&#x884c;SQL&#x811a;&#x672c;</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>DB</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>N</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>DROP TABLE IF EXISTS TMP&#x3b;  &#xd;&#xa;    CREATE TABLE TMP AS &#xd;&#xa;    SELECT &#xd;&#xa;      MAX&#x28;LOGISTICS_NO&#x29; &#x2b; 1 AS COL1 &#xd;&#xa;    FROM&#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    WHERE LENGTH&#x28;LOGISTICS_NO&#x29; &#x3d; 12 &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      t_nj_orders &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>ORDER_NO</name></argument>
+       <argument><name>ORDER_NO</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1601</xloc>
+      <yloc>1067</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>t_nj_logistics&#x8868;&#x8f93;&#x51fa;</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1692</xloc>
+      <yloc>1015</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
