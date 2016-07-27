@@ -45,8 +45,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>300</xloc>
-      <yloc>200</yloc>
+      <xloc>211</xloc>
+      <yloc>198</yloc>
       </entry>
     <entry>
       <name>&#x8f6c;&#x6362;_sku</name>
@@ -78,8 +78,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>420</xloc>
-      <yloc>200</yloc>
+      <xloc>331</xloc>
+      <yloc>198</yloc>
       </entry>
     <entry>
       <name>START</name>
@@ -98,8 +98,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>160</xloc>
-      <yloc>200</yloc>
+      <xloc>71</xloc>
+      <yloc>198</yloc>
       </entry>
     <entry>
       <name>&#x79fb;&#x52a8;&#x6587;&#x4ef6;</name>
@@ -200,8 +200,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>540</xloc>
-      <yloc>200</yloc>
+      <xloc>451</xloc>
+      <yloc>198</yloc>
       </entry>
     <entry>
       <name>&#x8f6c;&#x6362;_logistics</name>
@@ -233,8 +233,41 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>672</xloc>
-      <yloc>200</yloc>
+      <xloc>583</xloc>
+      <yloc>198</yloc>
+      </entry>
+    <entry>
+      <name>&#x8f6c;&#x6362;_invertory</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;transfer_inventory.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>698</xloc>
+      <yloc>197</yloc>
       </entry>
   </entries>
   <hops>
@@ -285,6 +318,15 @@
     </hop>
     <hop>
       <from>&#x8f6c;&#x6362;_logistics</from>
+      <to>&#x8f6c;&#x6362;_invertory</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>Y</unconditional>
+    </hop>
+    <hop>
+      <from>&#x8f6c;&#x6362;_invertory</from>
       <to>&#x79fb;&#x52a8;&#x6587;&#x4ef6;</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>

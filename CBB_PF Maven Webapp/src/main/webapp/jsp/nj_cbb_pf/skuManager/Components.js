@@ -32,7 +32,9 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 //				     "BAR_CODE",
 //				     "BRAND",
 //				     "TAX_CODE",
-//				     "UNIT",
+				     "UNIT",
+				     "UNIT1",
+				     "UNIT2",
 //				     "PRICE",
 //				     "CURRENCY",
 //				     "COUNTRY",
@@ -189,6 +191,8 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 //			     "TAX_CODE",
 //			     "TAX_RATE",
 			     "UNIT",
+			     "UNIT1",
+			     "UNIT2",
 			     "PRICE",
 			     "CURRENCY",
 			     "COUNTRY",
@@ -324,6 +328,18 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			    id : "UNIT",
 			    header : "计量单位",
 			    dataIndex : "UNIT"
+			}),
+			new Ext.ux.grid.CodeNameColumn({
+				category: relationCategory_unit,
+			    id : "UNIT1",
+			    header : "法定计量单位",
+			    dataIndex : "UNIT1"
+			}),
+			new Ext.ux.grid.CodeNameColumn({
+				category: relationCategory_unit,
+			    id : "UNIT2",
+			    header : "第二计量单位",
+			    dataIndex : "UNIT2"
 			}),{
 			    id : "PRICE",
 			    header : "备案价格",
