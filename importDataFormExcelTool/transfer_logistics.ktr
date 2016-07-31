@@ -2442,9 +2442,9 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     <connection>DB</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>DROP TABLE IF EXISTS TMP&#x3b;  &#xd;&#xa;    CREATE TABLE TMP AS &#xd;&#xa;    SELECT &#xd;&#xa;      MAX&#x28;LOGISTICS_NO&#x29; &#x2b; 1 AS COL1 &#xd;&#xa;    FROM&#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    WHERE LENGTH&#x28;LOGISTICS_NO&#x29; &#x3d; 12 &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      t_nj_orders &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;</sql>
+    <replace_variables>Y</replace_variables>
+    <quoteString>Y</quoteString>
+    <sql>DROP TABLE IF EXISTS TMP&#x3b;  &#xd;&#xa;    CREATE TABLE TMP AS &#xd;&#xa;    SELECT &#xd;&#xa;      RIGHT&#x28;CONCAT&#x28;&#x27;0000000000000000&#x27;,MAX&#x28;LOGISTICS_NO&#x29; &#x2b; 1&#x29;,12&#x29; AS COL1 &#xd;&#xa;    FROM&#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    WHERE LENGTH&#x28;LOGISTICS_NO&#x29; &#x3d; 12 &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      T_NJ_LOGISTICS &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;&#xd;&#xa;&#xd;&#xa;    UPDATE &#xd;&#xa;      t_nj_orders &#xd;&#xa;    SET&#xd;&#xa;      LOGISTICS_NO &#x3d; &#xd;&#xa;      &#x28;SELECT &#xd;&#xa;        IF&#x28;COL1 IS NULL,&#x22;100000000000&#x22;,COL1&#x29; AS COL1 &#xd;&#xa;      FROM&#xd;&#xa;        TMP&#x29; &#xd;&#xa;    WHERE ORDER_NO &#x3d; &#x3f; &#x3b;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -2456,8 +2456,8 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1597</xloc>
-      <yloc>1126</yloc>
+      <xloc>1626</xloc>
+      <yloc>1102</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2481,8 +2481,8 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1692</xloc>
-      <yloc>1015</yloc>
+      <xloc>1626</xloc>
+      <yloc>960</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
