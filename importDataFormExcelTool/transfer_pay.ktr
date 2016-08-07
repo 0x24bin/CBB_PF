@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>transfer_inventory</name>
+    <name>transfer_pay</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -66,9 +66,9 @@
     <clusterschemas>
     </clusterschemas>
   <created_user>-</created_user>
-  <created_date>2016&#x2f;07&#x2f;23 19&#x3a;56&#x3a;21.687</created_date>
+  <created_date>2016&#x2f;08&#x2f;07 15&#x3a;46&#x3a;14.155</created_date>
   <modified_user>-</modified_user>
-  <modified_date>2016&#x2f;07&#x2f;23 19&#x3a;56&#x3a;21.687</modified_date>
+  <modified_date>2016&#x2f;08&#x2f;07 15&#x3a;46&#x3a;14.155</modified_date>
     <key_for_session_key/>
     <is_key_private>N</is_key_private>
   </info>
@@ -105,11 +105,11 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>CUSTOM_CODE-&#x7533;&#x62a5;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x28;&#x63a5;&#x6536;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x29;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</from><to>STEP1-&#x6b63;&#x786e;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
-  <hop> <from>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</from><to>STEP1-&#x9519;&#x8bef;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
+  <hop> <from>CURRENCY-&#x5e01;&#x5236;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</to><enabled>Y</enabled> </hop>
+  <hop> <from>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</from><to>STEP1-&#x6b63;&#x786e;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
+  <hop> <from>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</from><to>STEP1-&#x9519;&#x8bef;&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
   <hop> <from>STEP1-&#x6b63;&#x786e;&#x6570;&#x636e;</from><to>&#x4fee;&#x6539;&#x5b57;&#x6bb5;&#x7c7b;&#x578b;</to><enabled>Y</enabled> </hop>
-  <hop> <from>STEP1-&#x9519;&#x8bef;&#x6570;&#x636e;</from><to>inventory_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>STEP1-&#x9519;&#x8bef;&#x6570;&#x636e;</from><to>pay_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>AGENT_CODE-&#x7533;&#x62a5;&#x4f01;&#x4e1a;&#x540d;&#x79f0;&#x28;&#x4ee3;&#x7406;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;&#x29;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>APP_UID-&#x7528;&#x6237;&#x540d;&#x79f0;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>CLASSIFY_CODE-&#x9884;&#x5f52;&#x7c7b;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</to><enabled>Y</enabled> </hop>
@@ -126,40 +126,22 @@
   <hop> <from>code&#x5206;&#x7c7b;</from><to>TRAF_MODE-&#x8fd0;&#x8f93;&#x65b9;&#x5f0f;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>UNIT-&#x8ba1;&#x91cf;&#x5355;&#x4f4d;</to><enabled>Y</enabled> </hop>
   <hop> <from>code&#x5206;&#x7c7b;</from><to>WRAP_TYPE-&#x5305;&#x88c5;&#x79cd;&#x7c7b;</to><enabled>Y</enabled> </hop>
-  <hop> <from>excel&#x6587;&#x4ef6;&#x8f93;&#x5165;</from><to>inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>inventory</from><to>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</to><enabled>Y</enabled> </hop>
-  <hop> <from>logisticsNo&#x975e;&#x6cd5;</from><to>&#x5b57;&#x6bb5;&#x7b5b;&#x9009;</to><enabled>Y</enabled> </hop>
+  <hop> <from>excel&#x6587;&#x4ef6;&#x8f93;&#x5165;</from><to>pay</to><enabled>Y</enabled> </hop>
+  <hop> <from>pay</from><to>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</to><enabled>Y</enabled> </hop>
+  <hop> <from>orderNo&#x975e;&#x6cd5;</from><to>&#x5b57;&#x6bb5;&#x7b5b;&#x9009;</to><enabled>Y</enabled> </hop>
   <hop> <from>t_code_name&#x8868;&#x8f93;&#x5165;</from><to>code&#x5206;&#x7c7b;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;</from><to>inventory_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,MARK,CURR</from><to>t_nj_inventory&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;</from><to>pay_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,PAY_TYPE</from><to>t_nj_pay&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x5b57;&#x6bb5;&#x6620;&#x5c04;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</to><enabled>Y</enabled> </hop>
   <hop> <from>&#x5b57;&#x6bb5;&#x7b5b;&#x9009;</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_LOGISTICS_NO</from><to>logisticsNo&#x5408;&#x6cd5;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_LOGISTICS_NO</from><to>logisticsNo&#x975e;&#x6cd5;</to><enabled>Y</enabled> </hop>
-  <hop> <from>EBC_CODE-&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>COUNTRY-&#x56fd;&#x5bb6;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>PORT-&#x6e2f;&#x53e3;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>WRAP_TYPE-&#x5305;&#x88c5;&#x79cd;&#x7c7b;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x4fee;&#x6539;&#x5b57;&#x6bb5;&#x7c7b;&#x578b;</from><to>&#x67e5;&#x8be2; LOGISTICS_NO</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2; LOGISTICS_NO</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_LOGISTICS_NO</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,MARK,CURR</to><enabled>Y</enabled> </hop>
-  <hop> <from>logisticsNo&#x5408;&#x6cd5;</from><to>&#x67e5;&#x8be2; INVENTORY_ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_INVENTORY_ID</from><to>INVENTORY_ID&#x5408;&#x6cd5;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_INVENTORY_ID</from><to>INVENTORY_ID&#x975e;&#x6cd5;</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVENTORY_ID&#x975e;&#x6cd5;</from><to>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf; 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x589e;&#x52a0;&#x5e38;&#x91cf; 2</from><to>inventory_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2; INVENTORY_ID</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_INVENTORY_ID</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVENTORY_ID&#x5408;&#x6cd5;</from><to>&#x751f;&#x6210;guid&#x2f;address</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>INVENT_DETAIL&#x6570;&#x636e;</to><enabled>Y</enabled> </hop>
-  <hop> <from>INVENT_DETAIL&#x6570;&#x636e;</from><to>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</from><to>&#x67e5;&#x8be2; ORDER_NO</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2; ORDER_NO</from><to>&#x67e5;&#x8be2; ORDER_DETAIL</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2; ORDER_DETAIL</from><to>&#x67e5;&#x8be2;sku</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2;sku</from><to>&#x67e5;&#x8be2;&#x4e3b;&#x8868;id</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x67e5;&#x8be2;&#x4e3b;&#x8868;id</from><to>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 3</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_ITEM_NO</to><enabled>Y</enabled> </hop>
-  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_ITEM_NO</from><to>t_inventory_detail&#x8868;&#x8f93;&#x51fa;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_orderNo</from><to>orderNo&#x5408;&#x6cd5;</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_orderNo</from><to>orderNo&#x975e;&#x6cd5;</to><enabled>Y</enabled> </hop>
+  <hop> <from>PAY-&#x652f;&#x4ed8;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</to><enabled>Y</enabled> </hop>
+  <hop> <from>CUSTOM_CODE-&#x7533;&#x62a5;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x28;&#x63a5;&#x6536;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x29;</from><to>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x4fee;&#x6539;&#x5b57;&#x6bb5;&#x7c7b;&#x578b;</from><to>&#x67e5;&#x8be2; ORDER_NO</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x67e5;&#x8be2; ORDER_NO</from><to>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_orderNo</to><enabled>Y</enabled> </hop>
+  <hop> <from>&#x751f;&#x6210;guid&#x2f;address</from><to>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,PAY_TYPE</to><enabled>Y</enabled> </hop>
+  <hop> <from>orderNo&#x5408;&#x6cd5;</from><to>&#x751f;&#x6210;guid&#x2f;address</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>AGENT_CODE-&#x7533;&#x62a5;&#x4f01;&#x4e1a;&#x540d;&#x79f0;&#x28;&#x4ee3;&#x7406;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;&#x29;</name>
@@ -174,8 +156,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>540</xloc>
-      <yloc>1020</yloc>
+      <xloc>480</xloc>
+      <yloc>1047</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -193,8 +175,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1300</xloc>
-      <yloc>800</yloc>
+      <xloc>1002</xloc>
+      <yloc>704</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -212,8 +194,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1220</xloc>
-      <yloc>780</yloc>
+      <xloc>1100</xloc>
+      <yloc>847</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -231,8 +213,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>960</xloc>
-      <yloc>700</yloc>
+      <xloc>921</xloc>
+      <yloc>732</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -250,8 +232,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>900</xloc>
-      <yloc>700</yloc>
+      <xloc>840</xloc>
+      <yloc>687</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -269,8 +251,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>680</xloc>
-      <yloc>780</yloc>
+      <xloc>736</xloc>
+      <yloc>757</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -288,8 +270,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>520</xloc>
-      <yloc>840</yloc>
+      <xloc>580</xloc>
+      <yloc>907</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -307,8 +289,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>640</xloc>
-      <yloc>1100</yloc>
+      <xloc>580</xloc>
+      <yloc>1127</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -326,8 +308,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1400</xloc>
-      <yloc>800</yloc>
+      <xloc>1340</xloc>
+      <yloc>827</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -345,8 +327,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>800</xloc>
-      <yloc>740</yloc>
+      <xloc>733</xloc>
+      <yloc>810</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -364,8 +346,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1100</xloc>
-      <yloc>660</yloc>
+      <xloc>622</xloc>
+      <yloc>717</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -383,14 +365,14 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1020</xloc>
-      <yloc>680</yloc>
+      <xloc>1220</xloc>
+      <yloc>827</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</name>
+    <name>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</name>
     <type>Validator</type>
     <description/>
     <distribute>N</distribute>
@@ -403,8 +385,8 @@
 <validate_all>N</validate_all>
 <concat_errors>N</concat_errors>
 <concat_separator>&#x7c;</concat_separator>
-       <validator_field><name>CUSTOM_CODE</name>
-<validation_name>CUSTOM_CODE</validation_name>
+       <validator_field><name>RECEIVER_ID</name>
+<validation_name>RECEIVER_ID</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
@@ -424,20 +406,20 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>NO_EXSIT</error_code>
-<error_description>CUSTOM_CODE&#x4e0d;&#x5b58;&#x5728;</error_description>
+<error_description>RECEIVER_ID&#x4e0d;&#x5b58;&#x5728;</error_description>
 <is_sourcing_values>Y</is_sourcing_values>
 <sourcing_step>CUSTOM_CODE-&#x7533;&#x62a5;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x28;&#x63a5;&#x6536;&#x6d77;&#x5173;&#x4ee3;&#x7801;&#x29;</sourcing_step>
 <sourcing_field>CODE</sourcing_field>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>COUNTRY</name>
-<validation_name>COUNTRY</validation_name>
+       <validator_field><name>CURRENCY</name>
+<validation_name>CURRENCY</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
 <only_null_allowed>N</only_null_allowed>
 <only_numeric_allowed>N</only_numeric_allowed>
 <data_type>String</data_type>
-<data_type_verified>Y</data_type_verified>
+<data_type_verified>N</data_type_verified>
 <conversion_mask/>
 <decimal_symbol/>
 <grouping_symbol/>
@@ -450,13 +432,13 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>NO_EXSIT</error_code>
-<error_description>COUNTRY&#x4e0d;&#x5b58;&#x5728;</error_description>
+<error_description>CURRENCY&#x4e0d;&#x5b58;&#x5728;</error_description>
 <is_sourcing_values>Y</is_sourcing_values>
-<sourcing_step>COUNTRY-&#x56fd;&#x5bb6;</sourcing_step>
+<sourcing_step>CURRENCY-&#x5e01;&#x5236;</sourcing_step>
 <sourcing_field>CODE</sourcing_field>
 <allowed_value></allowed_value></validator_field>
-       <validator_field><name>EBC_CODE</name>
-<validation_name>EBC_CODE</validation_name>
+       <validator_field><name>PAY_CODE</name>
+<validation_name>PAY_CODE</validation_name>
 <max_length/>
 <min_length/>
 <null_allowed>N</null_allowed>
@@ -476,67 +458,15 @@
 <regular_expression/>
 <regular_expression_not_allowed/>
 <error_code>NO_EXSIT</error_code>
-<error_description>EBC_CODE&#x4e0d;&#x5b58;&#x5728;</error_description>
+<error_description>PAY_CODE&#x4e0d;&#x5b58;&#x5728;</error_description>
 <is_sourcing_values>Y</is_sourcing_values>
-<sourcing_step>EBC_CODE-&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</sourcing_step>
-<sourcing_field>CODE</sourcing_field>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>DESTINATION_PORT</name>
-<validation_name>DESTINATION_PORT</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>Y</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>NO_EXSIT</error_code>
-<error_description>DESTINATION_PORT&#x4e0d;&#x5b58;&#x5728;</error_description>
-<is_sourcing_values>Y</is_sourcing_values>
-<sourcing_step>PORT-&#x6e2f;&#x53e3;</sourcing_step>
-<sourcing_field>CODE</sourcing_field>
-<allowed_value></allowed_value></validator_field>
-       <validator_field><name>WRAP_TYPE</name>
-<validation_name>WRAP_TYPE</validation_name>
-<max_length/>
-<min_length/>
-<null_allowed>N</null_allowed>
-<only_null_allowed>N</only_null_allowed>
-<only_numeric_allowed>N</only_numeric_allowed>
-<data_type>String</data_type>
-<data_type_verified>Y</data_type_verified>
-<conversion_mask/>
-<decimal_symbol/>
-<grouping_symbol/>
-<max_value/>
-<min_value/>
-<start_string/>
-<end_string/>
-<start_string_not_allowed/>
-<end_string_not_allowed/>
-<regular_expression/>
-<regular_expression_not_allowed/>
-<error_code>NO_EXSIT</error_code>
-<error_description>WRAP_TYPE&#x4e0d;&#x5b58;&#x5728;</error_description>
-<is_sourcing_values>Y</is_sourcing_values>
-<sourcing_step>WRAP_TYPE-&#x5305;&#x88c5;&#x79cd;&#x7c7b;</sourcing_step>
+<sourcing_step>PAY-&#x652f;&#x4ed8;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</sourcing_step>
 <sourcing_field>CODE</sourcing_field>
 <allowed_value></allowed_value></validator_field>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>760</xloc>
-      <yloc>620</yloc>
+      <xloc>700</xloc>
+      <yloc>647</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -554,8 +484,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1020</xloc>
-      <yloc>180</yloc>
+      <xloc>960</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -573,8 +503,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1060</xloc>
-      <yloc>480</yloc>
+      <xloc>1000</xloc>
+      <yloc>507</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -592,8 +522,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1420</xloc>
-      <yloc>880</yloc>
+      <xloc>1360</xloc>
+      <yloc>907</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -611,8 +541,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>660</xloc>
-      <yloc>860</yloc>
+      <xloc>520</xloc>
+      <yloc>767</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -630,8 +560,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>560</xloc>
-      <yloc>940</yloc>
+      <xloc>500</xloc>
+      <yloc>967</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -649,8 +579,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1220</xloc>
-      <yloc>600</yloc>
+      <xloc>1140</xloc>
+      <yloc>707</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -707,8 +637,8 @@
 <target_step>CLASSIFY_CODE-&#x9884;&#x5f52;&#x7c7b;&#x4f01;&#x4e1a;&#x540d;&#x79f0;</target_step>
 </case></cases>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>940</xloc>
-      <yloc>1080</yloc>
+      <xloc>880</xloc>
+      <yloc>1107</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -740,7 +670,7 @@
     <accept_field/>
     <accept_stepname/>
     <file>
-      <name>&#x24;&#x7b;main_dir&#x7d;&#x5c;undo&#x5c;inventory.xlsx</name>
+      <name>&#x24;&#x7b;main_dir&#x7d;&#x5c;undo&#x5c;pay.xlsx</name>
       <filemask/>
       <exclude_filemask/>
       <file_required>N</file_required>
@@ -748,19 +678,7 @@
     </file>
     <fields>
       <field>
-        <name>&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>&#x7269;&#x6d41;&#x8fd0;&#x5355;&#x7f16;&#x53f7;</name>
+        <name>&#x652f;&#x4ed8;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -784,7 +702,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x4e3b;&#x7ba1;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
+        <name>&#x8ba2;&#x5355;&#x7f16;&#x53f7;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -796,7 +714,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x9a8c;&#x653e;&#x6d77;&#x5173;&#x7f16;&#x53f7;</name>
+        <name>&#x652f;&#x4ed8;&#x4ea4;&#x6613;&#x7f16;&#x53f7;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -808,7 +726,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x4f01;&#x4e1a;&#x5185;&#x90e8;&#x7f16;&#x53f7;</name>
+        <name>&#x5546;&#x54c1;&#x8d27;&#x6b3e;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -820,7 +738,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x8fdb;&#x51fa;&#x53e3;&#x5cb8;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
+        <name>&#x884c;&#x90ae;&#x7a0e;&#x8d39;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -832,7 +750,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x8fdb;&#x51fa;&#x53e3;&#x65e5;&#x671f;YYYYMMDD</name>
+        <name>&#x8fd0;&#x8f93;&#x8d39;&#x7528;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -844,7 +762,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x76d1;&#x7ba1;&#x573a;&#x6240;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
+        <name>&#x5e01;&#x5236;&#x4ee3;&#x7801;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -856,7 +774,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x8d77;&#x8fd0;&#x56fd;&#x6216;&#x8fd0;&#x62b5;&#x56fd;&#x4ee3;&#x7801;</name>
+        <name>&#x4ed8;&#x6b3e;&#x4eba;&#x59d3;&#x540d;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -868,19 +786,7 @@
         <group/>
       </field>
       <field>
-        <name>&#x8fd0;&#x62b5;&#x6e2f;&#x2f;&#x542f;&#x8fd0;&#x6e2f;&#x4ee3;&#x7801;</name>
-        <type>String</type>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-        <repeat>N</repeat>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-      </field>
-      <field>
-        <name>&#x5305;&#x88c5;&#x79cd;&#x7c7b;&#x4ee3;&#x7801;</name>
+        <name>&#x4ed8;&#x6b3e;&#x4eba;&#x4ee3;&#x7801;</name>
         <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
@@ -931,14 +837,14 @@
     <spreadsheet_type>POI</spreadsheet_type>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>320</xloc>
-      <yloc>180</yloc>
+      <xloc>260</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>inventory</name>
+    <name>pay</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
@@ -950,14 +856,14 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>460</xloc>
-      <yloc>180</yloc>
+      <xloc>400</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>inventory_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</name>
+    <name>pay_log&#x6587;&#x4ef6;&#x8f93;&#x51fa;</name>
     <type>TextFileOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -981,7 +887,7 @@
     <fileNameField/>
     <create_parent_folder>Y</create_parent_folder>
     <file>
-      <name>&#x24;&#x7b;main_dir&#x7d;&#x2f;logs&#x2f;inventory_log</name>
+      <name>&#x24;&#x7b;main_dir&#x7d;&#x2f;logs&#x2f;pay_log</name>
       <is_command>N</is_command>
       <servlet_output>N</servlet_output>
       <do_not_open_new_file_init>Y</do_not_open_new_file_init>
@@ -1024,8 +930,8 @@
         <precision>-1</precision>
       </field>
       <field>
-        <name>LOGISTICS_NO</name>
-        <type>None</type>
+        <name>PAY_CODE</name>
+        <type>String</type>
         <format/>
         <currency/>
         <decimal/>
@@ -1038,14 +944,14 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1200</xloc>
-      <yloc>480</yloc>
+      <xloc>1140</xloc>
+      <yloc>507</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>logisticsNo&#x5408;&#x6cd5;</name>
+    <name>orderNo&#x5408;&#x6cd5;</name>
     <type>Dummy</type>
     <description/>
     <distribute>N</distribute>
@@ -1057,14 +963,14 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1820</xloc>
-      <yloc>360</yloc>
+      <xloc>1760</xloc>
+      <yloc>387</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>logisticsNo&#x975e;&#x6cd5;</name>
+    <name>orderNo&#x975e;&#x6cd5;</name>
     <type>Dummy</type>
     <description/>
     <distribute>Y</distribute>
@@ -1076,8 +982,8 @@
            </partitioning>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1540</xloc>
-      <yloc>360</yloc>
+      <xloc>1500</xloc>
+      <yloc>387</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1102,14 +1008,14 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>940</xloc>
-      <yloc>1160</yloc>
+      <xloc>880</xloc>
+      <yloc>1187</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>t_nj_inventory&#x8868;&#x8f93;&#x51fa;</name>
+    <name>t_nj_pay&#x8868;&#x8f93;&#x51fa;</name>
     <type>TableOutput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1121,7 +1027,7 @@
            </partitioning>
     <connection>DB</connection>
     <schema/>
-    <table>t_nj_inventory</table>
+    <table>t_nj_pay</table>
     <commit>1000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
@@ -1138,20 +1044,16 @@
     <return_field/>
     <fields>
         <field>
+          <column_name>ORDER_NO</column_name>
+          <stream_name>ORDER_NO</stream_name>
+        </field>
+        <field>
           <column_name>GUID</column_name>
           <stream_name>GUID</stream_name>
         </field>
         <field>
-          <column_name>CUSTOM_CODE</column_name>
-          <stream_name>CUSTOM_CODE</stream_name>
-        </field>
-        <field>
           <column_name>RECEIVER_ID</column_name>
           <stream_name>RECEIVER_ID</stream_name>
-        </field>
-        <field>
-          <column_name>CHK_CUSTOM_CODE</column_name>
-          <stream_name>CHK_CUSTOM_CODE</stream_name>
         </field>
         <field>
           <column_name>APP_STATUS</column_name>
@@ -1159,39 +1061,23 @@
         </field>
         <field>
           <column_name>APP_UID</column_name>
-          <stream_name>EBC_CODE</stream_name>
+          <stream_name>RECEIVER_ID</stream_name>
         </field>
         <field>
-          <column_name>COP_NO</column_name>
-          <stream_name>COP_NO</stream_name>
+          <column_name>PAY_CODE</column_name>
+          <stream_name>PAY_CODE</stream_name>
         </field>
         <field>
-          <column_name>LOGISTICS_NO</column_name>
-          <stream_name>LOGISTICS_NO</stream_name>
+          <column_name>PAY_TYPE</column_name>
+          <stream_name>PAY_TYPE</stream_name>
         </field>
         <field>
-          <column_name>PORT_CODE</column_name>
-          <stream_name>PORT_CODE</stream_name>
+          <column_name>PAY_NO</column_name>
+          <stream_name>PAY_NO</stream_name>
         </field>
         <field>
-          <column_name>IE_DATE</column_name>
-          <stream_name>IE_DATE</stream_name>
-        </field>
-        <field>
-          <column_name>LOCT_NO</column_name>
-          <stream_name>LOCT_NO</stream_name>
-        </field>
-        <field>
-          <column_name>COUNTRY</column_name>
-          <stream_name>COUNTRY</stream_name>
-        </field>
-        <field>
-          <column_name>DESTINATION_PORT</column_name>
-          <stream_name>DESTINATION_PORT</stream_name>
-        </field>
-        <field>
-          <column_name>WRAP_TYPE</column_name>
-          <stream_name>WRAP_TYPE</stream_name>
+          <column_name>EBP_CODE</column_name>
+          <stream_name>EBP_CODE</stream_name>
         </field>
         <field>
           <column_name>NOTE</column_name>
@@ -1201,51 +1087,11 @@
           <column_name>CREAT_TIME</column_name>
           <stream_name>CREAT_TIME</stream_name>
         </field>
-        <field>
-          <column_name>FREIGHT</column_name>
-          <stream_name>FREIGHT</stream_name>
-        </field>
-        <field>
-          <column_name>FREIGHT_CURR</column_name>
-          <stream_name>FREIGHT_CURR</stream_name>
-        </field>
-        <field>
-          <column_name>FREIGHT_MARK</column_name>
-          <stream_name>FREIGHT_MARK</stream_name>
-        </field>
-        <field>
-          <column_name>INSURE_FEE</column_name>
-          <stream_name>INSURE_FEE</stream_name>
-        </field>
-        <field>
-          <column_name>INSURE_FEE_CURR</column_name>
-          <stream_name>INSURE_FEE_CURR</stream_name>
-        </field>
-        <field>
-          <column_name>INSURE_FEE_MARK</column_name>
-          <stream_name>INSURE_FEE_MARK</stream_name>
-        </field>
-        <field>
-          <column_name>WEIGHT</column_name>
-          <stream_name>WEIGHT</stream_name>
-        </field>
-        <field>
-          <column_name>NET_WEIGHT</column_name>
-          <stream_name>NET_WEIGHT</stream_name>
-        </field>
-        <field>
-          <column_name>PACK_NO</column_name>
-          <stream_name>PACK_NO</stream_name>
-        </field>
-        <field>
-          <column_name>OWNER_CODE</column_name>
-          <stream_name>OWNER_CODE</stream_name>
-        </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>880</yloc>
+      <xloc>1760</xloc>
+      <yloc>687</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1261,11 +1107,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>EBC_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOGISTICS_NO</name>
+    <fields>      <field>        <name>PAY_CODE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1273,39 +1115,35 @@
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>CUSTOM_CODE</name>
+      </field>      <field>        <name>ORDER_NO</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>CHK_CUSTOM_CODE</name>
+      </field>      <field>        <name>PAY_NO</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>COP_NO</name>
+      </field>      <field>        <name>GOODS_VALUE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>PORT_CODE</name>
+      </field>      <field>        <name>TAX_FEE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>IE_DATE</name>
+      </field>      <field>        <name>FREIGHT</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>LOCT_NO</name>
+      </field>      <field>        <name>CURRENCY</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>COUNTRY</name>
+      </field>      <field>        <name>DRAWEE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>DESTINATION_PORT</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>WRAP_TYPE</name>
+      </field>      <field>        <name>DRAWEE_INDENTITY</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1320,8 +1158,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1160</xloc>
-      <yloc>180</yloc>
+      <xloc>1100</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1345,7 +1183,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>&#x6570;&#x636e;LOGISTICS_NO&#x5728;&#x8868;t_nj_logistics&#x4e2d;&#x4e0d;&#x5b58;&#x5728;&#xff01;</nullif>
+        <nullif>&#x6570;&#x636e;ORDER_NO&#x5728;&#x8868;t_nj_orders&#x4e2d;&#x4e0d;&#x5b58;&#x5728;&#xff01;</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -1353,17 +1191,17 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1340</xloc>
-      <yloc>360</yloc>
+      <xloc>1300</xloc>
+      <yloc>387</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,MARK,CURR</name>
+    <name>&#x589e;&#x52a0;&#x5e38;&#x91cf;APP_STATUS,PAY_TYPE</name>
     <type>Constant</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1384,49 +1222,13 @@
         <set_empty_string>N</set_empty_string>
       </field>
       <field>
-        <name>FREIGHT_CURR</name>
-        <type>Integer</type>
-        <format>&#x23;</format>
+        <name>PAY_TYPE</name>
+        <type>String</type>
+        <format/>
         <currency/>
         <decimal/>
         <group/>
-        <nullif>142</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>FREIGHT_MARK</name>
-        <type>Integer</type>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>3</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>INSURE_FEE_CURR</name>
-        <type>Integer</type>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>142</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>INSURE_FEE_MARK</name>
-        <type>Integer</type>
-        <format>&#x23;</format>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>3</nullif>
+        <nullif>M</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -1434,8 +1236,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>780</yloc>
+      <xloc>1760</xloc>
+      <yloc>587</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1451,52 +1253,44 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>&#x7535;&#x5546;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;</name>
-        <rename>EBC_CODE</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>&#x7269;&#x6d41;&#x8fd0;&#x5355;&#x7f16;&#x53f7;</name>
-        <rename>LOGISTICS_NO</rename>
+    <fields>      <field>        <name>&#x652f;&#x4ed8;&#x4f01;&#x4e1a;&#x4ee3;&#x7801;</name>
+        <rename>PAY_CODE</rename>
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>&#x63a5;&#x6536;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
         <rename>RECEIVER_ID</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x4e3b;&#x7ba1;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
-        <rename>CUSTOM_CODE</rename>
+      </field>      <field>        <name>&#x8ba2;&#x5355;&#x7f16;&#x53f7;</name>
+        <rename>ORDER_NO</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x9a8c;&#x653e;&#x6d77;&#x5173;&#x7f16;&#x53f7;</name>
-        <rename>CHK_CUSTOM_CODE</rename>
+      </field>      <field>        <name>&#x652f;&#x4ed8;&#x4ea4;&#x6613;&#x7f16;&#x53f7;</name>
+        <rename>PAY_NO</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x4f01;&#x4e1a;&#x5185;&#x90e8;&#x7f16;&#x53f7;</name>
-        <rename>COP_NO</rename>
+      </field>      <field>        <name>&#x5546;&#x54c1;&#x8d27;&#x6b3e;</name>
+        <rename>GOODS_VALUE</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x8fdb;&#x51fa;&#x53e3;&#x5cb8;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
-        <rename>PORT_CODE</rename>
+      </field>      <field>        <name>&#x884c;&#x90ae;&#x7a0e;&#x8d39;</name>
+        <rename>TAX_FEE</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x8fdb;&#x51fa;&#x53e3;&#x65e5;&#x671f;YYYYMMDD</name>
-        <rename>IE_DATE</rename>
+      </field>      <field>        <name>&#x8fd0;&#x8f93;&#x8d39;&#x7528;</name>
+        <rename>FREIGHT</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x76d1;&#x7ba1;&#x573a;&#x6240;&#x6d77;&#x5173;&#x4ee3;&#x7801;</name>
-        <rename>LOCT_NO</rename>
+      </field>      <field>        <name>&#x5e01;&#x5236;&#x4ee3;&#x7801;</name>
+        <rename>CURRENCY</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x8d77;&#x8fd0;&#x56fd;&#x6216;&#x8fd0;&#x62b5;&#x56fd;&#x4ee3;&#x7801;</name>
-        <rename>COUNTRY</rename>
+      </field>      <field>        <name>&#x4ed8;&#x6b3e;&#x4eba;&#x59d3;&#x540d;</name>
+        <rename>DRAWEE</rename>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>&#x8fd0;&#x62b5;&#x6e2f;&#x2f;&#x542f;&#x8fd0;&#x6e2f;&#x4ee3;&#x7801;</name>
-        <rename>DESTINATION_PORT</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>&#x5305;&#x88c5;&#x79cd;&#x7c7b;&#x4ee3;&#x7801;</name>
-        <rename>WRAP_TYPE</rename>
+      </field>      <field>        <name>&#x4ed8;&#x6b3e;&#x4eba;&#x4ee3;&#x7801;</name>
+        <rename>DRAWEE_INDENTITY</rename>
         <length>-2</length>
         <precision>-2</precision>
       </field>      <field>        <name>&#x5907;&#x6ce8;</name>
@@ -1510,8 +1304,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>600</xloc>
-      <yloc>180</yloc>
+      <xloc>540</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1527,11 +1321,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>EBC_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOGISTICS_NO</name>
+    <fields>      <field>        <name>PAY_CODE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1539,39 +1329,35 @@
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>CUSTOM_CODE</name>
+      </field>      <field>        <name>ORDER_NO</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>CHK_CUSTOM_CODE</name>
+      </field>      <field>        <name>PAY_NO</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>COP_NO</name>
+      </field>      <field>        <name>GOODS_VALUE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>PORT_CODE</name>
+      </field>      <field>        <name>TAX_FEE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>IE_DATE</name>
+      </field>      <field>        <name>FREIGHT</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>LOCT_NO</name>
+      </field>      <field>        <name>CURRENCY</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>COUNTRY</name>
+      </field>      <field>        <name>DRAWEE</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>DESTINATION_PORT</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>WRAP_TYPE</name>
+      </field>      <field>        <name>DRAWEE_INDENTITY</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1583,15 +1369,11 @@
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
-      </field>      <field>        <name>LOGISTICS_ID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1440</xloc>
-      <yloc>360</yloc>
+      <xloc>1400</xloc>
+      <yloc>387</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1656,9 +1438,9 @@ public boolean processRow(StepMetaInterface smi, StepDataInterface sdi) throws K
 
 	
 	
-	String ebcCode = get(Fields.In, "EBC_CODE").getString(r);
-	String customsCode = get(Fields.In, "CUSTOM_CODE").getString(r);
-	String guid = generalGuid4NJ("CEB_601",ebcCode,customsCode);
+	String ebpCode = get(Fields.In, "EBP_CODE").getString(r);
+	String payCode = get(Fields.In, "PAY_CODE").getString(r);
+	String guid = generalGuid4NJ("CEB_401",ebpCode,payCode);
 
 
 	get(Fields.Out, "GUID").setValue(r, guid);
@@ -1722,18 +1504,18 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
         </field>
     </fields><clear_result_fields>N</clear_result_fields>
 <info_steps></info_steps><target_steps><target_step><step_tag/>
-<step_name>t_nj_inventory&#x8868;&#x8f93;&#x51fa;</step_name>
+<step_name>t_nj_pay&#x8868;&#x8f93;&#x51fa;</step_name>
 <step_description/>
 </target_step></target_steps><usage_parameters></usage_parameters>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>680</yloc>
+      <xloc>1760</xloc>
+      <yloc>496</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_LOGISTICS_NO</name>
+    <name>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_orderNo</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -1743,442 +1525,20 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>logisticsNo&#x5408;&#x6cd5;</send_true_to>
-<send_false_to>logisticsNo&#x975e;&#x6cd5;</send_false_to>
+<send_true_to>orderNo&#x5408;&#x6cd5;</send_true_to>
+<send_false_to>orderNo&#x975e;&#x6cd5;</send_false_to>
     <compare>
 <condition>
  <negated>N</negated>
- <leftvalue>LOGISTICS_ID</leftvalue>
+ <leftvalue>ORDERS_ID</leftvalue>
  <function>IS NOT NULL</function>
  <rightvalue/>
  </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1660</xloc>
-      <yloc>360</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x67e5;&#x8be2; LOGISTICS_NO</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>t_nj_logistics</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>LOGISTICS_NO</name>
-        <field>LOGISTICS_NO</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>LOGISTICS_ID</name>
-        <rename>LOGISTICS_ID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-      <value>
-        <name>FREIGHT</name>
-        <rename>FREIGHT</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>INSURE_FEE</name>
-        <rename>INSURE_FEE</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>WEIGHT</name>
-        <rename>WEIGHT</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>NET_WEIGHT</name>
-        <rename>NET_WEIGHT</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>PACK_NO</name>
-        <rename>PACK_NO</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-      <value>
-        <name>SHIPPER_ID</name>
-        <rename>OWNER_CODE</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1340</xloc>
-      <yloc>180</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x67e5;&#x8be2; INVENTORY_ID</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>t_nj_inventory</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>LOGISTICS_NO</name>
-        <field>LOGISTICS_NO</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>INVENTORY_ID</name>
-        <rename>INVENTORY_ID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1820</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_INVENTORY_ID</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>INVENTORY_ID&#x5408;&#x6cd5;</send_true_to>
-<send_false_to>INVENTORY_ID&#x975e;&#x6cd5;</send_false_to>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>INVENTORY_ID</leftvalue>
- <function>IS NULL</function>
- <rightvalue/>
- </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INVENTORY_ID&#x975e;&#x6cd5;</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1520</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>EBC_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOGISTICS_NO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>RECEIVER_ID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CUSTOM_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CHK_CUSTOM_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>COP_NO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>PORT_CODE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>IE_DATE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOCT_NO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>COUNTRY</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>DESTINATION_PORT</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>WRAP_TYPE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>NOTE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>type</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>LOGISTICS_ID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>INVENTORY_ID</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1420</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x589e;&#x52a0;&#x5e38;&#x91cf; 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>ERROR_DESC</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>&#x6570;&#x636e;LOGISTICS_NO&#x5728;&#x8868;t_nj_inventory&#x4e2d;&#x5df2;&#x5b58;&#x5728;&#xff01;</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1320</xloc>
-      <yloc>480</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INVENTORY_ID&#x5408;&#x6cd5;</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>580</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INVENT_DETAIL&#x6570;&#x636e;</name>
-    <type>Dummy</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1840</xloc>
-      <yloc>680</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x963b;&#x585e;&#x6570;&#x636e;&#x76f4;&#x5230;&#x6b65;&#x9aa4;&#x90fd;&#x5b8c;&#x6210;</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>t_nj_inventory&#x8868;&#x8f93;&#x51fa;</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1960</xloc>
-      <yloc>680</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>t_inventory_detail&#x8868;&#x8f93;&#x51fa;</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <schema/>
-    <table>t_nj_inventory_detail</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>ITEM_NO</column_name>
-          <stream_name>ITEM_NO</stream_name>
-        </field>
-        <field>
-          <column_name>GNUM</column_name>
-          <stream_name>GNUM</stream_name>
-        </field>
-        <field>
-          <column_name>QTY</column_name>
-          <stream_name>QTY</stream_name>
-        </field>
-        <field>
-          <column_name>PRICE</column_name>
-          <stream_name>PRICE</stream_name>
-        </field>
-        <field>
-          <column_name>TOTAL</column_name>
-          <stream_name>TOTAL</stream_name>
-        </field>
-        <field>
-          <column_name>UNIT</column_name>
-          <stream_name>UNIT</stream_name>
-        </field>
-        <field>
-          <column_name>UNIT1</column_name>
-          <stream_name>UNIT1</stream_name>
-        </field>
-        <field>
-          <column_name>UNIT2</column_name>
-          <stream_name>UNIT2</stream_name>
-        </field>
-        <field>
-          <column_name>INVENTORY_ID</column_name>
-          <stream_name>INVENTORY_ID_1</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1680</xloc>
-      <yloc>1000</yloc>
+      <xloc>1612</xloc>
+      <yloc>387</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2200,49 +1560,7 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
     <cache_size>0</cache_size>
     <lookup>
       <schema/>
-      <table>t_nj_logistics</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>LOGISTICS_NO</name>
-        <field>LOGISTICS_NO</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>ORDER_NO</name>
-        <rename>ORDER_NO</rename>
-        <default/>
-        <type>String</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1960</xloc>
-      <yloc>800</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x67e5;&#x8be2; ORDER_DETAIL</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>t_nj_order_detail</table>
+      <table>t_nj_orders</table>
       <orderby/>
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
@@ -2253,238 +1571,29 @@ private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
         <name2/>
       </key>
       <value>
-        <name>ITEM_NO</name>
-        <rename>ITEM_NO</rename>
-        <default/>
-        <type>String</type>
-      </value>
-      <value>
-        <name>GNUM</name>
-        <rename>GNUM</rename>
+        <name>ORDERS_ID</name>
+        <rename>ORDERS_ID</rename>
         <default/>
         <type>Integer</type>
       </value>
       <value>
-        <name>QTY</name>
-        <rename>QTY</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>PRICE</name>
-        <rename>PRICE</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>TOTAL</name>
-        <rename>TOTAL</rename>
-        <default/>
-        <type>BigNumber</type>
-      </value>
-      <value>
-        <name>NOTE</name>
-        <rename>NOTE</rename>
+        <name>EBP_CODE</name>
+        <rename>EBP_CODE</rename>
         <default/>
         <type>String</type>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1960</xloc>
-      <yloc>900</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x67e5;&#x8be2;sku</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>t_nj_sku</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>ITEM_NO</name>
-        <field>ITEM_NO</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>UNIT</name>
-        <rename>UNIT</rename>
-        <default/>
-        <type>String</type>
-      </value>
-      <value>
-        <name>UNIT1</name>
-        <rename>UNIT1</rename>
-        <default/>
-        <type>String</type>
-      </value>
-      <value>
-        <name>UNIT2</name>
-        <rename>UNIT2</rename>
-        <default/>
-        <type>String</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1960</xloc>
-      <yloc>1000</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x67e5;&#x8be2;&#x4e3b;&#x8868;id</name>
-    <type>DBLookup</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>DB</connection>
-    <cache>N</cache>
-    <cache_load_all>N</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema/>
-      <table>t_nj_inventory</table>
-      <orderby/>
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>LOGISTICS_NO</name>
-        <field>LOGISTICS_NO</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>INVENTORY_ID</name>
-        <rename>INVENTORY_ID</rename>
-        <default/>
-        <type>Integer</type>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1960</xloc>
-      <yloc>1120</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x5b57;&#x6bb5;&#x7b5b;&#x9009; 3</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>ORDER_NO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>ITEM_NO</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>GNUM</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>QTY</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>PRICE</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>TOTAL</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>UNIT</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>UNIT1</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>UNIT2</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>INVENTORY_ID_1</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1840</xloc>
-      <yloc>1120</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>&#x8fc7;&#x6ee4;&#x8bb0;&#x5f55;_ITEM_NO</name>
-    <type>FilterRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<send_true_to>t_inventory_detail&#x8868;&#x8f93;&#x51fa;</send_true_to>
-<send_false_to/>
-    <compare>
-<condition>
- <negated>N</negated>
- <leftvalue>ITEM_NO</leftvalue>
- <function>IS NOT NULL</function>
- <rightvalue/>
- </condition>
-    </compare>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1840</xloc>
-      <yloc>1000</yloc>
+      <xloc>1273</xloc>
+      <yloc>207</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step_error_handling>
       <error>
-        <source_step>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_inventory</source_step>
+        <source_step>STEP1-&#x6570;&#x636e;&#x6821;&#x9a8c;_pay</source_step>
         <target_step>STEP1-&#x9519;&#x8bef;&#x6570;&#x636e;</target_step>
         <is_enabled>Y</is_enabled>
         <nr_valuename/>

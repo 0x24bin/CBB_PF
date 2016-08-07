@@ -202,7 +202,7 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    dataIndex : "ORDER_NO"
 			},
 			new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_custom,
+				category: relationCategory_pay,
 			    id : "PAY_CODE",
 			    header : "支付企业名称",
 			    dataIndex : "PAY_CODE"
@@ -263,11 +263,11 @@ Ext.ux.PayGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    dataIndex : "GOODS_VALUE"
 			},{
 			    id : "TAX_FEE",
-			    header : "运输费用",
+			    header : "行邮税费",
 			    dataIndex : "TAX_FEE"
 			},{
 			    id : "FREIGHT",
-			    header : "行邮税费",
+			    header : "运输费用",
 			    dataIndex : "FREIGHT"
 			},new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_currency,
