@@ -92,6 +92,20 @@ public class NJCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "NJ批量提交商品")
+	public String batchSubmit_sku(){
+		try {
+			njCommonManagerService.batchSubmit_SKU(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	@IMethodLog(desc = "NJ订单保存/提交")
 	public String setOrder(){
 		try {
@@ -139,6 +153,20 @@ public class NJCommonAction extends AbstractAction{
 	public String delOrder(){
 		try {
 			njCommonManagerService.delOrder(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	@IMethodLog(desc = "NJ批量提交订单")
+	public String batchSubmit_order(){
+		try {
+			njCommonManagerService.batchSubmit_ORDER(params);
 			result.setReturnResult(CommonDefine.SUCCESS);
 			resultObj = JSONObject.fromObject(result);
 		} catch (CommonException e) {
@@ -249,6 +277,20 @@ public class NJCommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	@IMethodLog(desc = "NJ批量提交清单")
+	public String batchSubmit_inventory(){
+		try {
+			njCommonManagerService.batchSubmit_INVENTORY(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	@IMethodLog(desc = "NJ清单保存/提交")
 	public String setInventory(){
 		try {
@@ -275,7 +317,7 @@ public class NJCommonAction extends AbstractAction{
 	}
 	
 	@IMethodLog(desc = "NJ批量提交运单")
-	public String batchSubmit(){
+	public String batchSubmit_logistics(){
 		try {
 			njCommonManagerService.batchSubmit_LOGISTICS(params);
 			result.setReturnResult(CommonDefine.SUCCESS);

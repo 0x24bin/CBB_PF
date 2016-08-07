@@ -106,8 +106,45 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			});
 //		}
 	},
+	batchSubmit : function (record){
+//		if(isOrderReadOnly(record)){
+			var jsonDataList = new Array();
+			for(var i = 0; i< record.length;i++){
+				jsonDataList.push(record[i].get('GUID'));
+		    }
+			var param={
+				guidList:jsonDataList
+			};
+			this.getEl().mask("执行中...");
+			Ext.Ajax.request({
+				scope: this,
+				url : 'n-jcommon!batchSubmit_order.action',
+				method : "POST",
+				params : param,
+				success : function(response) {
+					this.getEl().unmask();
+					var obj = Ext.decode(response.responseText);
+					if (obj.returnResult == 0) {
+						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+					}else{
+						this.reload();
+					}
+				},
+				error : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				},
+				failure : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				}
+			});
+//		}
+	},
+	
+	
 	initComponent : function () {
-		this.sm= new Ext.grid.RowSelectionModel({singleSelect:true});
+		this.sm= new Ext.grid.RowSelectionModel({singleSelect:false});
 		var store = new Ext.data.Store(Ext.apply({
 			url : 'n-jcommon!getAllOrders.action',
 			reader : new Ext.data.JsonReader({
@@ -391,6 +428,18 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        		this.del(data);
 			        }.createDelegate(this)
 				},{
+			        text: '批量提交',
+			        scale: 'medium',
+			        name: 'batchSubmit',
+			        disabled: true,
+			        icon:'../../resource/images/btnImages/accept.png',
+			        handler: function(){
+			        	var data=this.checkSelect(false);
+			        	if(data){
+			        		this.batchSubmit(data);
+			        	}
+			        }.createDelegate(this)
+				},{
 			        text: '查询',
 			        scale: 'medium',
 			        name: 'search',
@@ -563,6 +612,20 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		            delButton.setDisabled(isOrderReadOnly(record));
 		        }
 			}
+			
+			button=this.topToolbar.find("name",'batchSubmit')[0];
+			if(button){
+				var enableFlag = true;
+				for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            if(record.get("APP_STATUS") != 1){
+		            	enableFlag = false;
+		            	break;
+		            }
+		        }
+				button.setDisabled(!enableFlag);
+			}
+			
 	    },this);
 		
 		Ext.ux.OrderGridPanel.superclass.initComponent.call(this);
@@ -608,7 +671,10 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	submitForm : function(opType){
 		var fp=this;
 		var form = fp.getForm();
-		if (form.isValid()) {
+		//表单验证，必须是保存，并且是编辑
+		if (form.isValid()|| 
+				(opType == '1' 
+					&& this.editType=="mod")) {
 			var itemGrid=findByProperty(this.items.getRange(),"name","itemGrid");
 			var itemRecords=[];
 			itemGrid.getStore().each(function(record){
@@ -629,7 +695,7 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 			}
 			form.submit({
 				scope:fp,
-			    clientValidation: true,
+			    clientValidation: false,
 			    waitTitle: '正在执行',
 			    waitMsg: '请稍后……',
 			    url: 'n-jcommon!setOrder.action',
@@ -1077,8 +1143,8 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 				this.buttons=[];
 			if(!this.readOnly){
 				this.buttons.push(new Ext.Button({
-					disabled: true,
-					formBind: true,
+					disabled: false,
+					formBind: false,
 			    	text : '保存', 
 			    	scale: 'large',
 			    	icon : '../../resource/images/btnImages/save.png',

@@ -128,7 +128,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			this.getEl().mask("执行中...");
 			Ext.Ajax.request({
 				scope: this,
-				url : 'n-jcommon!batchSubmit.action',
+				url : 'n-jcommon!batchSubmit_logistics.action',
 				method : "POST",
 				params : param,
 				success : function(response) {

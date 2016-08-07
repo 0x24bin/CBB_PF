@@ -121,6 +121,41 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			this.getView().refresh();
 		}
 	},
+	
+	batchSubmit : function (record){
+		var jsonDataList = new Array();
+		for(var i = 0; i< record.length;i++){
+			jsonDataList.push(record[i].get('GUID'));
+	    }
+		var param={
+			guidList:jsonDataList
+		};
+		this.getEl().mask("执行中...");
+		Ext.Ajax.request({
+			scope: this,
+			url : 'n-jcommon!batchSubmit_sku.action',
+			method : "POST",
+			params : param,
+			success : function(response) {
+				this.getEl().unmask();
+				var obj = Ext.decode(response.responseText);
+				if (obj.returnResult == 0) {
+					Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+				}else{
+					this.reload();
+				}
+			},
+			error : function(response) {
+				this.getEl().unmask();
+				Ext.Msg.alert("异常", response.responseText);
+			},
+			failure : function(response) {
+				this.getEl().unmask();
+				Ext.Msg.alert("异常", response.responseText);
+			}
+		});
+	},
+	
 	getReceiptSku_single : function (record){
 		
 		if(this.mode!="local"){
@@ -160,7 +195,7 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 		}
 	},
 	initComponent : function () {
-		this.sm=new Ext.grid.RowSelectionModel({singleSelect:true});
+		this.sm=new Ext.grid.RowSelectionModel({singleSelect:false});
 		var store = new Ext.data.Store(Ext.apply({
 			url: 'n-jcommon!getAllSkus.action',
 			reader : new Ext.data.JsonReader({
@@ -487,6 +522,18 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 	   		        		this.editSku('录入',{editType:editType,record:data});
 	   				}.createDelegate(this)
 	   			},{
+			        text: '批量提交',
+			        scale: 'medium',
+			        name: 'batchSubmit',
+			        disabled: true,
+			        icon:'../../resource/images/btnImages/accept.png',
+			        handler: function(){
+			        	var data=this.checkSelect(false);
+			        	if(data){
+			        		this.batchSubmit(data);
+			        	}
+			        }.createDelegate(this)
+				},{
 	   		        text: '获取回执',
 	   		        scale: 'medium',
 	   		        name: 'getReceipt',
@@ -670,6 +717,19 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 		            var record = selections[i];
 		            delButton.setDisabled(isSkuReadOnly(record));
 		        }
+			}
+			
+			button=this.topToolbar.find("name",'batchSubmit')[0];
+			if(button){
+				var enableFlag = true;
+				for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            if(record.get("APP_STATUS") != 1){
+		            	enableFlag = false;
+		            	break;
+		            }
+		        }
+				button.setDisabled(!enableFlag);
 			}
 	    },this);
 		
@@ -912,6 +972,16 @@ Ext.ux.SkuFormPanel = Ext.extend(Ext.form.FormPanel, {
 	    },GenerateCodeNameComboGrid({
 	    	fieldLabel:'成交单位',
 	    	name: 'UNIT',
+	        allowBlank : false
+        	},relationCategory_unit
+	    ),GenerateCodeNameComboGrid({
+	    	fieldLabel:'法定计量单位',
+	    	name: 'UNIT1',
+	        allowBlank : false
+        	},relationCategory_unit
+	    ),GenerateCodeNameComboGrid({
+	    	fieldLabel:'第二计量单位',
+	    	name: 'UNIT2',
 	        allowBlank : false
         	},relationCategory_unit
 	    ),{

@@ -4,7 +4,8 @@ function isSkuReadOnly(record){
 }
 
 var SkuCompleteParam={
-	RETURN_STATUS: 2//海关审结
+//新建订单选择商品时，不再只显示海关审核通过的商品，全部显示。有些审批通过的商品也没显示。2016/7/29邮件修改点
+//	RETURN_STATUS: 2//海关审结
 };
 
 var ComboBoxValue_sku={

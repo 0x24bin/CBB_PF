@@ -39,6 +39,13 @@ public interface INJCommonManagerService {
 	
 	
 	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public void batchSubmit_SKU(Map<String,Object> params) throws CommonException;
+	
+	
+	/**
 	 * @param order
 	 * @throws CommonException
 	 */
@@ -59,6 +66,12 @@ public interface INJCommonManagerService {
 	 * @throws CommonException
 	 */
 	public void delOrder(Map<String,Object> params) throws CommonException;
+	
+	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public void batchSubmit_ORDER(Map<String,Object> params) throws CommonException;
 	
 	/**
 	 * @param params: Integer start, Integer limit, ...
@@ -93,6 +106,13 @@ public interface INJCommonManagerService {
 	 * @throws CommonException
 	 */
 	public void delInventory(Map<String,Object> params) throws CommonException;
+	
+	/**
+	 * @param params
+	 * @throws CommonException
+	 */
+	public void batchSubmit_INVENTORY(Map<String,Object> params) throws CommonException;
+
 	/**
 	 * @param inventory
 	 * @throws CommonException

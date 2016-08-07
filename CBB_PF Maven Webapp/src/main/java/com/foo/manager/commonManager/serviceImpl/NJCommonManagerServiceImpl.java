@@ -295,6 +295,73 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 	}
 	
 	@Override
+	public void batchSubmit_SKU(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> skuList = null;
+		Map sku = null;
+		String tableName=T_NJ_SKU;
+		String primaryCol="SKU_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+		for(String guid:guidList){
+			try{
+				//获取商品信息
+				skuList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(skuList !=null && skuList.size() == 1){
+					sku = skuList.get(0);
+				}else{
+					errorMessage.append(guid+"：商品数据不存在！;<br/>");
+					continue;
+				}
+				//数据完备性检查
+				if(sku.get(primaryCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+primaryCol+"为空！）;<br/>");
+					continue;
+				}
+				// 唯一性校验
+				uniqueCol="ITEM_NO";
+				//数据完备性检查
+				if(sku.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,sku.get(uniqueCol),primaryCol,sku.get(primaryCol),false);
+	
+				Map data =  njCommonManagerMapper.selectDataForMessage201_NJ(guid);
+
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				//测试
+	//			String reponse = "";
+				
+				String reponse = submitXml_SKU(guid,data,CommonDefine.CEB201,currentTime);
+				
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
+						reponse.startsWith("P")){
+					
+					sku.put("APP_TIME", currentTime);
+					sku.put("PRE_NO", reponse);
+					
+					njCommonManagerMapper.updateSku_nj(sku);
+				}else{
+					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
+				}
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+		
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
+		}
+	}
+	
+	@Override
 	public Map<String, Object> getAllOrders(Map<String, Object> params)
 			throws CommonException {
 		List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
@@ -403,6 +470,79 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		} catch (Exception e) {
 			throw new CommonException(e,
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	
+	@Override
+	public void batchSubmit_ORDER(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> orderList = null;
+		Map order = null;
+		String tableName=T_NJ_ORDERS;
+		String primaryCol="ORDERS_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+		for(String guid:guidList){
+			try{
+				//获取运单信息
+				orderList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(orderList !=null && orderList.size() == 1){
+					order = orderList.get(0);
+				}else{
+					errorMessage.append(guid+"：订单数据不存在！;<br/>");
+					continue;
+				}
+				//数据完备性检查
+				if(order.get(primaryCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+primaryCol+"为空！）;<br/>");
+					continue;
+				}
+				// 唯一性校验
+				uniqueCol="ORDER_NO";
+				//数据完备性检查
+				if(order.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,order.get(uniqueCol),primaryCol,order.get(primaryCol),false);
+
+				Map data =  njCommonManagerMapper.selectDataForMessage301_NJ(guid);
+				
+				//获取订单详细信息
+				List<Map> subDataList = njCommonManagerMapper.selectSubDataForMessage301_NJ(Integer.valueOf(order.get("ORDERS_ID").toString()));
+				
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				//测试
+	//			String reponse = "";
+				
+				String reponse = submitXml_ORDER(guid,data,subDataList,CommonDefine.CEB301,currentTime);
+				
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
+						reponse.startsWith("P")){
+					
+					order.put("APP_TIME", currentTime);
+//					order.put("PRE_NO", reponse);
+					order.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
+					order.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
+					
+					njCommonManagerMapper.updateOrder_nj(order);
+				}else{
+					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
+				}
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+		
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
 		}
 	}
 	
@@ -1069,6 +1209,69 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		} catch (Exception e) {
 			throw new CommonException(e,
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
+		}
+	}
+	
+	
+	@Override
+	public void batchSubmit_INVENTORY(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> inventoryList = null;
+		Map inventory = null;
+		String tableName=T_NJ_INVENTORY;
+		String primaryCol="INVENTORY_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+		for(String guid:guidList){
+			try{
+				//获取运单信息
+				inventoryList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(inventoryList !=null && inventoryList.size() == 1){
+					inventory = inventoryList.get(0);
+				}else{
+					errorMessage.append(guid+"：清单数据不存在！;<br/>");
+					continue;
+				}
+				//数据完备性检查
+				if(inventory.get(primaryCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+primaryCol+"为空！）;<br/>");
+					continue;
+				}
+
+				Map data =  njCommonManagerMapper.selectDataForMessage601_NJ(guid);
+				
+				//获取订单详细信息
+				List<Map> subDataList = njCommonManagerMapper.selectSubDataForMessage601_NJ(Integer.valueOf(inventory.get("INVENTORY_ID").toString()));
+				
+				//更新申报时间
+				String currentTime = new SimpleDateFormat(
+						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				
+				//测试
+	//			String reponse = "";
+				
+				String reponse = submitXml_INVENTORY(guid,data,subDataList,CommonDefine.CEB601,currentTime);
+				
+				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
+						reponse.startsWith("P")){
+					
+					inventory.put("APP_TIME", currentTime);
+					inventory.put("PRE_NO", reponse);
+					
+					njCommonManagerMapper.updateInventory_nj(inventory);
+				}else{
+					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
+				}
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+		
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
 		}
 	}
 	
