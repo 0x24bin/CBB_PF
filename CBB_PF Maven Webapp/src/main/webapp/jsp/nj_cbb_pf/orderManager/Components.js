@@ -853,7 +853,7 @@ Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
 	    	xtype:'numberfield',
 	    	allowNegative: false,
 	        fieldLabel:'综合税费',
-	        maxLength: 4,
+//	        maxLength: 4,
 	        decimalPrecision:2,
 	        allowDecimals:true,
 	        name: 'TAX_FEE',

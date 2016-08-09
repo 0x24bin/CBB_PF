@@ -1080,7 +1080,7 @@
       </field>
       <field>
         <name>&#x6cd5;&#x5b9a;&#x8ba1;&#x91cf;&#x5355;&#x4f4d;&#x4ee3;&#x7801;</name>
-        <type>None</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
@@ -1092,7 +1092,7 @@
       </field>
       <field>
         <name>&#x7b2c;&#x4e8c;&#x8ba1;&#x91cf;&#x5355;&#x4f4d;&#x4ee3;&#x7801;</name>
-        <type>None</type>
+        <type>String</type>
         <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
@@ -1109,7 +1109,7 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>&#x23;</format>
+        <format>&#x23;,&#x23;&#x23;0.&#x23;&#x23;&#x23;</format>
         <currency/>
         <decimal/>
         <group/>
