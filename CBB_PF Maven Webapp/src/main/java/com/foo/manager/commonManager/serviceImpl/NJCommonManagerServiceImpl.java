@@ -2093,9 +2093,13 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		head.put("SEND_TIME", currentTime);
 		data.put("APP_TIME", currentTime);
 		
+		//测试用
+//		data.put("BIZ_TYPE", "2");
+		
 		switch(messageType){
 		case CommonDefine.CEB601:
 			//关联order中的orderType
+			String messageId = head.get("MESSAGE_ID").toString();
 			//一般进口
 			if("1".equals(data.get("BIZ_TYPE").toString())){
 				head.put("MESSAGE_TYPE", CommonDefine.CEB601);
@@ -2103,15 +2107,19 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			//一般出口
 			if("2".equals(data.get("BIZ_TYPE").toString())){
 				head.put("MESSAGE_TYPE", CommonDefine.CEB607);
+				messageId = messageId.replaceFirst("CEB_601", "CEB_"+CommonDefine.CEB607);
 			}
 			//保税进口
 			if("3".equals(data.get("BIZ_TYPE").toString())){
 				head.put("MESSAGE_TYPE", CommonDefine.CEB604);
+				messageId = messageId.replaceFirst("CEB_601", "CEB_"+CommonDefine.CEB604);
 			}
 			//保税出口
 			if("4".equals(data.get("BIZ_TYPE").toString())){
 				head.put("MESSAGE_TYPE", CommonDefine.CEB610);
+				messageId = messageId.replaceFirst("CEB_601", "CEB_"+CommonDefine.CEB610);
 			}
+			head.put("MESSAGE_ID", messageId);
 			break;
 		case CommonDefine.CEB603:
 			head.put("MESSAGE_TYPE", CommonDefine.CEB603);

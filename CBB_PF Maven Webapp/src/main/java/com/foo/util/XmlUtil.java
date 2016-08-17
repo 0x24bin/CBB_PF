@@ -371,7 +371,8 @@ public class XmlUtil {
 			break;
 		//CEB601出境清单数据
 		case CommonDefine.CEB601:
-			messageType = CommonDefine.MESSAGE_TYPE_CEB601;
+			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
+//			messageType = CommonDefine.MESSAGE_TYPE_CEB601;
 			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
 			subRootElementName = rootPrefix+"NjkjNiInventoryListEntityList";
 			subSubRootElementName = rootPrefix+"NjkjNiInventoryListEntity";
