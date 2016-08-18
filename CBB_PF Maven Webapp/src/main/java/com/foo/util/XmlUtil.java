@@ -373,9 +373,31 @@ public class XmlUtil {
 		case CommonDefine.CEB601:
 			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
 //			messageType = CommonDefine.MESSAGE_TYPE_CEB601;
+			//一般进口
+			if(CommonDefine.MESSAGE_TYPE_CEB601.equals(messageType)){
 			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
 			subRootElementName = rootPrefix+"NjkjNiInventoryListEntityList";
 			subSubRootElementName = rootPrefix+"NjkjNiInventoryListEntity";
+			}
+			//一般出口
+			if(CommonDefine.MESSAGE_TYPE_CEB607.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNeInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjNeInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjNeInventoryListEntity";
+			}
+			//保税进口
+			if(CommonDefine.MESSAGE_TYPE_CEB604.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBiInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjBiInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjBiInventoryListEntity";
+			}
+			//保税出口
+			if(CommonDefine.MESSAGE_TYPE_CEB610.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBeInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjBeInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjBeInventoryListEntity";
+			}
+			
 			//APP_STATUS写死为1，暂存
 			if(data.containsKey("APP_STATUS")){
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
@@ -391,8 +413,24 @@ public class XmlUtil {
 			}
 			break;
 		case CommonDefine.CEB603:
-			messageType = CommonDefine.MESSAGE_TYPE_CEB603;
+			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
+//			messageType = CommonDefine.MESSAGE_TYPE_CEB603;
+			//一般进口
+			if(CommonDefine.MESSAGE_TYPE_CEB603.equals(messageType)){
 			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+			}
+			//一般出口
+			if(CommonDefine.MESSAGE_TYPE_CEB609.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNeInventoryHeadEntity";
+			}
+			//保税进口
+			if(CommonDefine.MESSAGE_TYPE_CEB606.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBiInventoryHeadEntity";
+			}
+			//保税出口
+			if(CommonDefine.MESSAGE_TYPE_CEB612.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBeInventoryHeadEntity";
+			}
 			//APP_STATUS写死为1，暂存
 			if(data.containsKey("APP_STATUS")){
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);

@@ -2096,10 +2096,10 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		//测试用
 //		data.put("BIZ_TYPE", "2");
 		
+		//关联order中的orderType
+		String messageId = head.get("MESSAGE_ID").toString();
 		switch(messageType){
 		case CommonDefine.CEB601:
-			//关联order中的orderType
-			String messageId = head.get("MESSAGE_ID").toString();
 			//一般进口
 			if("1".equals(data.get("BIZ_TYPE").toString())){
 				head.put("MESSAGE_TYPE", CommonDefine.CEB601);
@@ -2122,7 +2122,26 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 			head.put("MESSAGE_ID", messageId);
 			break;
 		case CommonDefine.CEB603:
+			//一般进口
+			if("1".equals(data.get("BIZ_TYPE").toString())){
 			head.put("MESSAGE_TYPE", CommonDefine.CEB603);
+			}
+			//一般出口
+			if("2".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB609);
+				messageId = messageId.replaceFirst("CEB_603", "CEB_"+CommonDefine.CEB609);
+			}
+			//保税进口
+			if("3".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB606);
+				messageId = messageId.replaceFirst("CEB_603", "CEB_"+CommonDefine.CEB606);
+			}
+			//保税出口
+			if("4".equals(data.get("BIZ_TYPE").toString())){
+				head.put("MESSAGE_TYPE", CommonDefine.CEB612);
+				messageId = messageId.replaceFirst("CEB_603", "CEB_"+CommonDefine.CEB612);
+			}
+			head.put("MESSAGE_ID", messageId);
 			break;
 		}
 		//在进口时，收发货人代码自动填收货人的身份证号，收发货人名称自动填收货人姓名

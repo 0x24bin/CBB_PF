@@ -88,9 +88,15 @@ public class CommonDefine {
 	
 	public static final int CEB604 = 604;
 	
+	public static final int CEB606 = 606;
+	
 	public static final int CEB607 = 607;
 	
+	public static final int CEB609 = 609;
+	
 	public static final int CEB610 = 610;
+	
+	public static final int CEB612 = 612;
 	
 	//商品备案回执获取--单条
 	public static final int CEB201_RECEIPT_SINGLE = 9201;
@@ -122,6 +128,12 @@ public class CommonDefine {
 	public static final String MESSAGE_TYPE_CEB601 = "CEB601";
 	public static final String MESSAGE_TYPE_CEB602 = "CEB602";
 	public static final String MESSAGE_TYPE_CEB603 = "CEB603";
+	public static final String MESSAGE_TYPE_CEB604 = "CEB604";
+	public static final String MESSAGE_TYPE_CEB606 = "CEB606";
+	public static final String MESSAGE_TYPE_CEB607 = "CEB607";
+	public static final String MESSAGE_TYPE_CEB609 = "CEB609";
+	public static final String MESSAGE_TYPE_CEB610 = "CEB610";
+	public static final String MESSAGE_TYPE_CEB612 = "CEB612";
 	
 	//GUID序号前缀
 	public static final String GUID_FOR_SKU = "SINOTRANS-SKU";
