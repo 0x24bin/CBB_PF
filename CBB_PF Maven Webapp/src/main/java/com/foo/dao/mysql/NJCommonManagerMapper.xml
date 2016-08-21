@@ -888,7 +888,7 @@
 		SELECT 
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(logistics.`ORDER_NO`, '') AS ORDER_NO,
-<!-- 		  IFNULL(sku.`G_NO`, '') AS G_NO, -->
+		  IFNULL(sku.`G_NO`, '') AS G_NO,
 		  IFNULL(sku.`ITEM_NO`, '') AS ITEM_NO,
 		  IFNULL(sku.`G_CODE`, '') AS G_CODE,
 		  IFNULL(sku.`TAX_CODE`, '') AS TAX_CODE,
