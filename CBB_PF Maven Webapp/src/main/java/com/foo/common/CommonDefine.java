@@ -103,10 +103,18 @@ public class CommonDefine {
 	//商品备案回执获取--列表
 	public static final int CEB201_RECEIPT_LIST = 9202;
 	
-	//清单回执获取--单条
+	//清单回执获取--单条--一般进口
 	public static final int CEB601_RECEIPT_SINGLE = 9601;
-	//清单回执获取--列表
+	//清单回执获取--单条--一般出口
+	public static final int CEB607_RECEIPT_SINGLE = 9607;
+	//清单回执获取--单条--保税进口
+	public static final int CEB604_RECEIPT_SINGLE = 9604;
+	//清单回执获取--单条--一般出口
+	public static final int CEB610_RECEIPT_SINGLE = 9610;
+	//清单回执获取--列表--一般进口
 	public static final int CEB601_RECEIPT_LIST = 9602;
+	//清单回执获取--列表--一般出口
+	public static final int CEB607_RECEIPT_LIST = 9608;
 		
 	//申请ems单号
 	public static final int APPLY_EMS_NO = 9999;

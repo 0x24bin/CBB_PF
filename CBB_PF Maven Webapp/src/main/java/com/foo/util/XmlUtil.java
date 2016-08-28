@@ -375,9 +375,9 @@ public class XmlUtil {
 //			messageType = CommonDefine.MESSAGE_TYPE_CEB601;
 			//一般进口
 			if(CommonDefine.MESSAGE_TYPE_CEB601.equals(messageType)){
-			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
-			subRootElementName = rootPrefix+"NjkjNiInventoryListEntityList";
-			subSubRootElementName = rootPrefix+"NjkjNiInventoryListEntity";
+				rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjNiInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjNiInventoryListEntity";
 			}
 			//一般出口
 			if(CommonDefine.MESSAGE_TYPE_CEB607.equals(messageType)){
@@ -417,7 +417,7 @@ public class XmlUtil {
 //			messageType = CommonDefine.MESSAGE_TYPE_CEB603;
 			//一般进口
 			if(CommonDefine.MESSAGE_TYPE_CEB603.equals(messageType)){
-			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+				rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
 			}
 			//一般出口
 			if(CommonDefine.MESSAGE_TYPE_CEB609.equals(messageType)){
@@ -1370,9 +1370,23 @@ public class XmlUtil {
 		case CommonDefine.CEB601_RECEIPT_SINGLE:
 			nodeName = "GetReceiptNiInvtByCode";
 			break;
+		case CommonDefine.CEB607_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNeInvtByCode";
+			break;
+/*		case CommonDefine.CEB604_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNiInvtByCode";
+			break;
+		case CommonDefine.CEB610_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNiInvtByCode";
+			break;*/
+			
 		case CommonDefine.CEB601_RECEIPT_LIST:
 			nodeName = "GetReceiptNiInvtListByCode";
 			break;
+		case CommonDefine.CEB607_RECEIPT_LIST:
+			nodeName = "GetReceiptNeInvtListByCode";
+			break;
+			
 		}
 		
 		return nodeName;

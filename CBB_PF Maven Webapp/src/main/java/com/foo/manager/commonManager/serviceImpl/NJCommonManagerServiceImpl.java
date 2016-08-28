@@ -742,9 +742,32 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 				getReceipt_SKU(guid, ebcCode,itemNo, CommonDefine.CEB201_RECEIPT_SINGLE);
 				break;
 			case CommonDefine.CEB601:
+				
+				int receiptType = CommonDefine.CEB601_RECEIPT_SINGLE;
+				Map data =  njCommonManagerMapper.selectDataForMessage601_NJ(guid);
+				//一般进口
+				if("1".equals(data.get("BIZ_TYPE").toString())){
+					receiptType = CommonDefine.CEB601_RECEIPT_SINGLE;
+				}
+				//一般出口
+				if("2".equals(data.get("BIZ_TYPE").toString())){
+					receiptType = CommonDefine.CEB607_RECEIPT_SINGLE;
+				}
+				//保税进口
+				if("3".equals(data.get("BIZ_TYPE").toString())){
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无需获取回执！");
+				}
+				//保税出口
+				if("4".equals(data.get("BIZ_TYPE").toString())){
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无需获取回执！");
+				}
 				String logisticsNo = params.get("LOGISTICS_NO").toString();
 				//更新回执状态
-				getReceipt_INVENTORY(guid, ebcCode,logisticsNo, CommonDefine.CEB601_RECEIPT_SINGLE);
+				getReceipt_INVENTORY(guid, ebcCode,logisticsNo, receiptType);
 				break;
 			}
 		} catch (CommonException e) {
@@ -2124,7 +2147,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		case CommonDefine.CEB603:
 			//一般进口
 			if("1".equals(data.get("BIZ_TYPE").toString())){
-			head.put("MESSAGE_TYPE", CommonDefine.CEB603);
+				head.put("MESSAGE_TYPE", CommonDefine.CEB603);
 			}
 			//一般出口
 			if("2".equals(data.get("BIZ_TYPE").toString())){
@@ -2248,10 +2271,12 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 
 			switch(messageType){
 			case CommonDefine.CEB601_RECEIPT_SINGLE:
+			case CommonDefine.CEB607_RECEIPT_SINGLE:
 				leafNods.put("strEbcCode", ebcCode);
 				leafNods.put("strLogisticsNo", logisticsNo);
 				break;
 			case CommonDefine.CEB601_RECEIPT_LIST:
+			case CommonDefine.CEB607_RECEIPT_LIST:
 				leafNods.put("strEbcCode", ebcCode);
 				break;
 			}
