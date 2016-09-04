@@ -84,8 +84,14 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 			pageTool.doLoad(pageTool.cursor);
 		}
 	},
-	delSku : function (record){
-		
+	delConfirm : function (record){
+		Ext.MessageBox.confirm('提示', '确定删除？', function(button, text) {
+			if (button == 'yes') {
+				this.del(record);
+			}
+		}.createDelegate(this));
+	},
+	del : function (record){
 		if(this.mode!="local"){
 			var param={
 				GUID:record.get("GUID"),
@@ -509,7 +515,7 @@ Ext.ux.SkuGridPanel = Ext.extend(Ext.grid.EditorGridPanel, {
 	   		        handler: function(){
 	   		        	var data=this.checkSelect(true);
 	   		        	if(data)
-	   		        		this.delSku(data);
+	   		        		this.delConfirm(data);
 	   		        }.createDelegate(this)
 	   			},{
 	   		        text: '复制',

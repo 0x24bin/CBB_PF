@@ -879,7 +879,7 @@
         <precision>-1</precision>
         <trim_type>none</trim_type>
         <repeat>N</repeat>
-        <format>&#x23;</format>
+        <format>&#x23;,&#x23;&#x23;0.&#x23;&#x23;&#x23;</format>
         <currency/>
         <decimal/>
         <group/>

@@ -83,6 +83,13 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			pageTool.doLoad(pageTool.cursor);
 		}
 	},
+	delConfirm : function (record){
+		Ext.MessageBox.confirm('提示', '确定删除？', function(button, text) {
+			if (button == 'yes') {
+				this.del(record);
+			}
+		}.createDelegate(this));
+	},
 	del : function (record){
 //		if(isOrderReadOnly(record)){
 			var param={
@@ -589,7 +596,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        handler: function(){
 			        	var data=this.checkSelect(true);
 			        	if(data)
-			        		this.del(data);
+			        		this.delConfirm(data);
 			        }.createDelegate(this)
 				},{
 			        text: '状态设置',
