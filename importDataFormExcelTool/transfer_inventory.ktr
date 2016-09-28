@@ -1682,7 +1682,7 @@ public boolean processRow(StepMetaInterface smi, StepDataInterface sdi) throws K
 	return true;
 }
 
-private String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
+private static synchronized String generalGuid4NJ(String prifix,String ebcCode,String customsCode){
 
 
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMddHHmmssSSS");
