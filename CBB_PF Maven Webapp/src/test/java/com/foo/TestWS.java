@@ -138,8 +138,7 @@ public class TestWS {
 		try {
 			document = reader.read(new StringReader(inputXML));
 		} catch (DocumentException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			return "result is"+inputXML;
 		}  
         String requestXML = null;  
         XMLWriter writer = null;  

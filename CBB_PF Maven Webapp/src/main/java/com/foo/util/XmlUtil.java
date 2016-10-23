@@ -1301,6 +1301,56 @@ public class XmlUtil {
 		return result;
 	}
 	
+	
+	/**
+	 * 解析xml字符串,SNT101报文
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,Object> parseXmlSNT301_WS(String xmlString) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		String rootNode = "SNT301Message";
+		
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			//获取文件类型节点
+			XPath xpath = document.createXPath("//"+rootNode+"/OrderHead/child::*"); 
+			
+			List<Node> OrderHeadChildNodes = xpath.selectNodes(document);
+			
+			Map<String,String> OrderHead = new HashMap<String,String>();
+			//添加OrderHead数据
+			for(Node node:OrderHeadChildNodes){
+				OrderHead.put(node.getName(), node.getText());
+			}
+			result.put("OrderHead", OrderHead);
+			//选取orderList节点的子节点，即order节点
+			xpath = document.createXPath("//"+rootNode+"/OrderList/child::*"); 
+			
+			List<Node> OrderListChildNodes = xpath.selectNodes(document);
+			
+			List<Map<String,String>> orderList = new ArrayList<Map<String,String>>();
+			//添加OrderHead数据
+			for(Node order:OrderListChildNodes){
+				List<Node> OrderChildNodes = order.selectNodes("child::*");
+						
+				Map<String,String> orderData = new HashMap<String,String>();
+				//添加Order数据
+				for(Node node:OrderChildNodes){
+					orderData.put(node.getName(), node.getText());
+				}
+				orderList.add(orderData);
+			}
+			result.put("OrderList", orderList);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//生成回执xml
 	public static String generalReceiptXml_WS(String fileType,Map content){
 

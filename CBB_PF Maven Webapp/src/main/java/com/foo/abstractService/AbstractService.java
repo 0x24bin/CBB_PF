@@ -46,6 +46,12 @@ public abstract class AbstractService {
 	protected static String V_NJ_PAY = "V_NJ_PAY";
 	protected static String V_NJ_ORDERS_UNUSE_PAY = "V_NJ_ORDERS_UNUSE_PAY";
 	
+	//
+	protected static String T_IMPORT_ORDERS = "T_IMPORT_ORDERS";
+	protected static String T_IMPORT_ORDER_DETAIL = "T_IMPORT_ORDER_DETAIL";
+	protected static String T_IMPORT_LOGISTICS = "T_IMPORT_LOGISTICS";
+	
+	
 	//检测ftp时候启动
 	protected void checkFtpServerValid() throws CommonException{
 		try{
