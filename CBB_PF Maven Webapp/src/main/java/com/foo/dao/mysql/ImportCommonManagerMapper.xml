@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.foo.dao.mysql.ImportCommonManagerMapper">
 
-	<update id="updateSku_nj" parameterType="hashmap" >
-	    update T_NJ_SKU
+	<update id="updateSku_import" parameterType="hashmap" >
+	    update T_import_SKU
 	    <set >
 	      <if test="CUSTOM_CODE != null" >
 	        CUSTOM_CODE = #{CUSTOM_CODE},
@@ -126,7 +126,7 @@
 	    where GUID = #{GUID}
 	  </update>
 
-	<select id="selectDataForMessage20X_NJ_head" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage20X_import_head" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
@@ -135,12 +135,12 @@
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
-		  T_NJ_SKU t 
+		  T_import_SKU t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 
 	
-	<select id="selectDataForMessage201_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage201_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -197,12 +197,12 @@
 		  IFNULL(t.`GIFT_FLAG`, '') AS GIFT_FLAG,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
-		  T_NJ_SKU t 
+		  T_import_SKU t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<update id="updateOrder_nj" parameterType="hashmap" >
-	    update t_nj_orders
+	<update id="updateOrder_import" parameterType="hashmap" >
+	    update t_import_orders
 	    <set >
 	      <if test="ORDER_NO != null" >
 	        ORDER_NO = #{ORDER_NO},
@@ -297,19 +297,19 @@
 	  
 	  
 	
-	<select id="selectDataForMessage203_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage203_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
 		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
 		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE,
 		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO
 		FROM
-		  T_NJ_SKU t 
+		  T_import_SKU t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
 	
-	<select id="selectDataForMessage30X_NJ_head" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage30X_import_head" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
@@ -318,11 +318,11 @@
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
-		  t_nj_orders t 
+		  t_import_orders t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<select id="selectDataForMessage301_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage301_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -382,7 +382,7 @@
 		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
-		  t_nj_orders t 
+		  t_import_orders t 
 		  LEFT JOIN T_CONTACT contact1 
 		    ON t.CONSIGNEE_ID = contact1.CONTACT_ID 
 		  LEFT JOIN T_CONTACT contact2 
@@ -390,7 +390,7 @@
 		WHERE t.`GUID` = #{guid}   
 	</select>
 	
-	 <select id="selectSubDataForMessage301_NJ" resultType="java.util.LinkedHashMap" >
+	 <select id="selectSubDataForMessage301_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
@@ -409,25 +409,25 @@
 		  IFNULL(t.`TOTAL`, '') AS TOTAL,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
-		  t_nj_order_detail t 
-		  LEFT JOIN t_nj_orders orders 
+		  t_import_order_detail t 
+		  LEFT JOIN t_import_orders orders 
 		    ON t.ORDERS_ID = orders.ORDERS_ID
-		  LEFT JOIN t_nj_sku s 
+		  LEFT JOIN t_import_sku s 
 		    ON (s.ITEM_NO = t.ITEM_NO AND s.BIZ_TYPE = orders.ORDER_TYPE)
 		WHERE t.`ORDERS_ID` = #{orderId} 
 	</select>
 	
-	<select id="selectDataForMessage303_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage303_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
 		  IFNULL(t.`ORDER_NO`, '') AS PRE_ORDER_NO,
 		  IFNULL(t.`EBC_CODE`, '') AS EBC_CODE
 		FROM
-		  t_nj_orders t 
+		  t_import_orders t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<select id="selectDataForMessage40X_NJ_head" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage40X_import_head" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
@@ -436,12 +436,12 @@
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
-		  t_nj_pay t 
+		  t_import_pay t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
 	
-	<select id="selectDataForMessage401_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage401_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -481,16 +481,16 @@
 		  IFNULL(contact1.`CODE`, '') AS DRAWEE_INDENTITY,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
-		  t_nj_pay t 
-		  LEFT JOIN T_NJ_ORDERS orders 
+		  t_import_pay t 
+		  LEFT JOIN T_import_ORDERS orders 
 		    ON t.ORDER_NO = orders.ORDER_NO
 		  LEFT JOIN T_CONTACT contact1 
 		    ON orders.CONSIGNEE_ID = contact1.CONTACT_ID 
 		WHERE t.`GUID` = #{guid}   
 	</select>
 	
-	<update id="updatePay_nj" parameterType="hashmap" >
-	    update T_NJ_PAY
+	<update id="updatePay_import" parameterType="hashmap" >
+	    update T_import_PAY
 	    <set >
 	      <if test="RECEIVER_ID != null" >
 	        RECEIVER_ID = #{RECEIVER_ID},
@@ -559,7 +559,7 @@
 	    where GUID = #{GUID}
 	  </update>
 	
-	<select id="selectDataForMessage501_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage501_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -611,38 +611,38 @@
 		  IFNULL(t.`LOGISTICS_HEAD_NO`, '') AS LOGISTICS_HEAD_NO,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
-		  T_NJ_LOGISTICS t 
+		  T_import_LOGISTICS t 
 		  LEFT JOIN T_CONTACT contact2 
 		    ON t.CONSIGNEE_ID = contact2.CONTACT_ID 
 		  LEFT JOIN T_CONTACT contact1 
 		    ON t.SHIPPER_ID = contact1.CONTACT_ID
-		  LEFT JOIN t_nj_orders orders
+		  LEFT JOIN t_import_orders orders
 		    ON t.ORDER_NO = orders.ORDER_NO 
 		WHERE t.`GUID` = #{guid}  
 	</select>
 	
-	<select id="selectSubDataForMessage501_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectSubDataForMessage501_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`ORDER_NO`, '') AS ORDER_NO,
 		  IFNULL(t.`GOODS_INFO`, '') AS GOODS_INFO,
 		  IFNULL(t.`PARCEL_INFO`, '') AS PARCEL_INFO
 		FROM
-		  T_NJ_LOGISTICS t 
+		  T_import_LOGISTICS t 
 		WHERE t.`ORDER_NO` = #{orderNo} 
 	</select>
 	
 	
-	<select id="selectDataForMessage502_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage502_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
 		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
 		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE 
 		FROM
-		  T_NJ_LOGISTICS t 
+		  T_import_LOGISTICS t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<select id="selectDataForMessage503_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage503_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -658,11 +658,11 @@
 		  '' AS PHONE,
 		  '' AS LOGISTICS_NOTE
 		FROM
-		  T_NJ_LOGISTICS t 
+		  T_import_LOGISTICS t 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<select id="selectDataForMessage50X_NJ_head" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage50X_import_head" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
@@ -671,14 +671,14 @@
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
-		  T_NJ_LOGISTICS t 
-		  LEFT JOIN t_nj_orders orders
+		  T_import_LOGISTICS t 
+		  LEFT JOIN t_import_orders orders
 		    ON t.ORDER_NO = orders.ORDER_NO 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<update id="updateLogistics_nj" parameterType="hashmap" >
-	    update T_NJ_LOGISTICS
+	<update id="updateLogistics_import" parameterType="hashmap" >
+	    update T_import_LOGISTICS
 	    <set >
 	    <if test="ORDER_NO != null" >
 	        ORDER_NO = #{ORDER_NO},
@@ -783,7 +783,7 @@
 	    where GUID = #{GUID}
 	  </update>
 	
-	<select id="selectDataForMessage601_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage601_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
@@ -872,10 +872,10 @@
 		  CONTACT.`NAME` AS CONTACT_NAME
 		   
 		FROM
-		  T_NJ_INVENTORY t 
-		  LEFT JOIN T_NJ_LOGISTICS logistics 
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
 		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
-		  LEFT JOIN t_nj_orders orders 
+		  LEFT JOIN t_import_orders orders 
 		    ON orders.ORDER_NO = logistics.ORDER_NO
 		  LEFT JOIN `T_CODE_NAME` CODENAME 
     		ON logistics.LOGISTICS_CODE = CODENAME.CODE AND CODENAME.RELATION_CATEGORY="LOGISTICS_CODE"
@@ -884,7 +884,7 @@
 		WHERE t.`GUID` = #{guid}  
 	</select>
 
-	<select id="selectSubDataForMessage601_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectSubDataForMessage601_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(logistics.`ORDER_NO`, '') AS ORDER_NO,
@@ -907,21 +907,21 @@
 		  IFNULL(t.`PRICE`, '') AS PRICE,
 		  IFNULL(t.`TOTAL`, '') AS TOTAL
 		FROM
-		  T_NJ_INVENTORY_DETAIL t
-		  LEFT JOIN t_nj_inventory inventory 
+		  T_import_INVENTORY_DETAIL t
+		  LEFT JOIN t_import_inventory inventory 
 		    ON inventory.INVENTORY_ID = t.INVENTORY_ID
-		  LEFT JOIN t_nj_logistics logistics 
+		  LEFT JOIN t_import_logistics logistics 
 		    ON logistics.LOGISTICS_NO = inventory.LOGISTICS_NO
-		  LEFT JOIN t_nj_orders orders 
+		  LEFT JOIN t_import_orders orders 
 		    ON orders.ORDER_NO = logistics.ORDER_NO
 		  LEFT JOIN T_CONTACT contact1 
 		    ON orders.CONSIGNEE_ID = contact1.CONTACT_ID
-		  LEFT JOIN t_nj_sku sku 
+		  LEFT JOIN t_import_sku sku 
 		    ON (sku.ITEM_NO = t.ITEM_NO and orders.ORDER_TYPE = sku.BIZ_TYPE)
 		WHERE t.INVENTORY_ID = #{inventoryId}
 	</select>
 	
-	<select id="selectDataForMessage60X_NJ_head" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage60X_import_head" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
@@ -930,30 +930,30 @@
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
-		  T_NJ_INVENTORY t 
-		  LEFT JOIN T_NJ_LOGISTICS logistics 
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
 		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
-		  LEFT JOIN t_nj_orders orders 
+		  LEFT JOIN t_import_orders orders 
 		    ON orders.ORDER_NO = logistics.ORDER_NO 
 		WHERE t.`GUID` = #{guid} 
 	</select>
 	
-	<select id="selectDataForMessage602_NJ" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage602_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
 		  IFNULL(t.`PRE_NO`, '') AS PRE_NO,
 		  IFNULL(orders.`EBC_CODE`, '') AS TRADE_CODE
 		FROM
-		  T_NJ_INVENTORY t 
-		  LEFT JOIN T_NJ_LOGISTICS logistics 
+		  T_import_INVENTORY t 
+		  LEFT JOIN T_import_LOGISTICS logistics 
 		    ON t.LOGISTICS_NO = logistics.LOGISTICS_NO 
-		  LEFT JOIN t_nj_orders orders 
+		  LEFT JOIN t_import_orders orders 
 		    ON orders.ORDER_NO = logistics.ORDER_NO 
 		WHERE t.`GUID` = #{guid}  
 	</select>
 	
-	<update id="updateInventory_nj" parameterType="hashmap" >
-	    update T_NJ_INVENTORY
+	<update id="updateInventory_import" parameterType="hashmap" >
+	    update T_import_INVENTORY
 	    <set >
 	      <if test="CUSTOM_CODE != null" >
 	        CUSTOM_CODE = #{CUSTOM_CODE},
@@ -1106,7 +1106,7 @@
 		  IFNULL(logistics.PARCEL_INFO, '') AS ParcelInfo,
 		  IFNULL(logistics.LOGISTICS_STATUS, '') AS GoodStatus 
 		FROM
-		  t_nj_logistics logistics 
+		  t_import_logistics logistics 
 		WHERE logistics.LOGISTICS_NO = #{LogisticsNo};
 	</select>
 	

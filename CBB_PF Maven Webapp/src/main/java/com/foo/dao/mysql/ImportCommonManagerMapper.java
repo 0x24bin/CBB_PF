@@ -17,21 +17,21 @@ public interface ImportCommonManagerMapper {
 	 * @param data
 	 * @return
 	 */
-	public void updateSku_nj(Map data);
+	public void updateSku_import(Map data);
 	
 	/**
 	 * 获取201报文数据
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage20X_NJ_head(
+	public Map selectDataForMessage20X_import_head(
 			@Param(value = "guid") String guid);
 	/**
 	 * 获取201报文数据
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage201_NJ(
+	public Map selectDataForMessage201_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -39,7 +39,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage203_NJ(
+	public Map selectDataForMessage203_import(
 			@Param(value = "guid") String guid);
 	
 	
@@ -48,14 +48,14 @@ public interface ImportCommonManagerMapper {
 	 * @param data
 	 * @return
 	 */
-	public void updateOrder_nj(Map data);
+	public void updateOrder_import(Map data);
 	
 	/**
 	 * 获取301报文数据
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage30X_NJ_head(
+	public Map selectDataForMessage30X_import_head(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -63,7 +63,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage301_NJ(
+	public Map selectDataForMessage301_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -71,7 +71,7 @@ public interface ImportCommonManagerMapper {
 	 * @param orderId
 	 * @return
 	 */
-	public List<Map> selectSubDataForMessage301_NJ(
+	public List<Map> selectSubDataForMessage301_import(
 			@Param(value = "orderId") Integer orderId);
 	
 	/**
@@ -79,7 +79,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage303_NJ(
+	public Map selectDataForMessage303_import(
 			@Param(value = "guid") String guid);
 	
 	
@@ -88,7 +88,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage40X_NJ_head(
+	public Map selectDataForMessage40X_import_head(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -96,7 +96,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage401_NJ(
+	public Map selectDataForMessage401_import(
 			@Param(value = "guid") String guid);
 	
 	
@@ -105,14 +105,14 @@ public interface ImportCommonManagerMapper {
 	 * @param data
 	 * @return
 	 */
-	public void updatePay_nj(Map data);
+	public void updatePay_import(Map data);
 	
 	/**
 	 * 获取501报文数据
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage501_NJ(
+	public Map selectDataForMessage501_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -120,7 +120,7 @@ public interface ImportCommonManagerMapper {
 	 * @param orderId
 	 * @return
 	 */
-	public List<Map> selectSubDataForMessage501_NJ(
+	public List<Map> selectSubDataForMessage501_import(
 			@Param(value = "orderNo") String orderNo);
 	
 	/**
@@ -128,7 +128,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage502_NJ(
+	public Map selectDataForMessage502_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -136,7 +136,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage503_NJ(
+	public Map selectDataForMessage503_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -144,7 +144,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage50X_NJ_head(
+	public Map selectDataForMessage50X_import_head(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -152,7 +152,7 @@ public interface ImportCommonManagerMapper {
 	 * @param data
 	 * @return
 	 */
-	public void updateLogistics_nj(Map data);
+	public void updateLogistics_import(Map data);
 	
 	
 	/**
@@ -160,7 +160,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage601_NJ(
+	public Map selectDataForMessage601_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -168,7 +168,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage60X_NJ_head(
+	public Map selectDataForMessage60X_import_head(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -176,7 +176,7 @@ public interface ImportCommonManagerMapper {
 	 * @param orderId
 	 * @return
 	 */
-	public List<Map> selectSubDataForMessage601_NJ(
+	public List<Map> selectSubDataForMessage601_import(
 			@Param(value = "inventoryId") Integer inventoryId);
 	
 	/**
@@ -184,7 +184,7 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage602_NJ(
+	public Map selectDataForMessage602_import(
 			@Param(value = "guid") String guid);
 	
 	/**
@@ -192,7 +192,7 @@ public interface ImportCommonManagerMapper {
 	 * @param data
 	 * @return
 	 */
-	public void updateInventory_nj(Map data);
+	public void updateInventory_import(Map data);
 	
 	/**
 	 * 获取SNT202报文数据

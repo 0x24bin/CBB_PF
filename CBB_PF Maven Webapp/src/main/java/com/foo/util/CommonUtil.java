@@ -348,8 +348,16 @@ public class CommonUtil {
 		case CommonDefine.CEB601:
 			prifix = "CEB_601";
 			break;
+			default:
+				prifix = "CEB";
 		}
-		String target = prifix + "_" + ebcCode + "_" + customsCode+"_"+currentTime;
+		if(!ebcCode.isEmpty()){
+			ebcCode = ebcCode + "_";
+		}
+		if(!customsCode.isEmpty()){
+			customsCode = customsCode + "_";
+		}
+		String target = prifix + "_" + ebcCode + customsCode + currentTime;
 
 		return target;
 	}

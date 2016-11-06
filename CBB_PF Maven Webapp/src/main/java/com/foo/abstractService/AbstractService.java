@@ -47,10 +47,21 @@ public abstract class AbstractService {
 	protected static String V_NJ_ORDERS_UNUSE_PAY = "V_NJ_ORDERS_UNUSE_PAY";
 	
 	//
+	protected static String T_IMPORT_SKU = "T_IMPORT_SKU";
+	protected static String T_IMPORT_INVENTORY = "T_IMPORT_INVENTORY";
+	protected static String T_IMPORT_INVENTORY_DETAIL = "T_IMPORT_INVENTORY_DETAIL";
+	protected static String T_IMPORT_PAY = "T_IMPORT_PAY";
 	protected static String T_IMPORT_ORDERS = "T_IMPORT_ORDERS";
 	protected static String T_IMPORT_ORDER_DETAIL = "T_IMPORT_ORDER_DETAIL";
 	protected static String T_IMPORT_LOGISTICS = "T_IMPORT_LOGISTICS";
-	
+	protected static String T_IMPORT_DELIVERY = "T_IMPORT_DELIVERY";
+	protected static String V_IMPORT_ORDERS_UNUSE = "V_IMPORT_ORDERS_UNUSE";
+	protected static String V_IMPORT_LOGISTICS= "V_IMPORT_LOGISTICS";
+	protected static String V_IMPORT_LOGISTICS_UNUSE = "V_IMPORT_LOGISTICS_UNUSE";
+	protected static String V_IMPORT_INVENTORY = "V_IMPORT_INVENTORY";
+	protected static String V_IMPORT_INVENTORY_DETAIL = "V_IMPORT_INVENTORY_DETAIL";
+	protected static String V_IMPORT_PAY = "V_IMPORT_PAY";
+	protected static String V_IMPORT_ORDERS_UNUSE_PAY = "V_IMPORT_ORDERS_UNUSE_PAY";
 	
 	//检测ftp时候启动
 	protected void checkFtpServerValid() throws CommonException{

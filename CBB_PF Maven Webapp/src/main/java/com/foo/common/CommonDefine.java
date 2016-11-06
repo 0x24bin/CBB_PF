@@ -55,6 +55,8 @@ public class CommonDefine {
 	public static final String ENTERPRISE_CODE = "EnterpriseCode";
 
 	//报文类型定义
+	//无类型
+	public static final int CEB_DEFAULT = 0;
 	//CEB201商品备案数据
 	public static final int CEB201 = 201;
 	//CEB202商品备案回执
