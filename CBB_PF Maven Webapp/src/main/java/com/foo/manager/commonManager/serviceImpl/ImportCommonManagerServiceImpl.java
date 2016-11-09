@@ -1870,7 +1870,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					Map logistics = new HashMap();
 					logistics.put("GUID", guidList.get(i));
 					logistics.put("PARCEL_INFO", assignIds.get(i));
-					commonManagerMapper.updateLogistics(logistics, "t_import_logistics");
+					commonManagerMapper.updateLogistics(logistics, T_IMPORT_LOGISTICS);
 				}
 			}
 		}else{

@@ -26,40 +26,33 @@ public abstract class WSManagerService extends AbstractService implements IWSMan
 	@Resource
 	protected ImportCommonManagerMapper importCommonManagerMapper;
 	
-	//加载资源文件
-	private static Map<String,String> bundleData = null;
-	
 	//获取资源
 	protected Map<String,String> getBundleData(){
-		if(bundleData == null){
-			bundleData = new HashMap<String,String>();
-			
-			// 获取资源文件
-			ResourceBundle bundle = CommonUtil
-					.getMessageMappingResource("CEB_NJ");
-			
-			for(String key:bundle.keySet()){
-				bundleData.put(bundle.getString(key), key);
-			}
-			
+		Map<String,String> bundleData = new HashMap<String,String>();
+		
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil
+				.getMessageMappingResource("CEB_NJ");
+		
+		for(String key:bundle.keySet()){
+			bundleData.put(bundle.getString(key), key);
 		}
+			
 		return bundleData;
 	}
 	
 	//获取资源
 	protected Map<String,String> getBundleData_import(){
-		if(bundleData == null){
-			bundleData = new HashMap<String,String>();
-			
-			// 获取资源文件
-			ResourceBundle bundle = CommonUtil
-					.getMessageMappingResource("CEB_IMPORT");
-			
-			for(String key:bundle.keySet()){
-				bundleData.put(bundle.getString(key), key);
-			}
-			
+		Map<String,String> bundleData = new HashMap<String,String>();
+		
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil
+				.getMessageMappingResource("CEB_IMPORT");
+		
+		for(String key:bundle.keySet()){
+			bundleData.put(bundle.getString(key), key);
 		}
+			
 		return bundleData;
 	}
 	
@@ -91,7 +84,7 @@ public abstract class WSManagerService extends AbstractService implements IWSMan
 		}
 		return result;
 	}
-
+	
 	
 	//去配置文件查找对应的数据库列名
 	protected Map changeDbColumn_import(Map source){
@@ -116,7 +109,7 @@ public abstract class WSManagerService extends AbstractService implements IWSMan
 		
 		for(Map map:source){
 			Map data = new HashMap();
-			data = changeDbColumn(map);
+			data = changeDbColumn_import(map);
 			result.add(data);
 		}
 		return result;

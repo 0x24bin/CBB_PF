@@ -31,6 +31,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //	     "WEIGHT",
 //	     "NET_WEIGHT",
 //	     "PACK_NO",
+	     "DELIVERY_NO",
 	     "PARCEL_INFO",
 	     "GOODS_INFO",
 	     "CONSIGNEE",
@@ -294,12 +295,12 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "APP_TYPE",
 			     "APP_TIME",
 			     "APP_STATUS",
-			     "APP_UID",
+			     //"APP_UID",
 			     "EBP_CODE",
 			     "LOGISTICS_CODE",
 			     "LOGISTICS_NO",
 			     "LOGISTICS_STATUS",
-			     "IE_FLAG",
+//			     "IE_FLAG",
 			     "TRAF_MODE",
 			     "TRAF_NAME",
 			     "VOYAGE_NO",
@@ -311,6 +312,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "WEIGHT",
 			     "NET_WEIGHT",
 			     "PACK_NO",
+			     "DELIVERY_NO",
 			     "PARCEL_INFO",
 			     "GOODS_INFO",
 			     "CONSIGNEE_ID",
@@ -389,12 +391,14 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    header : "物流运单状态",
 			    dataIndex : "LOGISTICS_STATUS",
 		    	renderer: Renderer.LOG_STATUS
-			},new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_appUid,
-			    id : "APP_UID",
-			    header : "用户",
-			    dataIndex : "APP_UID"
-			}),new Ext.ux.grid.CodeNameColumn({
+			},
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_appUid,
+//			    id : "APP_UID",
+//			    header : "用户",
+//			    dataIndex : "APP_UID"
+//			}),
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_ebc,
 			    id : "EBC_CODE",
 			    header : "电商企业",
@@ -413,12 +417,14 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "LOGISTICS_NO",
 			    header : "物流运单编号",
 			    dataIndex : "LOGISTICS_NO"
-			},new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_ieFlag,
-			    id : "IE_FLAG",
-			    header : "进出口标记",
-			    dataIndex : "IE_FLAG"
-			}),new Ext.ux.grid.CodeNameColumn({
+			},
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_ieFlag,
+//			    id : "IE_FLAG",
+//			    header : "进出口标记",
+//			    dataIndex : "IE_FLAG"
+//			}),
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_trafMode,
 			    id : "TRAF_MODE",
 			    header : "运输方式",
@@ -464,6 +470,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "PACK_NO",
 			    header : "件数",
 			    dataIndex : "PACK_NO"
+			},{
+			    id : "DELIVERY_NO",
+			    header : "入库单号",
+			    dataIndex : "DELIVERY_NO"
 			},{
 			    id : "PARCEL_INFO",
 			    header : "包裹单信息",
@@ -1095,12 +1105,14 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        fieldLabel:'申报时间',
 	        name: 'APP_TIME',
 	        hidden: !this.submited
-	    },GenerateCodeNameComboGrid({
-	    		allowBlank : false,
-		    	fieldLabel:'用户名称',
-		    	name: 'APP_UID'
-	        },relationCategory_appUid
-	    ),GenerateCodeNameComboGrid({
+	    },
+//	    GenerateCodeNameComboGrid({
+//	    		allowBlank : false,
+//		    	fieldLabel:'用户名称',
+//		    	name: 'APP_UID'
+//	        },relationCategory_appUid
+//	    ),
+	    GenerateCodeNameComboGrid({
 	    		allowBlank : false,
 		    	fieldLabel:'电商企业名称',
 		    	name: 'EBC_CODE',
@@ -1126,13 +1138,15 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        minLength:12,
 	        regex:/(\d){12}/,
 	        regexText:"只能输入12位数字！"
-		},GenerateCodeNameComboGrid({
-	    		allowBlank : false,
-		    	fieldLabel:'进出口标记',
-		    	name: 'IE_FLAG',
-		    	autoLoad: false
-	        },relationCategory_ieFlag,CodeNameData.ieFlag
-	    ),GenerateCodeNameComboGrid({
+		},
+//		GenerateCodeNameComboGrid({
+//	    		allowBlank : false,
+//		    	fieldLabel:'进出口标记',
+//		    	name: 'IE_FLAG',
+//		    	autoLoad: false
+//	        },relationCategory_ieFlag,CodeNameData.ieFlag
+//	    ),
+	    GenerateCodeNameComboGrid({
 	    		allowBlank : false,
 		    	fieldLabel:'运输方式',
 		    	name: 'TRAF_MODE'
@@ -1186,7 +1200,11 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	    	allowDecimals: false,
 	        fieldLabel:'件数',
 	        name: 'PACK_NO'
-	    },{
+	    },GenerateDeliveryNoComboGrid({
+	    	fieldLabel:'入库单号',
+	    	name: 'DELIVERY_NO',
+	        allowBlank : false
+        }),{
 	        fieldLabel:'包裹单信息',
 	        name: 'PARCEL_INFO',
 	        maxLength: 200

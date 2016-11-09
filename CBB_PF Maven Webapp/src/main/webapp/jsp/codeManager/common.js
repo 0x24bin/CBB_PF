@@ -115,10 +115,6 @@ function GenerateContactComboGrid(param,data){
 		  	},
 		  	"load": function(store, records, options){
 		  		for(var i=0;i<records.length;i++){
-//		  			alert(records[i].get("CONTACT_ID"));
-//			  		alert(records[i].get("CODE"));
-//			  		alert(records[i].get("NAME"));
-//			  		alert(records[i].get("TEL"));
 		  		}
 		  	}
 		}
@@ -163,6 +159,61 @@ function GenerateContactComboGrid(param,data){
             dataIndex : "ADDRESS"
         } 
         ],
+        autoLoad: true,
+        valueField: valueField,
+        textField: textField,
+        store : dataStore,
+        editable : false,
+        allowBlank : true
+    },param);
+}
+
+function GenerateDeliveryNoComboGrid(param,data){
+	var dsParam_concact={
+		reader : new Ext.data.JsonReader({
+			totalProperty : 'total',
+			root : "rows"
+		}, [ "DELIVERY_NO","NOTE"]),
+		listeners:{
+		  	"exception": function(proxy,type,action,options,response,arg){
+		  		Ext.Msg.alert("提示","加载出错"+
+					"<BR>Status:"+response.statusText||"unknow");
+		  	},
+		  	"load": function(store, records, options){
+		  		for(var i=0;i<records.length;i++){
+		  		}
+		  	}
+		}
+	};
+	if(Ext.isEmpty(data)){
+		Ext.apply(dsParam_concact,{
+			url : 'import-common!getAllDeliveries.action'
+		});
+	}else{
+		Ext.apply(dsParam_concact,{
+			data : {'total': data.length, 'rows': data}
+		});
+	}
+	
+	var dataStore=new Ext.data.Store(dsParam_concact);
+	var valueField="DELIVERY_NO";
+	var textField="DELIVERY_NO";
+	return Ext.apply({
+		tbar: [
+	       new Ext.ux.form.SearchField({
+	    	   store: dataStore,
+	    	   paramName: [{property:textField,anyMatch:true},{property:valueField,anyMatch:true}],
+	    	   logical: "or"
+	       })
+        ],
+       	xtype: 'combogrid',
+    	columns : [{
+            header : '入库单号',
+            dataIndex : textField
+        } , {
+            header : '备注',
+            dataIndex : "NOTE"
+        }],
         autoLoad: true,
         valueField: valueField,
         textField: textField,

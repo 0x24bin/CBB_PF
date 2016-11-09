@@ -631,7 +631,7 @@ public class WSManagerImpl extends WSManagerService{
 		Object consigneeId = handleAddress_import(head);
 		
 		//变换列名
-		head = changeDbColumn(head);
+		head = changeDbColumn_import(head);
 		
 		//特殊字段
 		if(head.containsKey("NET_WEIGHT_SP")){
