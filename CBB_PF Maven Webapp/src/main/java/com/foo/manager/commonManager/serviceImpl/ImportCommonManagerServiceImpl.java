@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -1625,12 +1626,28 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 			head.put("MESSAGE_ID", guid);
 
 			//xml报文
-			String resultXmlString = XmlUtil.generalRequestXml4IMPORT(head, data, null, messageType);
+			String resultXmlString = XmlUtil.generalRequestXml4IMPORT(head, data, generateBaseTransfer(), messageType);
 			//获取返回xml字符串
 			String response = sendHttpCMD(resultXmlString,messageType,CommonDefine.CMD_TYPE_DECLARE);
 			
 			//获取返回信息
 			return response;
+	}
+	
+
+	//生成BaseTransfer报文数据
+	private List<Map> generateBaseTransfer(){
+		List<Map> baseTransfer = new ArrayList<Map>();
+		
+		Map data = new LinkedHashMap<String,String>();
+		data.put("copCode", CommonUtil.getSystemConfigProperty("copCode"));
+		data.put("copName", CommonUtil.getSystemConfigProperty("copName"));
+		data.put("dxpMode", CommonUtil.getSystemConfigProperty("dxpMode"));
+		data.put("dxpId", CommonUtil.getSystemConfigProperty("dxpId"));
+		data.put("note", CommonUtil.getSystemConfigProperty("note"));
+		
+		baseTransfer.add(data);
+		return baseTransfer;
 	}
 	
 

@@ -758,11 +758,13 @@ public class XmlUtil {
 			messageType = CommonDefine.MESSAGE_TYPE_CEB511;
 			rootElementName = rootPrefix +"Logistics";
 			subRootElementName = rootPrefix+"BaseTransfer";
+			subSubRootElementName = null;
 			//APP_STATUS写死为2，暂存
 			if(data.containsKey("APP_STATUS")){
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
 			}
 			break;
+			
 		//CEB601出境清单数据
 		case CommonDefine.CEB601:
 			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
@@ -996,6 +998,8 @@ public class XmlUtil {
 			
 			for (Map subData : subDataList) {
 
+				if(subSubRootElementName!=null){
+
 				Element subSubRootElement = subRootElement
 						.addElement(subSubRootElementName);
 
@@ -1009,6 +1013,19 @@ public class XmlUtil {
 							.addElement(bundle.getString(keyString));
 					subSecondElement.addText(subData.get(key) == null ? ""
 							: subData.get(key).toString());
+				}
+				}else{
+					for (Object key : subData.keySet()) {
+						keyString = key.toString();
+						if (!bundle.containsKey(keyString)) {
+							continue;
+						}
+						// 获取映射字段
+						Element subSecondElement = subRootElement
+								.addElement(bundle.getString(keyString));
+						subSecondElement.addText(subData.get(key) == null ? ""
+								: subData.get(key).toString());
+					}
 				}
 			}
 		}
