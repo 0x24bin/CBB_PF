@@ -559,27 +559,12 @@
 	    where GUID = #{GUID}
 	  </update>
 	
-	<select id="selectDataForMessage501_import" resultType="java.util.LinkedHashMap" >
+	<select id="selectDataForMessage511_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
-		  IFNULL(t.`APP_UID`, '') AS APP_UID,
-		  (SELECT 
-		    c.name 
-		  FROM
-		    t_code_name c 
-		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
-		    AND c.CODE = t.APP_UID) AS APP_UNAME,
-		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
-		  IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE,
+		  IFNULL(t.`GUID`, '') AS GUID,
 		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
-		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
-		  IFNULL(orders.`EBP_CODE`, '') AS EBP_CODE,
-		  (SELECT 
-		    c.name 
-		  FROM
-		    t_code_name c 
-		  WHERE c.RELATION_CATEGORY = 'EBP_CODE' 
-		    AND c.CODE = orders.EBP_CODE) AS EBP_NAME,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
 		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE,
 		  (SELECT 
 		    c.name 
@@ -587,48 +572,23 @@
 		    t_code_name c 
 		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
 		    AND c.CODE = t.LOGISTICS_CODE) AS LOGISTICS_NAME,
-		  IFNULL(t.`IE_FLAG`, '') AS IE_FLAG,
-		  IFNULL(t.`TRAF_MODE`, '') AS TRAF_MODE,
-		  IFNULL(t.`TRAF_NAME`, '') AS TRAF_NAME,
-		  IFNULL(t.`VOYAGE_NO`, '') AS VOYAGE_NO,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
 		  IFNULL(t.`BILL_NO`, '') AS BILL_NO,
 		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
 		  IFNULL(t.`INSURE_FEE`, '') AS INSURE_FEE,
 		  IFNULL(t.`CURRENCY`, '') AS CURRENCY,
 		  IFNULL(t.`WEIGHT`, '') AS WEIGHT,
-		  IFNULL(t.`NET_WEIGHT`, '') AS NET_WEIGHT,
 		  IFNULL(t.`PACK_NO`, '') AS PACK_NO,
 		  IFNULL(t.`GOODS_INFO`, '') AS GOODS_INFO,
 		  IFNULL(contact2.`NAME`, '') AS CONSIGNEE,
 		  IFNULL(contact2.`ADDRESS`, '') AS CONSIGNEE_ADDRESS,
 		  IFNULL(contact2.`TEL`, '') AS CONSIGNEE_TELEPHONE,
-		  IFNULL(contact2.`COUNTRY`, '') AS CONSIGNEE_COUNTRY,
-		  IFNULL(contact1.`NAME`, '') AS SHIPPER,
-		  IFNULL(contact1.`ADDRESS`, '') AS SHIPPER_ADDRESS,
-		  IFNULL(contact1.`TEL`, '') AS SHIPPER_TELEPHONE,
-		  IFNULL(contact1.`COUNTRY`, '') AS SHIPPER_COUNTRY,
-		  IFNULL(t.`LOGISTICS_STATUS`, '') AS GOOD_STATUS,
-		  IFNULL(t.`LOGISTICS_HEAD_NO`, '') AS LOGISTICS_HEAD_NO,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
 		  T_import_LOGISTICS t 
 		  LEFT JOIN T_CONTACT contact2 
 		    ON t.CONSIGNEE_ID = contact2.CONTACT_ID 
-		  LEFT JOIN T_CONTACT contact1 
-		    ON t.SHIPPER_ID = contact1.CONTACT_ID
-		  LEFT JOIN t_import_orders orders
-		    ON t.ORDER_NO = orders.ORDER_NO 
 		WHERE t.`GUID` = #{guid}  
-	</select>
-	
-	<select id="selectSubDataForMessage501_import" resultType="java.util.LinkedHashMap" >
-		SELECT 
-		  IFNULL(t.`ORDER_NO`, '') AS ORDER_NO,
-		  IFNULL(t.`GOODS_INFO`, '') AS GOODS_INFO,
-		  IFNULL(t.`PARCEL_INFO`, '') AS PARCEL_INFO
-		FROM
-		  T_import_LOGISTICS t 
-		WHERE t.`ORDER_NO` = #{orderNo} 
 	</select>
 	
 	

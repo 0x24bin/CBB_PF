@@ -618,6 +618,366 @@ public class XmlUtil {
 			secondElement.addText(head.get(key) == null ? "" : head
 					.get(key).toString());
 		}
+
+		//设置一级消息体
+		for (Object key : data.keySet()) {
+			keyString = key.toString();
+			if (!bundle.containsKey(keyString)) {
+				continue;
+			}
+			// 获取映射字段
+			secondElement = firstElement.addElement(bundle.getString(keyString));
+			secondElement.addText(data.get(key) == null ? "" : data
+					.get(key).toString());
+		}
+		// 加入子元素
+		if (subDataList != null) {
+			// 设置第一级元素NjkjLogisticsLineEntityList
+			Element subRootElement = rootElement.addElement(subRootElementName);
+			
+			for (Map subData : subDataList) {
+
+				Element subSubRootElement = subRootElement
+						.addElement(subSubRootElementName);
+
+				for (Object key : subData.keySet()) {
+					keyString = key.toString();
+					if (!bundle.containsKey(keyString)) {
+						continue;
+					}
+					// 获取映射字段
+					Element subSecondElement = subSubRootElement
+							.addElement(bundle.getString(keyString));
+					subSecondElement.addText(subData.get(key) == null ? ""
+							: subData.get(key).toString());
+				}
+			}
+		}
+		xmlString = doc.asXML();
+		//去除xml头文件
+		xmlString = xmlString.split("\n")[1];
+		
+		System.out.println("request xml body:"+xmlString);
+		
+		return xmlString;
+	}
+	
+	
+	
+	
+	/**
+	 * 生成xml 字符创
+	 * @param data
+	 * @param type 生成xml报文类型
+	 * @return
+	 * @throws CommonException
+	 */
+	public static String generalRequestXml4IMPORT(Map head, Map data, List<Map> subDataList, int type){
+		//消息类型例CEB201
+		String messageType = "";
+		String nodeName = generalXmlNodeName4IMPORT(type);
+		//文件名
+		String fileName = "";
+		
+		String rootPrefix = "";
+		String headElementName = rootPrefix +"MessageHead";
+		String rootElementName = "";
+		String subRootElementName = "";
+		String subSubRootElementName = "";
+
+		switch(type){
+		//CEB301电子订单数据
+		case CommonDefine.CEB301:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB301;
+			
+			rootElementName = rootPrefix +"NjkjOrderHeadEntity";
+			subRootElementName = rootPrefix+"NjkjOrderListEntityList";
+			subSubRootElementName = rootPrefix+"NjkjOrderListEntity";
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB302电子订单回执
+		case CommonDefine.CEB302:
+			break;
+			//CEB301电子订单数据
+		case CommonDefine.CEB303:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB303;
+			
+			rootElementName = rootPrefix +"NjkjOrderHeadEntity";
+//			subRootElementName = rootPrefix+"NjkjOrderListEntityList";
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB401支付凭证数据
+		case CommonDefine.CEB401:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB401;
+			
+			rootElementName = rootPrefix +"NjkjPaymentHeadEntity";
+//			subRootElementName = rootPrefix+"NjkjOrderListEntityList";
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB402支付凭证回执
+		case CommonDefine.CEB402:
+			break;
+		//CEB501物流运单数据
+		case CommonDefine.CEB501:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB501;
+			rootElementName = rootPrefix +"NjkjLogisticsHeadEntity";
+			subRootElementName = rootPrefix+"NjkjLogisticsLineEntityList";
+			subSubRootElementName = rootPrefix+"NjkjLogisticsLineEntity";
+			//APP_STATUS写死为2，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB502物流运单回执
+		case CommonDefine.CEB502:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB502;
+			rootElementName = rootPrefix +"NjkjLogisticsHeadEntity";
+			break;
+		//CEB503物流运单状态数据
+		case CommonDefine.CEB503:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB503;
+			rootElementName = rootPrefix +"NjkjLogisticsStatusEntity";
+			break;
+		//CEB504物流运单状态回执
+		case CommonDefine.CEB504:
+			break;
+			
+			
+		//CEB511物流运单数据
+		case CommonDefine.CEB511:
+			headElementName = null;
+			messageType = CommonDefine.MESSAGE_TYPE_CEB511;
+			rootElementName = rootPrefix +"Logistics";
+			subRootElementName = rootPrefix+"BaseTransfer";
+			//APP_STATUS写死为2，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB601出境清单数据
+		case CommonDefine.CEB601:
+			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
+//			messageType = CommonDefine.MESSAGE_TYPE_CEB601;
+			//一般进口
+			if(CommonDefine.MESSAGE_TYPE_CEB601.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjNiInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjNiInventoryListEntity";
+			}
+			//一般出口
+			if(CommonDefine.MESSAGE_TYPE_CEB607.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNeInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjNeInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjNeInventoryListEntity";
+			}
+			//保税进口
+			if(CommonDefine.MESSAGE_TYPE_CEB604.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBiInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjBiInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjBiInventoryListEntity";
+			}
+			//保税出口
+			if(CommonDefine.MESSAGE_TYPE_CEB610.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBeInventoryHeadEntity";
+				subRootElementName = rootPrefix+"NjkjBeInventoryListEntityList";
+				subSubRootElementName = rootPrefix+"NjkjBeInventoryListEntity";
+			}
+			
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
+			}
+			break;
+		//CEB602出境清单回执
+		case CommonDefine.CEB602:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB602;
+			rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
+			}
+			break;
+		case CommonDefine.CEB603:
+			messageType = "CEB"+head.get("MESSAGE_TYPE").toString();
+//			messageType = CommonDefine.MESSAGE_TYPE_CEB603;
+			//一般进口
+			if(CommonDefine.MESSAGE_TYPE_CEB603.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNiInventoryHeadEntity";
+			}
+			//一般出口
+			if(CommonDefine.MESSAGE_TYPE_CEB609.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjNeInventoryHeadEntity";
+			}
+			//保税进口
+			if(CommonDefine.MESSAGE_TYPE_CEB606.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBiInventoryHeadEntity";
+			}
+			//保税出口
+			if(CommonDefine.MESSAGE_TYPE_CEB612.equals(messageType)){
+				rootElementName = rootPrefix +"NjkjBeInventoryHeadEntity";
+			}
+			//APP_STATUS写死为1，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
+			}
+			break;			
+			
+		//SNT101
+		case CommonDefine.SNT101:
+			break;
+		//SNT102
+		case CommonDefine.SNT102:
+			break;
+		//SNT103
+		case CommonDefine.SNT103:
+			break;
+		//SNT201
+		case CommonDefine.SNT201:
+			break;
+			
+		}
+		fileName = head.get("MESSAGE_ID").toString();
+		//生成文件
+		String resultXmlString = generalRequestXml4IMPORTImpl(
+				head, data, subDataList, messageType,
+				nodeName, fileName, headElementName, rootElementName,
+				subRootElementName,subSubRootElementName);
+		
+		return resultXmlString;
+	}
+	
+	private static String generalRequestXml4IMPORTImpl(Map head,Map data, List<Map> subDataList,
+			String messageType, String nodeName, String fileName, String headElementName, String rootElementName,
+			String subRootElementName,String subSubRootElementName){
+
+		String resultXml = "";
+		
+		FileOutputStream fos = null;
+		File xmlfile = null;
+
+		try {
+			String filePath = System.getProperty("java.io.tmpdir") + "/"
+					+ fileName + ".xml";
+			xmlfile = new File(filePath);
+			if (!xmlfile.exists()) {
+				xmlfile.createNewFile();
+			}
+			fos = new FileOutputStream(xmlfile);
+			OutputFormat format = OutputFormat.createPrettyPrint();
+			// 设置编码格式
+			format.setEncoding("UTF-8");
+			XMLWriter writer = new XMLWriter(fos, format);
+			Document doc = DocumentHelper.createDocument();
+			// 添加根元素
+			Element rootElement = DocumentHelper.createElement(nameSpace4NJ+":"+"Envelope");
+			rootElement.addNamespace("xsi",
+					nameSpace_xsi);
+			rootElement.addNamespace("xsd",
+					nameSpace_xsd);
+			rootElement.addNamespace("soap",
+					nameSpace_soap);
+			doc.setRootElement(rootElement);
+			// 设置第一级元素
+			Element firstElement = rootElement.addElement(nameSpace4NJ+":"+"Body");
+			// 第二级元素
+			Element secondElement = firstElement.addElement(nodeName);
+			secondElement.addNamespace("", nameSpace_);
+			Element xmlElement = secondElement.addElement("xml");
+			
+			//添加报文字符串
+			xmlElement.addText(generalXmlString4IMPORT_data(head,data, subDataList,
+					messageType,  headElementName, rootElementName,
+					subRootElementName,subSubRootElementName));
+			Element fileTypeElement = secondElement.addElement("fileType");
+			fileTypeElement.addText(messageType.substring(3));
+
+			writer.write(doc);
+			
+//			//上传文件
+//			FtpUtils ftpUtil = FtpUtils.getDefaultFtp();
+//
+//			String generalXmlFilePath = ConfigUtil
+//					.getFileLocationPath(ftpFilePathFlag)
+//					.get("GENERAL_XML").toString();
+//
+//			boolean result = ftpUtil.uploadFile(xmlfile.getPath(),
+//					generalXmlFilePath, prefix+xmlfile.getName());
+//
+//			if (result) {
+//				xmlfile.delete();
+//			}
+			//返回xml字符串
+			resultXml = doc.asXML();
+			
+			resultXml = resultXml.replaceAll(" xmlns=\"\"", "");
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fos.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return resultXml;
+	}
+	
+	
+	/**
+	 * 生成报文
+	 * @param data
+	 * @param messageType 报文类型 例：CEB201
+	 * @param rootElementName 根元素名称
+	 * @param fileName 文件名
+	 * @param excludeList data中不需要的元素
+	 * @return
+	 * @throws CommonException
+	 */
+	private static String generalXmlString4IMPORT_data(Map head,Map data, List<Map> subDataList,
+			String messageType, String headElementName, String rootElementName,
+			String subRootElementName,String subSubRootElementName) {
+		String xmlString = "";
+		// 获取资源文件
+		ResourceBundle bundle = CommonUtil
+				.getMessageMappingResource("CEB_IMPORT");
+		Document doc = DocumentHelper.createDocument();
+		// 添加根元素CEB501Message
+		Element rootElement = DocumentHelper.createElement(messageType+"Message");
+		doc.setRootElement(rootElement);
+		
+		Element headElement = null;
+		if(headElementName!=null){
+			headElement = rootElement.addElement(headElementName);
+		} 
+		// 设置第一级元素NjkjLogisticsHeadEntity
+		Element firstElement = rootElement.addElement(rootElementName);
+		// 第二级元素
+		Element secondElement;
+
+		String keyString;
+		if(headElementName!=null){
+			//设置消息头
+			for (Object key : head.keySet()) {
+				keyString = key.toString();
+				if (!bundle.containsKey(keyString)) {
+					continue;
+				}
+				// 获取映射字段
+				secondElement = headElement.addElement(bundle.getString(keyString));
+				secondElement.addText(head.get(key) == null ? "" : head
+						.get(key).toString());
+			}
+		}
+
 		//设置一级消息体
 		for (Object key : data.keySet()) {
 			keyString = key.toString();
@@ -1395,6 +1755,64 @@ public class XmlUtil {
 		case CommonDefine.CEB401:
 		case CommonDefine.CEB501:
 		case CommonDefine.CEB503:
+		case CommonDefine.CEB601:
+			nodeName = "ParseXml";
+			break;
+		case CommonDefine.CEB202:
+		case CommonDefine.CEB302:
+			nodeName = "ChangeXml";
+			break;
+		case CommonDefine.CEB203:
+		case CommonDefine.CEB303:
+		case CommonDefine.CEB502:
+		case CommonDefine.CEB602:
+			nodeName = "DeleteXml";
+			break;	
+			
+			
+		case CommonDefine.CEB201_RECEIPT_SINGLE:
+			nodeName = "GetReceiptPgrByCode";
+			break;
+		case CommonDefine.CEB201_RECEIPT_LIST:
+			nodeName = "GetReceiptPgrListByCode";
+			break;
+			
+		case CommonDefine.CEB601_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNiInvtByCode";
+			break;
+		case CommonDefine.CEB607_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNeInvtByCode";
+			break;
+/*		case CommonDefine.CEB604_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNiInvtByCode";
+			break;
+		case CommonDefine.CEB610_RECEIPT_SINGLE:
+			nodeName = "GetReceiptNiInvtByCode";
+			break;*/
+			
+		case CommonDefine.CEB601_RECEIPT_LIST:
+			nodeName = "GetReceiptNiInvtListByCode";
+			break;
+		case CommonDefine.CEB607_RECEIPT_LIST:
+			nodeName = "GetReceiptNeInvtListByCode";
+			break;
+			
+		}
+		
+		return nodeName;
+	}
+
+	
+	//获取对应节点名
+	private static String generalXmlNodeName4IMPORT(int messageType){
+		String nodeName = "";
+		switch(messageType){
+		case CommonDefine.CEB201:
+		case CommonDefine.CEB301:
+		case CommonDefine.CEB401:
+		case CommonDefine.CEB501:
+		case CommonDefine.CEB503:
+		case CommonDefine.CEB511:
 		case CommonDefine.CEB601:
 			nodeName = "ParseXml";
 			break;

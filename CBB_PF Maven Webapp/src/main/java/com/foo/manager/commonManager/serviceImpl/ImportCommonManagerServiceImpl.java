@@ -683,7 +683,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					String currentTime = new SimpleDateFormat(
 							CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
 					
-					String reponse = submitXml_LOGISTICS(guid,data,null,CommonDefine.CEB502,currentTime);
+					String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB502,currentTime);
 					
 					if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse)){
 						//删除数据
@@ -734,7 +734,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				
 //				String reponse = "";
 				
-				String reponse = submitXml_LOGISTICS(guid,data,null,CommonDefine.CEB503,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB503,currentTime);
 				
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
 						reponse.startsWith("P")){
@@ -770,10 +770,10 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
 						logistics.get("APP_STATUS"))) {
 					String guid = logistics.get("GUID").toString();
-					Map data =  importCommonManagerMapper.selectDataForMessage501_import(guid);
+					Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
 					
 					//获取订单详细信息
-					List<Map> subDataList = importCommonManagerMapper.selectSubDataForMessage501_import(logistics.get("ORDER_NO").toString());
+					//List<Map> subDataList = importCommonManagerMapper.selectSubDataForMessage501_import(logistics.get("ORDER_NO").toString());
 					
 					//更新申报时间
 					String currentTime = new SimpleDateFormat(
@@ -782,7 +782,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					//测试
 //					String reponse = "";
 					
-					String reponse = submitXml_LOGISTICS(guid,data,subDataList,CommonDefine.CEB501,currentTime);
+					String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
 					
 					if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
 							reponse.startsWith("P")){
@@ -865,16 +865,13 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					logistics.get("APP_STATUS"))) {
 				
 				String guid = logistics.get("GUID").toString();
-				Map data =  importCommonManagerMapper.selectDataForMessage501_import(guid);
-				
-				//获取订单详细信息
-				List<Map> subDataList = importCommonManagerMapper.selectSubDataForMessage501_import(logistics.get("ORDER_NO").toString());
+				Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
 				
 				//更新申报时间
 				String currentTime = new SimpleDateFormat(
 						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
 				
-				String reponse = submitXml_LOGISTICS(guid,data,subDataList,CommonDefine.CEB501,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
 				
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
 						reponse.startsWith("P")){
@@ -916,7 +913,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				resultMap.put("EBC_CODE", orderMap.get("EBC_CODE"));
 				resultMap.put("AGENT_CODE", orderMap.get("AGENT_CODE"));
 				resultMap.put("CONSIGNEE_COUNTRY_O", orderMap.get("CONSIGNEE_COUNTRY"));
-				resultMap.put("GOODSList", getGoodsList(orderMap));
+				//resultMap.put("GOODSList", getGoodsList(orderMap));
 			}
 		}
 		return resultMap;
@@ -1620,29 +1617,15 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 	
 	
 	// 生成xml文件
-	private String submitXml_LOGISTICS(String guid, Map<String, Object> data,List<Map> subDataList, int messageType,String currentTime) throws CommonException{
+	private String submitXml_LOGISTICS(String guid, Map<String, Object> data,int messageType,String currentTime) throws CommonException{
 		// 提交需要生成xml文件
 			System.out.println("submitXml_LOGISTICS_IMPORT_"+messageType);
 			
-			Map head = importCommonManagerMapper.selectDataForMessage50X_import_head(guid);
-			
-			head.put("SEND_TIME", currentTime);
-			if(data.containsKey("APP_TIME")){
-			data.put("APP_TIME", currentTime);
-			}
-			switch(messageType){
-			case CommonDefine.CEB501:
-				head.put("MESSAGE_TYPE", CommonDefine.CEB501);
-				break;
-			case CommonDefine.CEB502:
-				head.put("MESSAGE_TYPE", CommonDefine.CEB502);
-				break;
-			case CommonDefine.CEB503:
-				head.put("MESSAGE_TYPE", CommonDefine.CEB503);
-				break;	
-			}
+			Map head = new HashMap<String,String>();
+			head.put("MESSAGE_ID", guid);
+
 			//xml报文
-			String resultXmlString = XmlUtil.generalRequestXml4NJ(head, data, subDataList, messageType);
+			String resultXmlString = XmlUtil.generalRequestXml4IMPORT(head, data, null, messageType);
 			//获取返回xml字符串
 			String response = sendHttpCMD(resultXmlString,messageType,CommonDefine.CMD_TYPE_DECLARE);
 			
@@ -1692,10 +1675,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				}
 				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
 	
-				Map data =  importCommonManagerMapper.selectDataForMessage501_import(guid);
-				
-				//获取订单详细信息
-				List<Map> subDataList = importCommonManagerMapper.selectSubDataForMessage501_import(logistics.get("ORDER_NO").toString());
+				Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
 				
 				//更新申报时间
 				String currentTime = new SimpleDateFormat(
@@ -1704,7 +1684,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				//测试
 	//			String reponse = "";
 				
-				String reponse = submitXml_LOGISTICS(guid,data,subDataList,CommonDefine.CEB501,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
 				
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
 						reponse.startsWith("P")){
@@ -1768,7 +1748,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				
 	//			String reponse = "";
 				
-				String reponse = submitXml_LOGISTICS(guid,data,null,CommonDefine.CEB503,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB503,currentTime);
 				
 				if (reponse.isEmpty()
 						|| CommonDefine.RESPONSE_OK.equals(reponse)

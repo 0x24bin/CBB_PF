@@ -112,16 +112,9 @@ public interface ImportCommonManagerMapper {
 	 * @param guid
 	 * @return
 	 */
-	public Map selectDataForMessage501_import(
+	public Map selectDataForMessage511_import(
 			@Param(value = "guid") String guid);
 	
-	/**
-	 * 获取501报文商品数据
-	 * @param orderId
-	 * @return
-	 */
-	public List<Map> selectSubDataForMessage501_import(
-			@Param(value = "orderNo") String orderNo);
 	
 	/**
 	 * 获取502报文数据
