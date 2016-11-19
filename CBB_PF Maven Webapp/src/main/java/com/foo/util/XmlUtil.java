@@ -764,6 +764,14 @@ public class XmlUtil {
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
 			}
 			break;
+		//CEB513物流运单状态数据
+		case CommonDefine.CEB513:
+			headElementName = null;
+			messageType = CommonDefine.MESSAGE_TYPE_CEB513;
+			rootElementName = rootPrefix +"LogisticsStatus";
+			subRootElementName = rootPrefix+"BaseTransfer";
+			subSubRootElementName = null;
+			break;
 			
 		//CEB601出境清单数据
 		case CommonDefine.CEB601:
@@ -997,23 +1005,23 @@ public class XmlUtil {
 			Element subRootElement = rootElement.addElement(subRootElementName);
 			
 			for (Map subData : subDataList) {
-
+				
 				if(subSubRootElementName!=null){
 
-				Element subSubRootElement = subRootElement
-						.addElement(subSubRootElementName);
-
-				for (Object key : subData.keySet()) {
-					keyString = key.toString();
-					if (!bundle.containsKey(keyString)) {
-						continue;
+					Element subSubRootElement = subRootElement
+							.addElement(subSubRootElementName);
+	
+					for (Object key : subData.keySet()) {
+						keyString = key.toString();
+						if (!bundle.containsKey(keyString)) {
+							continue;
+						}
+						// 获取映射字段
+						Element subSecondElement = subSubRootElement
+								.addElement(bundle.getString(keyString));
+						subSecondElement.addText(subData.get(key) == null ? ""
+								: subData.get(key).toString());
 					}
-					// 获取映射字段
-					Element subSecondElement = subSubRootElement
-							.addElement(bundle.getString(keyString));
-					subSecondElement.addText(subData.get(key) == null ? ""
-							: subData.get(key).toString());
-				}
 				}else{
 					for (Object key : subData.keySet()) {
 						keyString = key.toString();
@@ -1818,7 +1826,7 @@ public class XmlUtil {
 		
 		return nodeName;
 	}
-
+	
 	
 	//获取对应节点名
 	private static String generalXmlNodeName4IMPORT(int messageType){

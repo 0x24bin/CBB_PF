@@ -727,7 +727,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				
 				String guid = logistics.get("GUID").toString();
 				
-				Map data =  importCommonManagerMapper.selectDataForMessage503_import(guid);
+				Map data =  importCommonManagerMapper.selectDataForMessage513_import(guid);
 				
 				//填充数据
 				data.put("LOGISTICS_STATUS", logistics.get("LOGISTICS_STATUS"));
@@ -735,7 +735,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				
 //				String reponse = "";
 				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB503,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB513,currentTime);
 				
 				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
 						reponse.startsWith("P")){
@@ -1757,7 +1757,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				String currentTime = new SimpleDateFormat(
 						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
 				
-				Map data =  importCommonManagerMapper.selectDataForMessage503_import(guid);
+				Map data =  importCommonManagerMapper.selectDataForMessage513_import(guid);
 				
 				//填充数据
 				data.put("LOGISTICS_STATUS", params.get("LOGISTICS_STATUS"));
@@ -1765,7 +1765,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				
 	//			String reponse = "";
 				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB503,currentTime);
+				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB513,currentTime);
 				
 				if (reponse.isEmpty()
 						|| CommonDefine.RESPONSE_OK.equals(reponse)

@@ -115,6 +115,14 @@ public interface ImportCommonManagerMapper {
 	public Map selectDataForMessage511_import(
 			@Param(value = "guid") String guid);
 	
+	/**
+	 * 获取513报文数据
+	 * @param guid
+	 * @return
+	 */
+	public Map selectDataForMessage513_import(
+			@Param(value = "guid") String guid);
+
 	
 	/**
 	 * 获取502报文数据
@@ -122,14 +130,6 @@ public interface ImportCommonManagerMapper {
 	 * @return
 	 */
 	public Map selectDataForMessage502_import(
-			@Param(value = "guid") String guid);
-	
-	/**
-	 * 获取503报文数据
-	 * @param guid
-	 * @return
-	 */
-	public Map selectDataForMessage503_import(
 			@Param(value = "guid") String guid);
 	
 	/**

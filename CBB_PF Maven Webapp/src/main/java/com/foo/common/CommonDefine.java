@@ -84,6 +84,7 @@ public class CommonDefine {
 	
 	//CEB511物流运单状态
 	public static final int CEB511 = 511;
+	public static final int CEB513 = 513;
 	
 	
 	//CEB601出境清单数据
@@ -141,6 +142,7 @@ public class CommonDefine {
 	public static final String MESSAGE_TYPE_CEB502 = "CEB502";
 	public static final String MESSAGE_TYPE_CEB503 = "CEB503";
 	public static final String MESSAGE_TYPE_CEB511 = "CEB511";
+	public static final String MESSAGE_TYPE_CEB513 = "CEB513";
 	public static final String MESSAGE_TYPE_CEB601 = "CEB601";
 	public static final String MESSAGE_TYPE_CEB602 = "CEB602";
 	public static final String MESSAGE_TYPE_CEB603 = "CEB603";
