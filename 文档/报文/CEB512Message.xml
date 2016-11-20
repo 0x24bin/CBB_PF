@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ceb:CEB512Message xsi:schemaLocation="http://www.chinaport.gov.cn/ceb" xmlns:ceb="http://www.chinaport.gov.cn/ceb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ceb:LogisticsReturn>
+    <ceb:guid>CEB_501_1234567890_2308_2016110921213590000</ceb:guid>
+	<ceb:logisticsCode>1111</ceb:logisticsCode>
+	<ceb:logisticsNo>1111</ceb:logisticsNo>
+	<ceb:returnStatus>99</ceb:returnStatus>
+	<ceb:returnTime>20150106124551</ceb:returnTime>
+	<ceb:returnInfo>[1111]</ceb:returnInfo>
+  </ceb:LogisticsReturn>
+</ceb:CEB512Message>

@@ -83,9 +83,15 @@ var Renderer={
     	//操作结果（2审批通过/3审批不通过
     	switch(val){
     	case 2:
-    		return "审批通过";
+    		return "电子口岸申报中";
     	case 3:
-    		return "审批不通过";
+    		return "发送海关成功";
+    	case 4:
+    		return "发送海关失败";
+    	case 100:
+    		return "海关退单";
+    	case 120:
+    		return "海关入库";
     	default:
     		if(val<0) return "处理异常";
     		return "未知："+val;

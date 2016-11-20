@@ -670,40 +670,8 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 	@Override
 	public void delLogistics(Map<String, Object> params) throws CommonException {
 		try {
-			//生成报文
-			if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
-					params.get("APP_STATUS"))) {
-				String guid = params.get("GUID").toString();
-				//
-				Map data =  importCommonManagerMapper.selectDataForMessage502_import(guid);
-				
-				if(data.get("APP_TIME")!=null){
-					data.remove("APP_TIME");
-					
-					//更新申报时间
-					String currentTime = new SimpleDateFormat(
-							CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
-					
-					String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB502,currentTime);
-					
-					if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse)){
-						//删除数据
-						commonManagerMapper.delTableById(T_IMPORT_LOGISTICS, "LOGISTICS_ID",
-								params.get("LOGISTICS_ID"));
-					}else{
-						//抛出错误信息
-						throw new CommonException(new Exception(),
-								MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
-					}
-				}
-			}else if(Integer.valueOf(CommonDefine.APP_STATUS_STORE).equals(
-					params.get("APP_STATUS"))){
-				//删除数据
-				commonManagerMapper.delTableById(T_IMPORT_LOGISTICS, "LOGISTICS_ID",
-						params.get("LOGISTICS_ID"));
-			}
-		} catch (CommonException e) {
-			throw e;
+			commonManagerMapper.delTableById(T_IMPORT_LOGISTICS, "LOGISTICS_ID",
+					params.get("LOGISTICS_ID"));
 		} catch (Exception e) {
 			throw new CommonException(e,
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
@@ -721,45 +689,21 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 			String primaryCol="LOGISTICS_ID";
 			String tableName=T_IMPORT_LOGISTICS;
 			if(statusOnly){
-				//更新申报时间
-				String currentTime = new SimpleDateFormat(
-						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
-				
-				String guid = logistics.get("GUID").toString();
-				
-				Map data =  importCommonManagerMapper.selectDataForMessage513_import(guid);
-				
-				//填充数据
-				data.put("LOGISTICS_STATUS", logistics.get("LOGISTICS_STATUS"));
-				data.put("LOGISTICS_TIME", currentTime);
-				
-//				String reponse = "";
-				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB513,currentTime);
-				
-				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
-						reponse.startsWith("P")){
-					
-//					logistics.put("APP_TIME", currentTime);
-//					order.put("PRE_NO", reponse);
-					logistics.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
-					logistics.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
-					//更新数据
 				List<String> keys=Arrays.asList(new String[]{
 						"LOGISTICS_STATUS","RETURN_STATUS","RETURN_TIME","RETURN_INFO"});
 				List<Object> values=Arrays.asList(new Object[]{
 						logistics.get("LOGISTICS_STATUS"),
-							logistics.get("RETURN_STATUS"),null,null});
-
+						null,null,null});
 				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
 						logistics.get(primaryCol), keys, values);
-					
-//					importCommonManagerMapper.updateOrder_import(order);
-				}else{
-					//抛出错误信息
-					throw new CommonException(new Exception(),
-							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
-				}
+				Object primaryId=logistics.get(primaryCol);
+				
+				//生成xml报文
+				//修改APP_STATUS为upload
+				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+				submitXml_LOGISTICS(logistics,
+						Integer.valueOf(primaryId.toString()),
+						CommonDefine.CEB513, CommonDefine.LOGISTICS_TYPE_IMPORT);
 			}else{
 				String uniqueCol="LOGISTICS_NO";
 				// 唯一性校验
@@ -767,55 +711,16 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				uniqueCol="ORDER_NO";
 				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
 				logistics.remove("editType");
-				//生成报文
-				if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
-						logistics.get("APP_STATUS"))) {
-					String guid = logistics.get("GUID").toString();
-					Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
-					
-					//获取订单详细信息
-					//List<Map> subDataList = importCommonManagerMapper.selectSubDataForMessage501_import(logistics.get("ORDER_NO").toString());
-					
-					//更新申报时间
-					String currentTime = new SimpleDateFormat(
-							CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
-					
-					//测试
-//					String reponse = "";
-					
-					String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
-					
-					if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
-							reponse.startsWith("P")){
-						
-						logistics.put("APP_TIME", currentTime);
-//						order.put("PRE_NO", reponse);
-						logistics.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
-						logistics.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
-						//更新数据
-						commonManagerMapper.updateTableByNVList(tableName, primaryCol,
-								logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
-								new ArrayList<Object>(logistics.values()));
-						
-//						importCommonManagerMapper.updateOrder_import(order);
-					}else{
-						//抛出错误信息
-						throw new CommonException(new Exception(),
-								MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
-					}
-				}else{
-					//批量处理数据，空值设为null
-					for(Object obj:logistics.keySet()){
-						String key = (String)obj;
-						if(logistics.get(key)!=null && logistics.get(key).toString().isEmpty()){
-							logistics.put(key, null);
-						}
-					}
-					//更新数据
-					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
-							logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
-							new ArrayList<Object>(logistics.values()));
-				}
+				
+				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+						logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
+						new ArrayList<Object>(logistics.values()));
+	
+				Object primaryId=logistics.get(primaryCol);
+				// 生成xml报文
+				submitXml_LOGISTICS(logistics,
+						Integer.valueOf(primaryId.toString()),
+						CommonDefine.CEB511, CommonDefine.LOGISTICS_TYPE_IMPORT);
 			}
 		} catch (CommonException e) {
 			throw e;
@@ -844,7 +749,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 			logistics.put(primaryCol, null);
 			
 			// 设置guid
-			logistics.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB501,logistics.get("EBC_CODE").toString(),logistics.get("CUSTOM_CODE").toString()));
+			logistics.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,logistics.get("EBC_CODE").toString(),logistics.get("CUSTOM_CODE").toString()));
 			// 设置创建时间
 			logistics.put("CREAT_TIME", new Date());
 			
@@ -861,37 +766,12 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					primary);
 			
 			Object primaryId=primary.get("primaryId");
-			//生成报文
-			if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
-					logistics.get("APP_STATUS"))) {
-				
-				String guid = logistics.get("GUID").toString();
-				Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
-				
-				//更新申报时间
-				String currentTime = new SimpleDateFormat(
-						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
-				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
-				
-				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
-						reponse.startsWith("P")){
-					
-					logistics.put("APP_TIME", currentTime);
-					
-					logistics.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
-					logistics.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
-					
-					importCommonManagerMapper.updateLogistics_import(logistics);
-				}else{
-					//删除数据
-					commonManagerMapper.delTableById(T_IMPORT_LOGISTICS, "GUID",
-							guid);
-					//抛出错误信息
-					throw new CommonException(new Exception(),
-							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, reponse);
-				}
-			}
+
+			logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			// 生成xml报文
+			submitXml_LOGISTICS(logistics,
+					Integer.valueOf(primaryId.toString()), CommonDefine.CEB511,
+					CommonDefine.LOGISTICS_TYPE_IMPORT);
 		} catch (CommonException e) {
 			throw e;
 		} catch (Exception e) {
@@ -1615,41 +1495,6 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 			//获取返回信息
 			return response;
 	}
-	
-	
-	// 生成xml文件
-	private String submitXml_LOGISTICS(String guid, Map<String, Object> data,int messageType,String currentTime) throws CommonException{
-		// 提交需要生成xml文件
-			System.out.println("submitXml_LOGISTICS_IMPORT_"+messageType);
-			
-			Map head = new HashMap<String,String>();
-			head.put("MESSAGE_ID", guid);
-
-			//xml报文
-			String resultXmlString = XmlUtil.generalRequestXml4IMPORT(head, data, generateBaseTransfer(), messageType);
-			//获取返回xml字符串
-			String response = sendHttpCMD(resultXmlString,messageType,CommonDefine.CMD_TYPE_DECLARE);
-			
-			//获取返回信息
-			return response;
-	}
-	
-
-	//生成BaseTransfer报文数据
-	private List<Map> generateBaseTransfer(){
-		List<Map> baseTransfer = new ArrayList<Map>();
-		
-		Map data = new LinkedHashMap<String,String>();
-		data.put("copCode", CommonUtil.getSystemConfigProperty("copCode"));
-		data.put("copName", CommonUtil.getSystemConfigProperty("copName"));
-		data.put("dxpMode", CommonUtil.getSystemConfigProperty("dxpMode"));
-		data.put("dxpId", CommonUtil.getSystemConfigProperty("dxpId"));
-		data.put("note", CommonUtil.getSystemConfigProperty("note"));
-		
-		baseTransfer.add(data);
-		return baseTransfer;
-	}
-	
 
 	@Override
 	public void batchSubmit_LOGISTICS(Map<String, Object> params) throws CommonException {
@@ -1691,34 +1536,14 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					continue;
 				}
 				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
-	
-				Map data =  importCommonManagerMapper.selectDataForMessage511_import(guid);
 				
-				//更新申报时间
-				String currentTime = new SimpleDateFormat(
-						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+				Object primaryId=logistics.get(primaryCol);
 				
-				//测试
-	//			String reponse = "";
-				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB511,currentTime);
-				
-				if(reponse.isEmpty() || CommonDefine.RESPONSE_OK.equals(reponse) || 
-						reponse.startsWith("P")){
-					
-					logistics.put("APP_TIME", currentTime);
-	//				order.put("PRE_NO", reponse);
-					logistics.put("RETURN_STATUS",CommonDefine.RETURN_STATUS_2);
-					logistics.put("APP_STATUS",CommonDefine.APP_STATUS_COMPLETE);
-					//更新数据
-					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
-							logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
-							new ArrayList<Object>(logistics.values()));
-					
-	//				importCommonManagerMapper.updateOrder_import(order);
-				}else{
-					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
-				}
+				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+				// 生成xml报文
+				submitXml_LOGISTICS(logistics,
+						Integer.valueOf(primaryId.toString()),
+						CommonDefine.CEB511, CommonDefine.LOGISTICS_TYPE_IMPORT);
 			}catch(CommonException e){
 				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
 			}
@@ -1736,6 +1561,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 	@Override
 	public void batchSubmit_LOGISTICS_STATUS(Map<String, Object> params) throws CommonException {
 		List<String> guidList = (List<String>) params.get("guidList");
+		String newLogisticsStatus = (String) params.get("LOGISTICS_STATUS");
 		List<Map<String,Object>> logisticsList = null;
 		Map logistics = null;
 		String tableName=T_IMPORT_LOGISTICS;
@@ -1743,59 +1569,32 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 		String uniqueCol="";
 		StringBuilder errorMessage = new StringBuilder("");
 
-		for(String guid:guidList){
-			try{
-				//获取运单信息
-				logisticsList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
-				if(logisticsList !=null && logisticsList.size() == 1){
-					logistics = logisticsList.get(0);
-				}else{
-					errorMessage.append(guid+"：运单数据不存在！;<br/>");
-					continue;
-				}
-				//更新申报时间
-				String currentTime = new SimpleDateFormat(
-						CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
-				
-				Map data =  importCommonManagerMapper.selectDataForMessage513_import(guid);
-				
-				//填充数据
-				data.put("LOGISTICS_STATUS", params.get("LOGISTICS_STATUS"));
-				data.put("LOGISTICS_TIME", currentTime);
-				
-	//			String reponse = "";
-				
-				String reponse = submitXml_LOGISTICS(guid,data,CommonDefine.CEB513,currentTime);
-				
-				if (reponse.isEmpty()
-						|| CommonDefine.RESPONSE_OK.equals(reponse)
-						|| reponse.startsWith("P")) {
-
-					// logistics.put("APP_TIME", currentTime);
-					// order.put("PRE_NO", reponse);
-					logistics
-							.put("RETURN_STATUS", CommonDefine.RETURN_STATUS_2);
-					logistics.put("APP_STATUS",
-							CommonDefine.APP_STATUS_COMPLETE);
-					// 更新数据
-					List<String> keys = Arrays.asList(new String[] {
-							"LOGISTICS_STATUS", "RETURN_STATUS", "RETURN_TIME",
-							"RETURN_INFO" });
-					List<Object> values = Arrays.asList(new Object[] {
-							params.get("LOGISTICS_STATUS"),
-							logistics.get("RETURN_STATUS"), null, null });
-
-					commonManagerMapper
-							.updateTableByNVList(tableName, primaryCol,
-									logistics.get(primaryCol), keys, values);
-
-					// importCommonManagerMapper.updateOrder_import(order);
-				} else{
-					errorMessage.append(guid+"：提交错误（"+reponse+"）;<br/>");
-				}
-			}catch(CommonException e){
-				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+		for (String guid : guidList) {
+			// 获取运单信息
+			logisticsList = commonManagerMapper.selectTableListByCol(tableName,
+					"GUID", guid, null, null);
+			if (logisticsList != null && logisticsList.size() == 1) {
+				logistics = logisticsList.get(0);
+			} else {
+				errorMessage.append(guid + "：运单数据不存在！;<br/>");
+				continue;
 			}
+
+			List<String> keys = Arrays.asList(new String[] {
+					"LOGISTICS_STATUS", "RETURN_STATUS", "RETURN_TIME",
+					"RETURN_INFO" });
+			List<Object> values = Arrays.asList(new Object[] {
+					newLogisticsStatus, null, null, null });
+			commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+					logistics.get(primaryCol), keys, values);
+			Object primaryId = logistics.get(primaryCol);
+
+			// 生成xml报文
+			// 修改APP_STATUS为upload
+			logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			submitXml_LOGISTICS(logistics,
+					Integer.valueOf(primaryId.toString()), CommonDefine.CEB513,
+					CommonDefine.LOGISTICS_TYPE_IMPORT);
 
 		}
 		//判断是否有错误信息，如果有抛出异常

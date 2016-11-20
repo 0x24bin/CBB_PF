@@ -935,15 +935,22 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
 			button=this.topToolbar.find("name",'setStatus')[0];
 			if(button){
-				var enableFlag = true;
-				for ( var i = 0; i < selections.length; i++) {
+//				var enableFlag = true;
+//				for ( var i = 0; i < selections.length; i++) {
+//		            var record = selections[i];
+//		            if(record.get("APP_STATUS") != 99){
+//		            	enableFlag = false;
+//		            	break;
+//		            }
+//		        }
+//				button.setDisabled(!enableFlag);
+		        for ( var i = 0; i < selections.length; i++) {
 		            var record = selections[i];
-		            if(record.get("APP_STATUS") != 99){
-		            	enableFlag = false;
-		            	break;
-		            }
+		            button.setDisabled(isLogisticsStatusReadOnly(record));
+		            /*button.menu.items.each(function(item,index,length){
+		            	item.setDisabled(isLogisticsStatusReadOnly(record));
+		            },this);*/
 		        }
-				button.setDisabled(!enableFlag);
 /*				if(selections.length>1){
 					button.setDisabled(true);
 				}else{

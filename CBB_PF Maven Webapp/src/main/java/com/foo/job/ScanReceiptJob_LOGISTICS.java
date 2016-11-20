@@ -37,22 +37,29 @@ public class ScanReceiptJob_LOGISTICS extends AbstractJob {
 		System.out.println(new Date() + "我在执行搜索物流运单状态数据/物流运单状态回执");
 		
 		//处理普通运单
-		handleLogisticsReceipt("T_LOGISTICS");
+		//handleLogisticsReceipt("T_LOGISTICS");
 		//处理苏宁运单
-		handleLogisticsReceipt("T_LOGISTICS_SN");
+		//handleLogisticsReceipt("T_LOGISTICS_SN");
+		//处理苏宁运单
+		handleLogisticsReceipt("T_IMPORT_LOGISTICS");
 	}
 	
 	private void handleLogisticsReceipt(String tableName){
-		//处理运单回执
-		// 查询需要回执的数据,包含为null的RETURN_STATUS,物流状态为空
-		List dataList = commonManagerMapper.selectNeedReceiptData_CEB5X(
-				CommonDefine.NEED_RECEIPT_STATUS_LOGISTICS, true, false, tableName);
-		handleReceipt(CommonDefine.FILE_CATEGORY_WLYD, dataList,tableName);
-		//处理运单状态
-		//查询需要回执的数据,包含为null的RETURN_STATUS，物流状态不为空
-		dataList = commonManagerMapper.selectNeedReceiptData_CEB5X(
-				CommonDefine.NEED_RECEIPT_STATUS_LOGISTICS, true, true, tableName);
-		handleReceipt(CommonDefine.FILE_CATEGORY_YDZT, dataList,tableName);
+		try{
+			//处理运单回执
+			// 查询需要回执的数据,包含为null的RETURN_STATUS,物流状态为空
+			List dataList = commonManagerMapper.selectNeedReceiptData_CEB5X(
+					CommonDefine.NEED_RECEIPT_STATUS_LOGISTICS, true, false, tableName);
+			handleReceipt(CommonDefine.FILE_CATEGORY_WLYD, dataList,tableName);
+			//处理运单状态
+			//查询需要回执的数据,包含为null的RETURN_STATUS，物流状态不为空
+			dataList = commonManagerMapper.selectNeedReceiptData_CEB5X(
+					CommonDefine.NEED_RECEIPT_STATUS_LOGISTICS, true, true, tableName);
+			handleReceipt(CommonDefine.FILE_CATEGORY_YDZT, dataList,tableName);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 	
 	//处理回执

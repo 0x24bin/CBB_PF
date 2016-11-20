@@ -976,6 +976,38 @@
 		WHERE t.`GUID` = #{guid}
 	</select>
 	
+	<select id="selectDataForMessage511_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS GUID,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
+		    AND c.CODE = t.LOGISTICS_CODE) AS LOGISTICS_NAME,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
+		  IFNULL(t.`BILL_NO`, '') AS BILL_NO,
+		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
+		  IFNULL(t.`INSURE_FEE`, '') AS INSURE_FEE,
+		  IFNULL(t.`CURRENCY`, '') AS CURRENCY,
+		  IFNULL(t.`WEIGHT`, '') AS WEIGHT,
+		  IFNULL(t.`PACK_NO`, '') AS PACK_NO,
+		  IFNULL(t.`GOODS_INFO`, '') AS GOODS_INFO,
+		  IFNULL(contact2.`NAME`, '') AS CONSIGNEE,
+		  IFNULL(contact2.`ADDRESS`, '') AS CONSIGNEE_ADDRESS,
+		  IFNULL(contact2.`TEL`, '') AS CONSIGNEE_TELEPHONE,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  T_import_LOGISTICS t 
+		  LEFT JOIN T_CONTACT contact2 
+		    ON t.CONSIGNEE_ID = contact2.CONTACT_ID 
+		WHERE t.`GUID` = #{guid}  
+	</select>
+	
 	<select id="selectDataForMessage501_SN" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(t.`GUID`, '') AS GUID,
@@ -1076,6 +1108,28 @@
 		FROM
 		  t_logistics t 
 		WHERE t.`GUID` = #{guid}  
+	</select>
+	
+	<select id="selectDataForMessage513_import" resultType="java.util.LinkedHashMap" >
+		SELECT 
+		  IFNULL(t.`GUID`, '') AS GUID,
+		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
+		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
+		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
+		  IFNULL(t.`LOGISTICS_CODE`, '') AS LOGISTICS_CODE,
+		  (SELECT 
+		    c.name 
+		  FROM
+		    t_code_name c 
+		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
+		    AND c.CODE = t.LOGISTICS_CODE) AS LOGISTICS_NAME,
+		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
+		  '' AS LOGISTICS_STATUS,
+		  '' AS LOGISTICS_TIME,
+		  IFNULL(t.`NOTE`, '') AS NOTE 
+		FROM
+		  T_import_LOGISTICS t 
+		WHERE t.`GUID` = #{guid} 
 	</select>
 	
 	<select id="selectDataForMessage503_SN" resultType="java.util.LinkedHashMap" >

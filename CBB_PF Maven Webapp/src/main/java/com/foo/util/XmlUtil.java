@@ -109,6 +109,17 @@ public class XmlUtil {
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
 			}
 			break;
+		//CEB511物流运单数据
+		case CommonDefine.CEB511:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB511;
+			fileName = data.get("GUID").toString();
+			rootElementName = rootPrifix +"Logistics";
+			subRootElementName = rootPrifix +"BaseTransfer";
+			//APP_STATUS写死为2，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
 		//CEB502物流运单回执
 		case CommonDefine.CEB502:
 			break;
@@ -117,6 +128,17 @@ public class XmlUtil {
 			messageType = CommonDefine.MESSAGE_TYPE_CEB503;
 			fileName = data.get("GUID").toString();
 			rootElementName = rootPrifix +"LogisticsStatus";
+			//APP_STATUS写死为2，暂存
+			if(data.containsKey("APP_STATUS")){
+				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			}
+			break;
+		//CEB513物流运单状态数据
+		case CommonDefine.CEB513:
+			messageType = CommonDefine.MESSAGE_TYPE_CEB513;
+			fileName = data.get("GUID").toString();
+			rootElementName = rootPrifix +"LogisticsStatus";
+			subRootElementName = rootPrifix +"BaseTransfer";
 			//APP_STATUS写死为2，暂存
 			if(data.containsKey("APP_STATUS")){
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
@@ -180,6 +202,12 @@ public class XmlUtil {
 		// 获取资源文件
 		ResourceBundle bundle = CommonUtil
 				.getMessageMappingResource("CEB");
+		
+		if(messageType.equals(CommonDefine.MESSAGE_TYPE_CEB511)
+				||messageType.equals(CommonDefine.MESSAGE_TYPE_CEB513)){
+			bundle = CommonUtil
+					.getMessageMappingResource("CEB_IMPORT");
+		}
 		try {
 			String filePath = System.getProperty("java.io.tmpdir") + "/"
 					+ fileName + ".xml";

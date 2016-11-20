@@ -163,6 +163,7 @@ public class CommonDefine {
 	//运单类型 1：普通 2：苏宁
 	public static final int LOGISTICS_TYPE_NORMAL = 1;
 	public static final int LOGISTICS_TYPE_SUNING = 2;
+	public static final int LOGISTICS_TYPE_IMPORT = 3;
 	
 	//业务状态:1-暂存,2-申报中,默认为1  (自定义)99 申报完成
 	public static final int APP_STATUS_STORE = 1;

@@ -106,22 +106,6 @@ public interface ImportCommonManagerMapper {
 	 * @return
 	 */
 	public void updatePay_import(Map data);
-	
-	/**
-	 * 获取501报文数据
-	 * @param guid
-	 * @return
-	 */
-	public Map selectDataForMessage511_import(
-			@Param(value = "guid") String guid);
-	
-	/**
-	 * 获取513报文数据
-	 * @param guid
-	 * @return
-	 */
-	public Map selectDataForMessage513_import(
-			@Param(value = "guid") String guid);
 
 	
 	/**

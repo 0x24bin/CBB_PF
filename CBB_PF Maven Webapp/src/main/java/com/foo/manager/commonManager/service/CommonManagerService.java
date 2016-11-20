@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -197,12 +198,17 @@ public abstract class CommonManagerService extends AbstractService {
 		//修改指定运单表
 		String tableName = "T_LOGISTICS";
 		
+		List<Map> subDataList = null;
+		
 		switch (logisticsType) {
 		case CommonDefine.LOGISTICS_TYPE_NORMAL:
 			tableName = "T_LOGISTICS";
 			break;
 		case CommonDefine.LOGISTICS_TYPE_SUNING:
 			tableName = "T_LOGISTICS_SN";
+			break;
+		case CommonDefine.LOGISTICS_TYPE_IMPORT:
+			tableName = "T_IMPORT_LOGISTICS";
 			break;
 		default:
 
@@ -226,6 +232,7 @@ public abstract class CommonManagerService extends AbstractService {
 
 			switch (messageType) {
 			case CommonDefine.CEB501:
+			case CommonDefine.CEB511:
 				generalXmlFilePath = ConfigUtil
 						.getFileLocationPath(CommonDefine.FILE_CATEGORY_WLYD)
 						.get("GENERAL_XML").toString();
@@ -239,9 +246,15 @@ public abstract class CommonManagerService extends AbstractService {
 					// 获取需要生成报文的数据
 					data = commonManagerMapper.selectDataForMessage501_SN(guid);
 					break;
+				case CommonDefine.LOGISTICS_TYPE_IMPORT:
+					// 获取需要生成报文的数据
+					data = commonManagerMapper.selectDataForMessage511_import(guid);
+					subDataList = generateBaseTransfer();
+					break;
 				}
 				break;
 			case CommonDefine.CEB503:
+			case CommonDefine.CEB513:
 				// 设置申请状态为申报中
 				data.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
 				// 清空回执获取信息
@@ -259,11 +272,16 @@ public abstract class CommonManagerService extends AbstractService {
 					// 获取需要生成报文的数据
 					data = commonManagerMapper.selectDataForMessage503_SN(guid);
 					break;
+				case CommonDefine.LOGISTICS_TYPE_IMPORT:
+					// 获取需要生成报文的数据
+					data = commonManagerMapper.selectDataForMessage513_import(guid);
+					subDataList = generateBaseTransfer();
+					break;
 				}
 				break;
 			}
 
-			File file = XmlUtil.generalXml(data, null, messageType);
+			File file = XmlUtil.generalXml(data, subDataList, messageType);
 
 			FtpUtils ftpUtil = FtpUtils.getDefaultFtp();
 
@@ -277,6 +295,23 @@ public abstract class CommonManagerService extends AbstractService {
 		}
 		return true;
 	}
+	
+	
+	//生成BaseTransfer报文数据
+	private List<Map> generateBaseTransfer(){
+		List<Map> baseTransfer = new ArrayList<Map>();
+		
+		Map data = new LinkedHashMap<String,String>();
+		data.put("copCode", CommonUtil.getSystemConfigProperty("copCode"));
+		data.put("copName", CommonUtil.getSystemConfigProperty("copName"));
+		data.put("dxpMode", CommonUtil.getSystemConfigProperty("dxpMode"));
+		data.put("dxpId", CommonUtil.getSystemConfigProperty("dxpId"));
+		data.put("note", CommonUtil.getSystemConfigProperty("note"));
+		
+		baseTransfer.add(data);
+		return baseTransfer;
+	}
+	
 	//http请求调用webservice
 	public String sendHttpCMD(String xmlString,int messageType,int cmdType) throws CommonException {
 		String result = "";
