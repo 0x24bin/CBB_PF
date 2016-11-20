@@ -334,7 +334,7 @@ public class WSManagerImpl extends WSManagerService{
 		
 		return content;
 	}
-	
+
 	//组织返回数据
 	private Map generate302ReturnMap(Map head,String logisticsNo,String returnInfo,int flag){
 
@@ -490,7 +490,7 @@ public class WSManagerImpl extends WSManagerService{
 		setGoodsList(data,head.get("ORDER_NO").toString(),primaryId);
 
 	}
-
+	
 	
 	//在数据库中插入订单数据
 	private void  generateOrderDataToDb_import(Map head,List<Map> data){
@@ -752,6 +752,8 @@ public class WSManagerImpl extends WSManagerService{
 		colNames.add("CITY");
 		colNames.add("DISTRICT");
 		colNames.add("SPECIFIC_ADDRESS");
+		colNames.add("NAME_P");
+		colNames.add("ADDRESS_P");
 		List<Object> colValues=new ArrayList<Object>();
 		colValues.add(head.get("consigneeCode"));
 		colValues.add(head.get("consignee"));
@@ -761,6 +763,8 @@ public class WSManagerImpl extends WSManagerService{
 		colValues.add(head.get("consigneeCity"));
 		colValues.add(head.get("consigneeDistrict"));
 		colValues.add(head.get("consigneeAddress"));
+		colValues.add(head.get("consigneeP"));
+		colValues.add(head.get("consigneeAddressP"));
 		
 		//查找t_contact表，是否是已存在的地址
 		List<Map<String,Object>> data = commonManagerMapper.selectTableListByNVList("t_contact", colNames, colValues, null, null);
@@ -820,7 +824,7 @@ public class WSManagerImpl extends WSManagerService{
 					primary);
 		}
 	}
-
+	
 	//插入订单详细信息数据
 	private void setGoodsList_import(List<Map> GOODSList,Object orderNo, Object ordersId){
 		commonManagerMapper.delTableById(T_IMPORT_ORDER_DETAIL, "ORDERS_ID", ordersId);

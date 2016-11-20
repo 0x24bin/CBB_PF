@@ -1,10 +1,16 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/10/23 19:53:30                          */
+/* Created on:     2016/11/20 13:12:30                          */
 /*==============================================================*/
 
 
 DROP TRIGGER IF EXISTS TRIGGER_UPDATE_IMPORT_ORDERNO;
+
+DROP VIEW IF EXISTS V_IMPORT_LOGISTICS;
+
+DROP VIEW IF EXISTS V_IMPORT_ORDERS_UNUSE;
+
+DROP TABLE IF EXISTS T_IMPORT_DELIVERY;
 
 DROP TABLE IF EXISTS T_IMPORT_INVENTORY;
 
@@ -13,6 +19,31 @@ DROP TABLE IF EXISTS T_IMPORT_LOGISTICS;
 DROP TABLE IF EXISTS T_IMPORT_ORDERS;
 
 DROP TABLE IF EXISTS T_IMPORT_ORDER_DETAIL;
+
+/*==============================================================*/
+/* Table: T_IMPORT_DELIVERY                                     */
+/*==============================================================*/
+CREATE TABLE T_IMPORT_DELIVERY
+(
+   DELIVERY_ID          INT NOT NULL AUTO_INCREMENT,
+   GUID                 VARCHAR(64) COMMENT '本平台生成36位唯一序号（英文字母大写和数字和横杠）,格式:SINOTRANS-SKU-YYYYMMDDhhmmss-0000001,即系统当前时间加7位流水号',
+   DELIVERY_NO          VARCHAR(30) COMMENT '入库单号',
+   TRAF_MODE            VARCHAR(1) COMMENT '运输方式--海关标准的参数代码',
+   TRAF_NO              VARCHAR(100) COMMENT '（对应报文中的trafName）运输工具名称--货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。',
+   VOYAGE_NO            VARCHAR(32) COMMENT '航班航次号--货物进出境的运输工具的航次编号；同报关单填制规范。',
+   BILL_NO              VARCHAR(37) COMMENT '提运单号--货物提单或运单的编号；同报关单填制规范。',
+   NOTE                 VARCHAR(1000) COMMENT '备注',
+   VERSION              VARCHAR(16) DEFAULT 'V1.0' COMMENT '版本号',
+   RETURN_STATUS        INT COMMENT '回执状态--操作结果（1电子口岸已暂存/2电子口岸申报中/3发送海关成功/4发送海关失败/100海关退单/120海关入库成功/399海关审结）,若小于0数字表示处理异常回执',
+   RETURN_TIME          VARCHAR(64) COMMENT '回执时间--操作时间(格式:YYYYMMDDhhmmss)',
+   RETURN_INFO          VARCHAR(1000) COMMENT '回执信息--备注（如:退单原因）',
+   CREAT_TIME           DATETIME,
+   UPDATE_TIME          TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+   PRIMARY KEY (DELIVERY_ID),
+   UNIQUE KEY AK_KEY_2 (DELIVERY_NO)
+);
+
+ALTER TABLE T_IMPORT_DELIVERY COMMENT '入库单';
 
 /*==============================================================*/
 /* Table: T_IMPORT_INVENTORY                                    */
@@ -100,7 +131,7 @@ CREATE TABLE T_IMPORT_LOGISTICS
    CONSIGNEE_ID         INT COMMENT '收货人',
    SHIPPER_ID           INT COMMENT '发货人',
    LOGISTICS_HEAD_NO    VARCHAR(20) COMMENT '总运单号',
-   DELIVERY_NO          VARCHAR(64) COMMENT '清单号',
+   DELIVERY_NO          VARCHAR(64) COMMENT '入库单号',
    IS_AUTO              INT DEFAULT 0 COMMENT '是否自动生成 0：不是 1：是',
    NOTE                 VARCHAR(1000) COMMENT '备注',
    VERSION              VARCHAR(16) DEFAULT 'V1.0' COMMENT '版本号',
@@ -197,6 +228,36 @@ CREATE TABLE T_IMPORT_ORDER_DETAIL
 );
 
 ALTER TABLE T_IMPORT_ORDER_DETAIL COMMENT '存放电子订单的表体数据';
+
+/*==============================================================*/
+/* View: V_IMPORT_LOGISTICS                                     */
+/*==============================================================*/
+CREATE VIEW  V_IMPORT_LOGISTICS
+ AS
+SELECT 
+  L.*,
+  O.`EBP_CODE` AS EBP_CODE,
+  C.NAME AS CONSIGNEE,
+  C.TEL AS CONSIGNEE_TELEPHONE 
+FROM
+  `T_IMPORT_LOGISTICS` L 
+  LEFT JOIN `T_IMPORT_ORDERS` O 
+    ON L.`ORDER_NO` = O.`ORDER_NO` 
+  LEFT JOIN `T_CONTACT` C 
+    ON L.`CONSIGNEE_ID` = C.`CONTACT_ID`;
+
+/*==============================================================*/
+/* View: V_IMPORT_ORDERS_UNUSE                                  */
+/*==============================================================*/
+CREATE VIEW  V_IMPORT_ORDERS_UNUSE
+ AS
+SELECT 
+  O.* 
+FROM
+  `T_IMPORT_ORDERS` O 
+  LEFT JOIN `T_IMPORT_LOGISTICS` L 
+    ON O.`ORDER_NO` = L.`ORDER_NO` 
+WHERE ISNULL(L.`ORDER_NO`);
 
 ALTER TABLE T_IMPORT_LOGISTICS ADD CONSTRAINT FK_REFERENCE_3 FOREIGN KEY (ORDER_NO)
       REFERENCES T_IMPORT_ORDERS (ORDER_NO) ON DELETE RESTRICT ON UPDATE RESTRICT;

@@ -642,19 +642,21 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        		this.batchSubmit(data);
 			        	}
 			        }.createDelegate(this)
-				},{
-			        text: '申请快递单号',
-			        scale: 'medium',
-			        name: 'applyExpressNo',
-			        disabled: true,
-			        icon:'../../resource/images/btnImages/email_go.png',
-			        handler: function(){
-			        	var data=this.checkSelect(false);
-			        	if(data){
-			        		this.applyExpressNo(data);
-			        	}
-			        }.createDelegate(this)
-				},{
+				},
+//				{
+//			        text: '申请快递单号',
+//			        scale: 'medium',
+//			        name: 'applyExpressNo',
+//			        disabled: true,
+//			        icon:'../../resource/images/btnImages/email_go.png',
+//			        handler: function(){
+//			        	var data=this.checkSelect(false);
+//			        	if(data){
+//			        		this.applyExpressNo(data);
+//			        	}
+//			        }.createDelegate(this)
+//				},
+				{
 			        text: '查询',
 			        scale: 'medium',
 			        name: 'search',
@@ -1273,14 +1275,14 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 			if(this.buttons==undefined)
 				this.buttons=[];
 			
-			this.buttons.push(new Ext.Button({
-		    	text : '打印面单', 
-		    	scale: 'medium',
-//		    	icon : '../../resource/images/btnImages/cancel.png',
-				handler : function(b,e){
-					print();
-		    	}.createDelegate(this)
-		    }));
+//			this.buttons.push(new Ext.Button({
+//		    	text : '打印面单', 
+//		    	scale: 'medium',
+////		    	icon : '../../resource/images/btnImages/cancel.png',
+//				handler : function(b,e){
+//					print();
+//		    	}.createDelegate(this)
+//		    }));
 			
 			if(!this.readOnly){
 				this.buttons.push(
