@@ -348,6 +348,13 @@ public class CommonUtil {
 		case CommonDefine.CEB601:
 			prifix = "CEB_601";
 			break;
+			
+		case CommonDefine.CEB511:
+			prifix = "CEB_511";
+			break;
+		case CommonDefine.CEB311:
+			prifix = "CEB_311";
+			break;
 			default:
 				prifix = "CEB";
 		}

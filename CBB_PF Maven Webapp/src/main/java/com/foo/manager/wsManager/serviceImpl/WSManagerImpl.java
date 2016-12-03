@@ -36,6 +36,8 @@ public class WSManagerImpl extends WSManagerService{
 	//订单信息 总署进口版本
 	private static String FILE_TYPE_SNT301 = "SNT301";
 	private static String FILE_TYPE_SNT302 = "SNT302";
+	private static String FILE_TYPE_SNT401 = "SNT401";
+	private static String FILE_TYPE_SNT402 = "SNT402";
 	
 	
 	private static String CUSTOM_CODE = "2308";
@@ -71,6 +73,9 @@ public class WSManagerImpl extends WSManagerService{
 			}else if(FILE_TYPE_SNT301.equals(fileType)){
 				content = generate302ReturnMap(data,"",returnInfo,CommonDefine.FAILED);
 				xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT302,content);
+			}else if(FILE_TYPE_SNT401.equals(fileType)){
+				content = generate402ReturnMap(returnInfo,CommonDefine.FAILED);
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT402,content);
 			}
 			 
 			//上传log
@@ -103,6 +108,8 @@ public class WSManagerImpl extends WSManagerService{
 			xmlReturnString = handleXml_SNT201(xmlString);
 		}else if(FILE_TYPE_SNT301.equals(fileType)){
 			xmlReturnString = handleXml_SNT301(xmlString);
+		}else if(FILE_TYPE_SNT401.equals(fileType)){
+			xmlReturnString = handleXml_SNT401(xmlString);
 		}
 		
 		
@@ -284,6 +291,89 @@ public class WSManagerImpl extends WSManagerService{
 		return xmlReturnString;
 	}
 	
+	//处理SNT401报文
+	private String handleXml_SNT401(String xmlString) {
+
+		String xmlReturnString = "";
+
+		Map<String, Object> data = XmlUtil.parseXmlSNT401_WS(xmlString);
+
+		Map head = (Map) data.get("Head");
+
+		// 检查运单是否在数据库中存在
+		String LogisticsNo = head.get("LogisticsNo").toString();
+		String OrderNo = head.get("OrderNo").toString();
+
+		List<String> colNames = new ArrayList<String>();
+		colNames.add("LOGISTICS_NO");
+		colNames.add("ORDER_NO");
+		List<Object> colValues = new ArrayList<Object>();
+		colValues.add(LogisticsNo);
+		colValues.add(OrderNo);
+		// 请求中的订单号和运单号，必须是对应的。
+		int count = commonManagerMapper.selectTableListCountByNVList(
+				T_IMPORT_LOGISTICS, colNames, colValues);
+
+		if (count == 0) {
+			// 返回运单状态
+			Map content = generate402ReturnMap("运单号和订单号不匹配！",
+					CommonDefine.FAILED);
+
+			xmlReturnString = XmlUtil.generalReceiptXml_WS(FILE_TYPE_SNT402,
+					content);
+
+		} else {
+			String EbpCode = head.get("EbpCode").toString();
+			String EbcCode = head.get("EbcCode").toString();
+			// 请求中的电商平台编号，电商企业编号与订单号，必须在订单表中对应
+			colNames.clear();
+			colNames.add("ORDER_NO");
+			colNames.add("EBC_CODE");
+			colNames.add("EBP_CODE");
+			colValues.clear();
+			colValues.add(OrderNo);
+			colValues.add(EbcCode);
+			colValues.add(EbpCode);
+			count = commonManagerMapper.selectTableListCountByNVList(
+					T_IMPORT_ORDERS, colNames, colValues);
+			if (count == 0) {
+				// 返回运单状态
+				Map content = generate402ReturnMap("订单号和电商平台编号、电商企业编号不匹配！",
+						CommonDefine.FAILED);
+
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(
+						FILE_TYPE_SNT402, content);
+			} else {
+				// 查询数据
+				Map content = importCommonManagerMapper
+						.selectDataForMessageSNT402(LogisticsNo);
+				
+				// 获取资源文件
+				ResourceBundle bundle = CommonUtil
+						.getMessageMappingResource("CEB_IMPORT");
+				
+				// 写死3201W改成从配置文件中读取
+				content.put(
+						"DestinationPort",
+						bundle.getString("DestinationPort_value") != null ? bundle
+								.getString("DestinationPort_value") : "3201W");
+				// 写死5改成从配置文件中读取
+				content.put(
+						"WrapType",
+						bundle.getString("WrapType_value") != null ? bundle
+								.getString("WrapType_value") : "5");
+				
+				content.put("returnStatus", CommonDefine.SUCCESS);
+				content.put("returnInfo", "");
+				// 返回数据
+				xmlReturnString = XmlUtil.generalReceiptXml_WS(
+						FILE_TYPE_SNT402, content);
+			}
+
+		}
+		return xmlReturnString;
+	}
+	
 	
 	
 	//更新订单中的运单号
@@ -349,6 +439,16 @@ public class WSManagerImpl extends WSManagerService{
 		content.put("returnTime", currentTime);
 		content.put("returnInfo", returnInfo);
 		content.put("LogisticsNo", logisticsNo);
+		
+		return content;
+	}
+	
+	//组织返回数据
+	private Map generate402ReturnMap(String returnInfo,int flag){
+		
+		Map content = new LinkedHashMap();
+		content.put("returnStatus", flag);
+		content.put("returnInfo", returnInfo);
 		
 		return content;
 	}
@@ -518,9 +618,9 @@ public class WSManagerImpl extends WSManagerService{
 		//设置额外列
 		newHead.put("CONSIGNEE_ID", consigneeId);
 		//生成guid  CUSTOM_CODE固定2308
-		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
-		newHead.put("RECEIVER_ID", CUSTOM_CODE);
-		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB301,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+//		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
+//		newHead.put("RECEIVER_ID", CUSTOM_CODE);
+		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB311,head.get("EBC_CODE").toString(),CUSTOM_CODE));
 		
 		newHead.put("APP_STATUS", CommonDefine.APP_STATUS_UNUSE);
 		
@@ -647,9 +747,9 @@ public class WSManagerImpl extends WSManagerService{
 		newHead.put(primaryCol, null);
 		
 		// 设置额外列
-		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
-		newHead.put("RECEIVER_ID", CUSTOM_CODE);
-		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB501,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+//		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
+//		newHead.put("RECEIVER_ID", CUSTOM_CODE);
+		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,head.get("EBC_CODE").toString(),CUSTOM_CODE));
 		//件数 运单关联的订单中所有商品数量之和
 		int packNo = importCommonManagerMapper.selectSumPackNoForOrder(orderNo);
 		

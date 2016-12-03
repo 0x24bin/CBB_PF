@@ -1764,6 +1764,38 @@ public class XmlUtil {
 		return result;
 	}
 	
+	
+	/**
+	 * 解析xml字符串,SNT201报文
+	 * @param xmlString
+	 * @return
+	 */
+	public static Map<String,Object> parseXmlSNT401_WS(String xmlString) {
+		Map<String,Object> result = new HashMap<String,Object>();
+		
+		String rootNode = "SNT401Message";
+		
+		Document document = null;
+		try {
+			document = DocumentHelper.parseText(xmlString);
+			
+			//获取文件类型节点
+			XPath xpath = document.createXPath("//"+rootNode+"/Logistics/child::*"); 
+			
+			List<Node> HeadChildNodes = xpath.selectNodes(document);
+			
+			Map<String,String> Head = new HashMap<String,String>();
+			//添加OrderHead数据
+			for(Node node:HeadChildNodes){
+				Head.put(node.getName(), node.getText());
+			}
+			result.put("Head", Head);
+		} catch (DocumentException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
 	//生成回执xml
 	public static String generalReceiptXml_WS(String fileType,Map content){
 

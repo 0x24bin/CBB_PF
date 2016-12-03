@@ -82,6 +82,8 @@ public class CommonDefine {
 	//CEB504物流运单状态回执
 	public static final int CEB504 = 504;
 	
+	//CEB311电子订单数据
+	public static final int CEB311 = 311;
 	//CEB511物流运单状态
 	public static final int CEB511 = 511;
 	public static final int CEB513 = 513;

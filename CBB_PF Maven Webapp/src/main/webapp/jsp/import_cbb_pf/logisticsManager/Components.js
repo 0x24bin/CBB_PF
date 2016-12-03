@@ -9,8 +9,8 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //        "LOGISTICS_ID",
 //	     "GUID",
 	     "ORDER_NO",
-	     "CUSTOM_CODE",
-	     "RECEIVER_ID",
+//	     "CUSTOM_CODE",
+//	     "RECEIVER_ID",
 //	     "APP_TYPE",
 	     "APP_TIME",
 	     "APP_STATUS",
@@ -21,10 +21,10 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	     "LOGISTICS_STATUS",
 //	     "IE_FLAG",
 //	     "TRAF_MODE",
-	     "TRAF_NAME",
-	     "VOYAGE_NO",
-	     "BILL_NO",
-	     "MAIN_BILL_NO",
+//	     "TRAF_NAME",
+//	     "VOYAGE_NO",
+//	     "BILL_NO",
+//	     "MAIN_BILL_NO",
 //	     "FREIGHT",
 //	     "INSURE_FEE",
 //	     "CURRENCY",
@@ -290,8 +290,8 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}, [ "LOGISTICS_ID",
 			     "GUID",
 			     "ORDER_NO",
-			     "CUSTOM_CODE",
-			     "RECEIVER_ID",
+//			     "CUSTOM_CODE",
+//			     "RECEIVER_ID",
 			     "APP_TYPE",
 			     "APP_TIME",
 			     "APP_STATUS",
@@ -301,11 +301,11 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			     "LOGISTICS_NO",
 			     "LOGISTICS_STATUS",
 //			     "IE_FLAG",
-			     "TRAF_MODE",
-			     "TRAF_NAME",
-			     "VOYAGE_NO",
-			     "BILL_NO",
-			     "MAIN_BILL_NO",
+//			     "TRAF_MODE",
+//			     "TRAF_NAME",
+//			     "VOYAGE_NO",
+//			     "BILL_NO",
+//			     "MAIN_BILL_NO",
 			     "FREIGHT",
 			     "INSURE_FEE",
 			     "CURRENCY",
@@ -361,17 +361,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "ORDER_NO",
 			    header : "订单编号",
 			    dataIndex : "ORDER_NO"
-			},new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_custom,
-			    id : "CUSTOM_CODE",
-			    header : "主管海关代码",
-			    dataIndex : "CUSTOM_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_custom,
-			    id : "RECEIVER_ID",
-			    header : "接收海关代码",
-			    dataIndex : "RECEIVER_ID"
-			}),{
+			},{
 			    id : "APP_TYPE",
 			    header : "申报类型",
 			    dataIndex : "APP_TYPE",
@@ -424,28 +414,7 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			    header : "进出口标记",
 //			    dataIndex : "IE_FLAG"
 //			}),
-			new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_trafMode,
-			    id : "TRAF_MODE",
-			    header : "运输方式",
-			    dataIndex : "TRAF_MODE"
-			}),{
-			    id : "TRAF_NAME",
-			    header : "运输工具名称",
-			    dataIndex : "TRAF_NAME"
-			},{
-			    id : "VOYAGE_NO",
-			    header : "航班航次号",
-			    dataIndex : "VOYAGE_NO"
-			},{
-			    id : "BILL_NO",
-			    header : "提运单号",
-			    dataIndex : "BILL_NO"
-			},{
-			    id : "MAIN_BILL_NO",
-			    header : "总运单号",
-			    dataIndex : "MAIN_BILL_NO"
-			},{
+			{
 			    id : "FREIGHT",
 			    header : "订单商品运费",
 			    dataIndex : "FREIGHT"
@@ -788,39 +757,6 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //				enableOverflow:true,
 				items : [{
 			        xtype: 'tbtext',
-			        text: '运输工具名称:',
-			        width:95
-			    },{
-			        xtype: 'textfield',
-			        fieldLabel: '',
-			        id:"TRAF_NAME_LOGISTICS_SEARCH",
-			        emptyText:"",
-			        width:95,
-			        anchor:'50%'
-			    },{
-			        xtype: 'tbtext',
-			        text: '航班航次号:',
-			        width:95
-			    },{
-			        xtype: 'textfield',
-			        fieldLabel: '',
-			        id:"VOYAGE_NO_LOGISTICS_SEARCH",
-			        emptyText:"",
-			        width:95,
-			        anchor:'50%'
-			    },{
-			        xtype: 'tbtext',
-			        text: '提运单号:',
-			        width:95
-			    },{
-			        xtype: 'textfield',
-			        fieldLabel: '',
-			        id:"BILL_NO_LOGISTICS_SEARCH",
-			        emptyText:"",
-			        width:95,
-			        anchor:'50%'
-			    },{
-			        xtype: 'tbtext',
 			        text: '业务状态:',
 			        width:95
 			    },{
@@ -1099,17 +1035,7 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 	        name: 'ORDER_NO',
 	        readOnly: true,
 	        maxLength: 30
-		},GenerateCodeNameComboGrid({
-	    		allowBlank : false,
-		    	fieldLabel:'主管海关代码',
-		    	name: 'CUSTOM_CODE'
-	        },relationCategory_custom
-	    ),GenerateCodeNameComboGrid({
-			allowBlank : false,
-			fieldLabel:'接收海关代码',
-	        name: 'RECEIVER_ID'
-	        },relationCategory_custom
-	    ),{
+		},{
 			xtype:'displayfield',
 	        fieldLabel:'申报时间',
 	        name: 'APP_TIME',
@@ -1155,28 +1081,7 @@ Ext.ux.LogisticsFormPanel = Ext.extend(Ext.form.FormPanel, {
 //		    	autoLoad: false
 //	        },relationCategory_ieFlag,CodeNameData.ieFlag
 //	    ),
-	    GenerateCodeNameComboGrid({
-	    		allowBlank : false,
-		    	fieldLabel:'运输方式',
-		    	name: 'TRAF_MODE'
-	        },relationCategory_trafMode
-	    ),{
-	        fieldLabel:'运输工具名称',
-	        name: 'TRAF_NAME',
-	        maxLength: 100
-		},{
-	        fieldLabel:'航班航次号',
-	        name: 'VOYAGE_NO',
-	        maxLength: 32
-		},{
-	        fieldLabel:'提运单号',
-	        name: 'BILL_NO',
-	        maxLength: 37
-		},{
-	        fieldLabel:'总运单号',
-	        name: 'MAIN_BILL_NO',
-	        maxLength: 50
-		},{
+	    {
 	    	xtype:'numberfield',
 	    	allowNegative: false,
 	        fieldLabel:'运费',

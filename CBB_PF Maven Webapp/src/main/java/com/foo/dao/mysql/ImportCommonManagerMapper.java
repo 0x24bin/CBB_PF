@@ -177,7 +177,7 @@ public interface ImportCommonManagerMapper {
 	 * @param OrderNo
 	 * @return
 	 */
-	public Map selectDataForMessageSNT202(
+	public Map selectDataForMessageSNT402(
 			@Param(value = "LogisticsNo") String LogisticsNo);
 	
 	/**

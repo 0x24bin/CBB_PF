@@ -986,17 +986,12 @@
 	    where GUID = #{GUID}
 	  </update>
 	  
-	  <select id="selectDataForMessageSNT202" resultType="java.util.LinkedHashMap" >
+	  <select id="selectDataForMessageSNT402" resultType="java.util.LinkedHashMap" >
 		SELECT 
 		  IFNULL(
 		    DATE_FORMAT(logistics.UPDATE_TIME, '%Y%m%d'),
 		    ''
 		  ) AS IeDate,
-		  IFNULL(logistics.TRAF_MODE, '') AS TrafMode,
-		  IFNULL(logistics.TRAF_NAME, '') AS TrafName,
-		  IFNULL(logistics.VOYAGE_NO, '') AS VoyageNo,
-		  IFNULL(logistics.BILL_NO, '') AS BillNo,
-		  IFNULL(logistics.MAIN_BILL_NO, '') AS MainBillNo,
 		  "" AS LoctNo,
 		  "" AS LicenseNo,
 		  IFNULL(

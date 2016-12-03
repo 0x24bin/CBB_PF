@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2016/11/20 13:12:30                          */
+/* Created on:     2016/12/3 15:30:52                           */
 /*==============================================================*/
 
 
@@ -106,8 +106,6 @@ CREATE TABLE T_IMPORT_LOGISTICS
    LOGISTICS_ID         INT NOT NULL AUTO_INCREMENT,
    ORDER_NO             VARCHAR(30) COMMENT '订单编号--电商平台的原始订单编号，格式',
    GUID                 VARCHAR(64) COMMENT '本平台生成36位唯一序号（英文字母大写和数字和横杠）,格式:SINOTRANS-SKU-YYYYMMDDhhmmss-0000001,即系统当前时间加7位流水号',
-   CUSTOM_CODE          VARCHAR(4) COMMENT '办理商品备案手续的4位海关代码',
-   RECEIVER_ID          VARCHAR(4) COMMENT '接收海关代码',
    APP_TYPE             INT DEFAULT 1 COMMENT '申报类型:1-新增 2-变更 3-删除,默认为1',
    APP_TIME             VARCHAR(64) COMMENT '申报时间以海关审批反馈时间为准,格式:YYYYMMDDhhmmss,系统当前时间（回执中获取）',
    APP_STATUS           INT DEFAULT 1 COMMENT '业务状态:1-暂存,2-申报,默认为1',
@@ -115,11 +113,6 @@ CREATE TABLE T_IMPORT_LOGISTICS
    LOGISTICS_NAME       VARCHAR(128) COMMENT '物流企业的海关备案名称',
    LOGISTICS_NO         VARCHAR(20) COMMENT '物流运单编号--物流企业的运单包裹面单号',
    LOGISTICS_STATUS     VARCHAR(1) COMMENT '物流状态--物流状态,A-承运,R-运抵,C-退货,L-离境,S-签收',
-   TRAF_MODE            VARCHAR(1) COMMENT '运输方式--海关标准的参数代码',
-   TRAF_NAME            VARCHAR(100) COMMENT '（对应报文中的trafName）运输工具名称--货物进出境的运输工具的名称或运输工具编号。填报内容应与运输部门向海关申报的载货清单所列相应内容一致；同报关单填制规范。',
-   VOYAGE_NO            VARCHAR(32) COMMENT '航班航次号--货物进出境的运输工具的航次编号；同报关单填制规范。',
-   BILL_NO              VARCHAR(37) COMMENT '提运单号--货物提单或运单的编号；同报关单填制规范。',
-   MAIN_BILL_NO         VARCHAR(50) COMMENT '总运单号',
    FREIGHT              NUMERIC(18,2) COMMENT '订单商品运费--交易包运费则填写"0"',
    INSURE_FEE           NUMERIC(18,2) COMMENT '保价费--货物保险费用',
    CURRENCY             VARCHAR(3) COMMENT '海关标准的参数代码--币制',
@@ -154,8 +147,6 @@ CREATE TABLE T_IMPORT_ORDERS
    ORDERS_ID            INT NOT NULL AUTO_INCREMENT,
    GUID                 VARCHAR(64) COMMENT '本平台生成36位唯一序号（英文字母大写和数字和横杠）,格式:SINOTRANS-ORDER-YYYYMMDDhhmmss-00001,即系统当前时间加5位流水号',
    ORDER_NO             VARCHAR(30) COMMENT '订单编号--电商平台的原始订单编号，格式',
-   CUSTOM_CODE          VARCHAR(4) COMMENT '办理商品备案手续的4位海关代码',
-   RECEIVER_ID          VARCHAR(4) COMMENT '接收海关代码',
    APP_TYPE             INT DEFAULT 1 COMMENT '申报类型:1-新增 2-变更 3-删除,默认为1',
    APP_TIME             VARCHAR(64) COMMENT '申报时间以海关审批反馈时间为准,格式:YYYYMMDDhhmmss,系统当前时间（回执中获取）',
    APP_STATUS           INT DEFAULT 2 COMMENT '业务状态:1-暂存,2-申报,默认为2',
