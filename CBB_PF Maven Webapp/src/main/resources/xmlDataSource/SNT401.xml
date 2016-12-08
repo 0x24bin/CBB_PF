@@ -4,10 +4,10 @@
 	<xml>
 		<SNT401Message>
 			<Logistics>
-				<EbpCode>1234567890</EbpCode>
-				<EbcCode>1234567890</EbcCode>
-				<OrderNo>2</OrderNo>
-				<LogisticsNo>000000000001</LogisticsNo>
+				<ebpCode>1234567890</ebpCode>
+				<ebcCode>1234567890</ebcCode>
+				<orderNo>2</orderNo>
+				<logisticsNo>000000000001</logisticsNo>
 			</Logistics>
 		</SNT401Message>
 	</xml>

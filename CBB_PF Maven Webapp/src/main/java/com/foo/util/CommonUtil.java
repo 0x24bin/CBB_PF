@@ -177,7 +177,7 @@ public class CommonUtil {
 						+ CommonDefine.SYSTEM_CONFIG_FILE);
 		String propertyValue = null;
 		try {
-			propertyValue = bundle.getString(propertyName);
+			propertyValue = new String(bundle.getString(propertyName).getBytes("ISO-8859-1"),"UTF-8");
 		} catch (Exception e) {
 
 		}
@@ -351,6 +351,7 @@ public class CommonUtil {
 			
 		case CommonDefine.CEB511:
 			prifix = "CEB_511";
+			currentTime = currentTime+"000000000";
 			break;
 		case CommonDefine.CEB311:
 			prifix = "CEB_311";

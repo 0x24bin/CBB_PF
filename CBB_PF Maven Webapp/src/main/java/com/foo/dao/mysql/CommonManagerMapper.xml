@@ -989,8 +989,8 @@
 		    t_code_name c 
 		  WHERE c.RELATION_CATEGORY = 'LOGISTICS_CODE' 
 		    AND c.CODE = t.LOGISTICS_CODE) AS LOGISTICS_NAME,
-		  IFNULL(t.`LOGISTICS_NO`, '') AS LOGISTICS_NO,
-		  IFNULL(t.`DELIVERY_NO`, '') AS BILL_NO,
+		  IFNULL(t.`PARCEL_INFO`, '') AS LOGISTICS_NO,
+		  IFNULL(delivery.`BILL_NO`, '') AS BILL_NO,
 		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
 		  IFNULL(t.`INSURE_FEE`, '') AS INSURE_FEE,
 		  IFNULL(t.`CURRENCY`, '') AS CURRENCY,
@@ -998,13 +998,15 @@
 		  IFNULL(t.`PACK_NO`, '') AS PACK_NO,
 		  IFNULL(t.`GOODS_INFO`, '') AS GOODS_INFO,
 		  IFNULL(contact2.`NAME`, '') AS CONSIGNEE,
-		  IFNULL(contact2.`ADDRESS`, '') AS CONSIGNEE_ADDRESS,
+		  IFNULL(contact2.`SPECIFIC_ADDRESS`, '') AS CONSIGNEE_ADDRESS,
 		  IFNULL(contact2.`TEL`, '') AS CONSIGNEE_TELEPHONE,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
 		FROM
 		  T_import_LOGISTICS t 
 		  LEFT JOIN T_CONTACT contact2 
-		    ON t.CONSIGNEE_ID = contact2.CONTACT_ID 
+		    ON t.CONSIGNEE_ID = contact2.CONTACT_ID
+		  LEFT JOIN t_import_delivery delivery 
+		    ON t.DELIVERY_NO = delivery.DELIVERY_NO 
 		WHERE t.`GUID` = #{guid}  
 	</select>
 	

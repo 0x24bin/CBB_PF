@@ -70,7 +70,6 @@
 				<xs:element ref="price"/>
 				<xs:element ref="total"/>
 				<xs:element ref="barCode"/>
-				<xs:element ref="freight"/>
 				<xs:element ref="lottable1"/>
 				<xs:element ref="note"/>
 			</xs:sequence>

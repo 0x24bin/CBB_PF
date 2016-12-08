@@ -33,10 +33,10 @@
 	<xs:element name="Logistics">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="EbpCode"/>
-				<xs:element ref="EbcCode"/>
-				<xs:element ref="OrderNo"/>
-				<xs:element ref="LogisticsNo"/>
+				<xs:element ref="ebpCode"/>
+				<xs:element ref="ebcCode"/>
+				<xs:element ref="orderNo"/>
+				<xs:element ref="logisticsNo"/>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -51,21 +51,21 @@
 	</xs:element> 
 	
 	<!-- 简易元素的定义 Logistics节点下 -->
-	<xs:element name="EbpCode">
+	<xs:element name="ebpCode">
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
 				<xs:length value="10"/>
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>
-	<xs:element name="EbcCode">
+	<xs:element name="ebcCode">
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
 				<xs:length value="10"/>
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>
-	<xs:element name="OrderNo">
+	<xs:element name="orderNo">
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
 				<xs:minLength value="1"/>
@@ -73,7 +73,7 @@
 			</xs:restriction>
 		</xs:simpleType>
 	</xs:element>
-	<xs:element name="LogisticsNo">
+	<xs:element name="logisticsNo">
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
 				<xs:minLength value="1"/>

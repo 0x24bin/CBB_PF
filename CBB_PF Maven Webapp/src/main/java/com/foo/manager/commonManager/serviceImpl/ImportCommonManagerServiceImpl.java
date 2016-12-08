@@ -749,7 +749,7 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 			logistics.put(primaryCol, null);
 			
 			// 设置guid
-			logistics.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,logistics.get("EBC_CODE").toString(),logistics.get("CUSTOM_CODE").toString()));
+			logistics.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,"",""));
 			// 设置创建时间
 			logistics.put("CREAT_TIME", new Date());
 			

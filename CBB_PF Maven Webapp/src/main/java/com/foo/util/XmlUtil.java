@@ -113,7 +113,7 @@ public class XmlUtil {
 		case CommonDefine.CEB511:
 			messageType = CommonDefine.MESSAGE_TYPE_CEB511;
 			fileName = data.get("GUID").toString();
-			rootElementName = rootPrifix +"Logistics";
+			rootElementName = rootPrifix +"Logistics"+"_"+rootPrifix +"LogisticsHead";
 			subRootElementName = rootPrifix +"BaseTransfer";
 			//APP_STATUS写死为2，暂存
 			if(data.containsKey("APP_STATUS")){
@@ -224,14 +224,31 @@ public class XmlUtil {
 			// 添加根元素
 			Element rootElement = DocumentHelper.createElement(nameSpace + ":"
 					+ messageType + "Message");
+			//添加属性
+			if(messageType.equals(CommonDefine.MESSAGE_TYPE_CEB511)){
+				rootElement.addAttribute("guid",
+						data.get("GUID").toString());
+				rootElement.addAttribute("version",
+						"1.0");
+			}else{
+				rootElement.addNamespace("xsi",
+						nameSpace_xsi);
+			}			
 			rootElement.addAttribute("xsi:schemaLocation",
 					"http://www.chinaport.gov.cn/ceb");
 			rootElement.addNamespace("ceb", "http://www.chinaport.gov.cn/ceb");
-			rootElement.addNamespace("xsi",
-					nameSpace_xsi);
+			
+			
 			doc.setRootElement(rootElement);
+			
+			String[] rootElementArray = rootElementName.split("_");
+			
 			// 设置第一级元素
-			Element firstElement = rootElement.addElement(rootElementName);
+			Element temp = rootElement;
+			for(String name:rootElementArray){
+				temp = temp.addElement(name);
+			}
+			Element firstElement = temp;
 			// 第二级元素
 			Element secondElement;
 

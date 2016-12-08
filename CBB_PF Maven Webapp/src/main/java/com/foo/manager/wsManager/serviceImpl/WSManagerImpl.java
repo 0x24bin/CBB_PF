@@ -749,7 +749,7 @@ public class WSManagerImpl extends WSManagerService{
 		// 设置额外列
 //		newHead.put("CUSTOM_CODE", CUSTOM_CODE);
 //		newHead.put("RECEIVER_ID", CUSTOM_CODE);
-		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,head.get("EBC_CODE").toString(),CUSTOM_CODE));
+		newHead.put("GUID", CommonUtil.generalGuid4NJ(CommonDefine.CEB511,"",""));
 		//件数 运单关联的订单中所有商品数量之和
 		int packNo = importCommonManagerMapper.selectSumPackNoForOrder(orderNo);
 		

@@ -27,7 +27,6 @@
 					<price>2</price>
 					<total>2</total>
 					<barCode>2</barCode>
-					<freight>2</freight>
 					<lottable1>2</lottable1>
 					<note>2</note>
 				</Order>
@@ -40,7 +39,6 @@
 					<price>2</price>
 					<total>2</total>
 					<barCode>2</barCode>
-					<freight>2</freight>
 					<lottable1>2</lottable1>
 					<note>2</note>
 				</Order>
