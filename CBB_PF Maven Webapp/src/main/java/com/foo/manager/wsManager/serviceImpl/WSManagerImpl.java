@@ -352,17 +352,6 @@ public class WSManagerImpl extends WSManagerService{
 				ResourceBundle bundle = CommonUtil
 						.getMessageMappingResource("CEB_IMPORT");
 				
-				// 写死3201W改成从配置文件中读取
-				content.put(
-						"DestinationPort",
-						bundle.getString("DestinationPort_value") != null ? bundle
-								.getString("DestinationPort_value") : "3201W");
-				// 写死5改成从配置文件中读取
-				content.put(
-						"WrapType",
-						bundle.getString("WrapType_value") != null ? bundle
-								.getString("WrapType_value") : "5");
-				
 				content.put("returnStatus", CommonDefine.SUCCESS);
 				content.put("returnInfo", "");
 				// 返回数据

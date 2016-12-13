@@ -988,30 +988,17 @@
 	  
 	  <select id="selectDataForMessageSNT402" resultType="java.util.LinkedHashMap" >
 		SELECT 
-		  IFNULL(
-		    DATE_FORMAT(logistics.UPDATE_TIME, '%Y%m%d'),
-		    ''
-		  ) AS IeDate,
-		  "" AS LoctNo,
-		  "" AS LicenseNo,
-		  IFNULL(
-		    (SELECT 
-		      COUNTRY 
-		    FROM
-		      t_contact 
-		    WHERE CONTACT_ID = logistics.SHIPPER_ID),
-		    ''
-		  ) AS Country,
-		  "3201W" AS DestinationPort,
-		  IFNULL(logistics.FREIGHT, '') AS Freight,
-		  IFNULL(logistics.INSURE_FEE, '') AS InsuredFee,
-		  IFNULL(logistics.CURRENCY, '') AS Currency,
+		  IFNULL(delivery.TRAF_MODE, '') AS TrafMode,
+		  IFNULL(delivery.TRAF_NO, '') AS TrafNo,
+		  IFNULL(delivery.VOYAGE_NO, '') AS VoyageNo,
+		  IFNULL(delivery.BILL_NO, '') AS BillNo,
 		  IFNULL(logistics.WEIGHT, '') AS Weight,
-		  "5" AS WrapType,
 		  IFNULL(logistics.PARCEL_INFO, '') AS ParcelInfo,
 		  IFNULL(logistics.LOGISTICS_STATUS, '') AS GoodStatus 
 		FROM
-		  t_import_logistics logistics 
+		  t_import_logistics logistics
+		  LEFT JOIN t_import_delivery delivery 
+		    ON logistics.DELIVERY_NO = delivery.DELIVERY_NO 
 		WHERE logistics.LOGISTICS_NO = #{LogisticsNo};
 	</select>
 	

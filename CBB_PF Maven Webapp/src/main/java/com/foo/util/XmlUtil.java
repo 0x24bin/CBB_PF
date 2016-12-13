@@ -233,9 +233,9 @@ public class XmlUtil {
 			}else{
 				rootElement.addNamespace("xsi",
 						nameSpace_xsi);
-			}			
 			rootElement.addAttribute("xsi:schemaLocation",
 					"http://www.chinaport.gov.cn/ceb");
+			}			
 			rootElement.addNamespace("ceb", "http://www.chinaport.gov.cn/ceb");
 			
 			
