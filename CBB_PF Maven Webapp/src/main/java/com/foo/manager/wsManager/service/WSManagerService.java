@@ -109,6 +109,15 @@ public abstract class WSManagerService extends AbstractService implements IWSMan
 		
 		for(Map map:source){
 			Map data = new HashMap();
+			
+			if(map.containsKey("itemName")){
+				map.put("gname", map.get("itemName"));
+			}
+			
+			if(map.containsKey("itemNameF")){
+				map.put("itemName", map.get("itemNameF"));
+			}
+			
 			data = changeDbColumn_import(map);
 			result.add(data);
 		}

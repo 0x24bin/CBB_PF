@@ -926,7 +926,7 @@ public class WSManagerImpl extends WSManagerService{
 			good.put("ORDER_NO", orderNo);
 			good.put("GNUM", i+1);
 			good.put("CREAT_TIME", createTime);
-			String[] copyColumns=new String[]{"ITEM_NO","QTY","PRICE","TOTAL","NOTE"};
+			String[] copyColumns=new String[]{"ITEM_NO","QTY","PRICE","TOTAL","NOTE","ITEM_NAME","G_NAME","BARCODE"};
 			for(String col:copyColumns){
 				good.put(col, GOODSList.get(i).get(col));
 			}
