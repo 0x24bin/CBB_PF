@@ -12,6 +12,8 @@
 				<consigneeCode>2</consigneeCode>
 				<consigneeTelephone>2</consigneeTelephone>
 				<consigneeAddress>2</consigneeAddress>
+				<consigneeP>2</consigneeP>
+				<consigneeAddressP>2</consigneeAddressP>
 				<freight>2</freight>
 				<insuredFee>2</insuredFee>
 				<netWeight>2</netWeight>

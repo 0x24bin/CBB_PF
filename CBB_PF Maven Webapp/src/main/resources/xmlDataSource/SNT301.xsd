@@ -42,6 +42,8 @@
 				<xs:element ref="consigneeCode"/>
 				<xs:element ref="consigneeTelephone"/>
 				<xs:element ref="consigneeAddress"/>
+				<xs:element ref="consigneeP"/>
+				<xs:element ref="consigneeAddressP"/>
 				<xs:element ref="freight"/>
 				<xs:element ref="insuredFee"/>
 				<xs:element ref="netWeight"/>
@@ -149,6 +151,24 @@
 		<xs:simpleType>
 			<xs:restriction base="xs:string">
 				<xs:minLength value="1"/>
+				<xs:maxLength value="200"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="consigneeP">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
+				<xs:maxLength value="200"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="consigneeAddressP">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:minLength value="0"/>
 				<xs:maxLength value="200"/>
 			</xs:restriction>
 		</xs:simpleType>
