@@ -611,20 +611,19 @@ Ext.ux.LogisticsGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			        		this.batchSubmit(data);
 			        	}
 			        }.createDelegate(this)
+				},{
+			        text: '申请快递单号',
+			        scale: 'medium',
+			        name: 'applyExpressNo',
+			        disabled: true,
+			        icon:'../../resource/images/btnImages/email_go.png',
+			        handler: function(){
+			        	var data=this.checkSelect(false);
+			        	if(data){
+			        		this.applyExpressNo(data);
+			        	}
+			        }.createDelegate(this)
 				},
-//				{
-//			        text: '申请快递单号',
-//			        scale: 'medium',
-//			        name: 'applyExpressNo',
-//			        disabled: true,
-//			        icon:'../../resource/images/btnImages/email_go.png',
-//			        handler: function(){
-//			        	var data=this.checkSelect(false);
-//			        	if(data){
-//			        		this.applyExpressNo(data);
-//			        	}
-//			        }.createDelegate(this)
-//				},
 				{
 			        text: '查询',
 			        scale: 'medium',

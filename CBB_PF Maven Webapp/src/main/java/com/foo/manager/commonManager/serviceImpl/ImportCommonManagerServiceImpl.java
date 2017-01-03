@@ -1628,8 +1628,9 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 		String resultXmlString = XmlUtil.generalCommonXml("XMLInfo", leafNods);
 		//获取返回数据
 		String soapResponseData = sendHttpCMD(resultXmlString,CommonDefine.APPLY_EMS_NO);
-			//摘取出返回信息
-/*		soapResponseData = 
+
+/*			//摘取出返回信息
+		String soapResponseData = 
 	        "<response>"+
 	            "<result>1</result>"+
 	            "<errorDesc>3123</errorDesc>"+
