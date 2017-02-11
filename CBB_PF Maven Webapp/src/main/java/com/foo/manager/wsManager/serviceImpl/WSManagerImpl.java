@@ -710,7 +710,7 @@ public class WSManagerImpl extends WSManagerService{
 
 		//在head中取需要的列名
 		String[] needColumn = new String[]{
-				"ORDER_NO","INSURE_FEE","NET_WEIGHT","GOODS_INFO","FREIGHT"
+				"ORDER_NO","INSURE_FEE","WEIGHT","NET_WEIGHT","GOODS_INFO","FREIGHT"
 		};
 		String tableName=T_IMPORT_LOGISTICS;
 		String uniqueCol="LOGISTICS_NO";

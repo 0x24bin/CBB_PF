@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -533,10 +532,12 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 					if(order.get("TAX_FEE") == null || order.get("TAX_FEE") .toString().isEmpty()){
 						order.put("TAX_FEE", null);
 					}
+					
+					
 					commonManagerMapper.updateTableByNVList(tableName, primaryCol,
 							order.get(primaryCol), new ArrayList<String>(order.keySet()),
 							new ArrayList<Object>(order.values()));
-					setGoodsList(GOODSList,orderNo,primaryId);
+//					setGoodsList(GOODSList,orderNo,primaryId);
 					
 //					importCommonManagerMapper.updateOrder_import(order);
 				}else{
@@ -549,10 +550,11 @@ public class ImportCommonManagerServiceImpl extends CommonManagerService impleme
 				if(order.get("TAX_FEE") == null || order.get("TAX_FEE") .toString().isEmpty()){
 					order.put("TAX_FEE", null);
 				}
+				System.out.println(order);
 				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
 						order.get(primaryCol), new ArrayList<String>(order.keySet()),
 						new ArrayList<Object>(order.values()));
-				setGoodsList(GOODSList,orderNo,primaryId);
+//				setGoodsList(GOODSList,orderNo,primaryId);
 			}
 		} catch (CommonException e) {
 			throw e;

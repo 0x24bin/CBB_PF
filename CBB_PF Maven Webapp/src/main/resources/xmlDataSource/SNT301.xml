@@ -16,6 +16,7 @@
 				<consigneeAddressP>2</consigneeAddressP>
 				<freight>2</freight>
 				<insuredFee>2</insuredFee>
+				<weight>343</weight>
 				<netWeight>2</netWeight>
 				<note>000000000001</note>
 			</OrderHead>

@@ -408,9 +408,9 @@ public class ImportCommonAction extends AbstractAction{
 	public void setGUID(String GUID){
 		params.put("GUID", GUID);
 	}
-	public void setCUSTOM_CODE(String CUSTOM_CODE){
-		params.put("CUSTOM_CODE", CUSTOM_CODE);
-	}
+//	public void setCUSTOM_CODE(String CUSTOM_CODE){
+//		params.put("CUSTOM_CODE", CUSTOM_CODE);
+//	}
 	public void setCHK_CUSTOM_CODE(String CHK_CUSTOM_CODE){
 		params.put("CHK_CUSTOM_CODE", CHK_CUSTOM_CODE);
 	}
@@ -424,7 +424,7 @@ public class ImportCommonAction extends AbstractAction{
 		params.put("APP_STATUS", APP_STATUS);
 	}
 	public void setAPP_UID(String APP_UID){
-		params.put("APP_UID", APP_UID);
+//		params.put("APP_UID", APP_UID);
 	}
 	/*public void setAPP_UNAME(String APP_UNAME){
 		params.put("APP_UNAME", APP_UNAME);
@@ -445,7 +445,7 @@ public class ImportCommonAction extends AbstractAction{
 		params.put("EBC_NAME", EBC_NAME);
 	}*/
 	public void setAGENT_CODE(String AGENT_CODE){
-		params.put("AGENT_CODE", AGENT_CODE);
+//		params.put("AGENT_CODE", AGENT_CODE);
 	}
 	/*public void setAGENT_NAME(String AGENT_NAME){
 		params.put("AGENT_NAME", AGENT_NAME);
@@ -523,21 +523,21 @@ public class ImportCommonAction extends AbstractAction{
 	}
 	@SuppressWarnings("rawtypes")
 	public void setGOODSList(String[] GOODSList){
-		List<Map> detailMaps=new ArrayList<Map>();
-		for(String item:GOODSList){
-			JsonConfig cfg = new JsonConfig();
-			cfg.setRootClass(Map.class);
-			cfg.setJavaPropertyFilter(new PropertyFilter() {
-				@Override
-				public boolean apply(Object source, String name, Object value) {
-					return value == JSONNull.getInstance()||
-							"".equals(value);
-				}
-			});
-			Map itemMap=(Map)JSONObject.toBean(JSONObject.fromObject(item), cfg);
-			detailMaps.add(itemMap);
-		}
-		params.put("GOODSList", detailMaps);
+//		List<Map> detailMaps=new ArrayList<Map>();
+//		for(String item:GOODSList){
+//			JsonConfig cfg = new JsonConfig();
+//			cfg.setRootClass(Map.class);
+//			cfg.setJavaPropertyFilter(new PropertyFilter() {
+//				@Override
+//				public boolean apply(Object source, String name, Object value) {
+//					return value == JSONNull.getInstance()||
+//							"".equals(value);
+//				}
+//			});
+//			Map itemMap=(Map)JSONObject.toBean(JSONObject.fromObject(item), cfg);
+//			detailMaps.add(itemMap);
+//		}
+//		params.put("GOODSList", detailMaps);
 	}
 	public void setORDER_NO(String ORDER_NO){
 		params.put("ORDER_NO", ORDER_NO);
@@ -689,7 +689,7 @@ public class ImportCommonAction extends AbstractAction{
 		params.put("LOGISTICS_ORDER_ID", LOGISTICS_ORDER_ID);
 	}
 	public void setRECEIVER_ID(String RECEIVER_ID){
-		params.put("RECEIVER_ID", RECEIVER_ID);
+//		params.put("RECEIVER_ID", RECEIVER_ID);
 	}
 	public void setUNDER_THE_SINGER_NAME(String UNDER_THE_SINGER_NAME){
 		params.put("UNDER_THE_SINGER_NAME", UNDER_THE_SINGER_NAME);

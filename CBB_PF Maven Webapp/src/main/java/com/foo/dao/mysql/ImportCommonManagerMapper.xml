@@ -314,7 +314,7 @@
 		  IFNULL(t.`GUID`, '') AS MESSAGE_ID,
 		  '' AS MESSAGE_TYPE,
 		  IFNULL(t.`EBC_CODE`, '') AS SEND_ID,
-		  IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID,
+		  <!-- IFNULL(t.`RECEIVER_ID`, '') AS RECEIVER_ID, -->
 		  IFNULL(t.`APP_TIME`, '') AS SEND_TIME,
 		  IFNULL(t.`VERSION`, '') AS VERSION
 		FROM
@@ -324,19 +324,19 @@
 	
 	<select id="selectDataForMessage301_import" resultType="java.util.LinkedHashMap" >
 		SELECT 
-		  IFNULL(t.`APP_UID`, '') AS APP_UID,
+		  <!-- IFNULL(t.`APP_UID`, '') AS APP_UID,
 		  (SELECT 
 		    c.name 
 		  FROM
 		    t_code_name c 
 		  WHERE c.RELATION_CATEGORY = 'APP_UID' 
-		    AND c.CODE = t.APP_UID) AS APP_UNAME,
+		    AND c.CODE = t.APP_UID) AS APP_UNAME, -->
 		  IFNULL(t.`APP_TYPE`, '') AS APP_TYPE,
 		  IFNULL(t.`APP_STATUS`, '') AS APP_STATUS,
 		  IFNULL(t.`ORDER_TYPE`, '') AS ORDER_TYPE,
 		  IFNULL(t.`ORDER_NO`, '') AS PRE_ORDER_NO,
 		  IFNULL(t.`APP_TIME`, '') AS APP_TIME,
-		  IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE,
+		  <!-- IFNULL(t.`CUSTOM_CODE`, '') AS CUSTOM_CODE, -->
 		  IFNULL(t.`EBP_CODE`, '') AS EBP_CODE,
 		  (SELECT 
 		    c.name 
@@ -351,13 +351,13 @@
 		    t_code_name c 
 		  WHERE c.RELATION_CATEGORY = 'EBC_CODE' 
 		    AND c.CODE = t.EBC_CODE) AS EBC_NAME,
-		  IFNULL(t.`AGENT_CODE`, '') AS AGENT_CODE,
+		  <!-- IFNULL(t.`AGENT_CODE`, '') AS AGENT_CODE,
 		  (SELECT 
 		    c.name 
 		  FROM
 		    t_code_name c 
 		  WHERE c.RELATION_CATEGORY = 'AGENT_CODE' 
-		    AND c.CODE = t.AGENT_CODE) AS AGENT_NAME,
+		    AND c.CODE = t.AGENT_CODE) AS AGENT_NAME, -->
 		  IFNULL(t.`GOODS_VALUE`, '') AS GOODS_VALUE,
 		  IFNULL(t.`TAX_FEE`, '') AS TAX_FEE,
 		  IFNULL(t.`FREIGHT`, '') AS FREIGHT,
@@ -394,17 +394,17 @@
 		SELECT 
 		  IFNULL(t.`GNUM`, '') AS GNUM,
 		  IFNULL(t.`ITEM_NO`, '') AS ITEM_NO,
-		  IFNULL(s.`G_NO`, '') AS G_NO,
+		  IFNULL(s.`GNUM`, '') AS G_NO,
 <!-- 		  IFNULL(s.`TAX_CODE`, '') AS TAX_CODE,
 		  IFNULL(s.`TAX_RATE`, '') AS TAX_RATE, -->
 		  IFNULL(s.`G_CODE`, '') AS G_CODE,
 		  IFNULL(s.`G_NAME`, '') AS G_NAME,
 		  IFNULL(s.`G_MODEL`, '') AS G_MODEL,
-		  IFNULL(s.`BAR_CODE`, '') AS BAR_CODE,
-		  IFNULL(s.`BRAND`, '') AS BRAND,
+		  IFNULL(s.`BARCODE`, '') AS BAR_CODE,
+		  <!-- IFNULL(s.`BRAND`, '') AS BRAND, -->
 		  IFNULL(s.`UNIT`, '') AS UNIT,
 		  IFNULL(s.`CURRENCY`, '') AS CURRENCY,
-		  IFNULL(t.`QTY`, '') AS QTY,
+		  IFNULL(t.`REFOUND_QTY`, '') AS QTY,
 		  IFNULL(t.`PRICE`, '') AS PRICE,
 		  IFNULL(t.`TOTAL`, '') AS TOTAL,
 		  IFNULL(t.`NOTE`, '') AS NOTE 
@@ -412,8 +412,8 @@
 		  t_import_order_detail t 
 		  LEFT JOIN t_import_orders orders 
 		    ON t.ORDERS_ID = orders.ORDERS_ID
-		  LEFT JOIN t_import_sku s 
-		    ON (s.ITEM_NO = t.ITEM_NO AND s.BIZ_TYPE = orders.ORDER_TYPE)
+		  LEFT JOIN t_import_order_detail s 
+		    ON (s.ORDERS_ID = t.ORDERS_ID)
 		WHERE t.`ORDERS_ID` = #{orderId} 
 	</select>
 	

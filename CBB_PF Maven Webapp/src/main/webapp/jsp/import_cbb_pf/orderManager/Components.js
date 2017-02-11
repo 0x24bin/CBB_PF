@@ -33,7 +33,7 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				     "CREAT_TIME",
 				     "UPDATE_TIME"*/
 	],
-	checkSelect : function(single,preventMask){
+	checkSelect: function(single,preventMask){
 		var records=this.getSelectionModel().getSelections();
 		var data=false;
 		if(Ext.isEmpty(records)||records.length<1){
@@ -49,23 +49,23 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		}
 		return data;
 	},
-//	edit : function (title,param){
-//		title="订单信息";//+title;
-//		if(this.readOnly||this.mode=='local'){
-//			Ext.apply(param,{readOnly:true});
-//		}
-//		var infoPanel=new Ext.ux.OrderPanel(param);
-//		var tabPage=top.addTabPage(infoPanel,title,"",false);
-//		infoPanel.on("close",function(){
-//			top.closeTab(tabPage);
-//			if(!this.isDestroyed){
-//				var pageTool = this.pageTool;
-//				if (pageTool) {
-//					pageTool.doLoad(pageTool.cursor);
-//				}
-//			}
-//		},this);
-//	},
+	edit: function (title,param){
+		title="订单信息";//+title;
+		if(this.readOnly||this.mode=='local'){
+			Ext.apply(param,{readOnly:true});
+		}
+		var infoPanel=new Ext.ux.OrderPanel(param);
+		var tabPage=top.addTabPage(infoPanel,title,"",false);
+		infoPanel.on("close",function(){
+			top.closeTab(tabPage);
+			if(!this.isDestroyed){
+				var pageTool = this.pageTool;
+				if (pageTool) {
+					pageTool.doLoad(pageTool.cursor);
+				}
+			}
+		},this);
+	},
 	reload: function(){
 		var pageTool = this.pageTool;
 		if (pageTool) {
@@ -113,41 +113,41 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			});
 //		}
 	},
-//	batchSubmit : function (record){
-////		if(isOrderReadOnly(record)){
-//			var jsonDataList = new Array();
-//			for(var i = 0; i< record.length;i++){
-//				jsonDataList.push(record[i].get('GUID'));
-//		    }
-//			var param={
-//				guidList:jsonDataList
-//			};
-//			this.getEl().mask("执行中...");
-//			Ext.Ajax.request({
-//				scope: this,
-//				url : 'n-jcommon!batchSubmit_order.action',
-//				method : "POST",
-//				params : param,
-//				success : function(response) {
-//					this.getEl().unmask();
-//					var obj = Ext.decode(response.responseText);
-//					if (obj.returnResult == 0) {
-//						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
-//					}else{
-//						this.reload();
-//					}
-//				},
-//				error : function(response) {
-//					this.getEl().unmask();
-//					Ext.Msg.alert("异常", response.responseText);
-//				},
-//				failure : function(response) {
-//					this.getEl().unmask();
-//					Ext.Msg.alert("异常", response.responseText);
-//				}
-//			});
-////		}
-//	},
+	batchSubmit : function (record){
+//		if(isOrderReadOnly(record)){
+			var jsonDataList = new Array();
+			for(var i = 0; i< record.length;i++){
+				jsonDataList.push(record[i].get('GUID'));
+		    }
+			var param={
+				guidList:jsonDataList
+			};
+			this.getEl().mask("执行中...");
+			Ext.Ajax.request({
+				scope: this,
+				url : 'n-jcommon!batchSubmit_order.action',
+				method : "POST",
+				params : param,
+				success : function(response) {
+					this.getEl().unmask();
+					var obj = Ext.decode(response.responseText);
+					if (obj.returnResult == 0) {
+						Ext.Msg.alert("信息", obj.returnMessage, this.reload, this);
+					}else{
+						this.reload();
+					}
+				},
+				error : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				},
+				failure : function(response) {
+					this.getEl().unmask();
+					Ext.Msg.alert("异常", response.responseText);
+				}
+			});
+//		}
+	},
 	
 	
 	initComponent : function () {
@@ -216,17 +216,20 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    header : "系统唯一序号",
 			    dataIndex : "GUID",
 			    width : 320
-			},new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_custom,
-			    id : "CUSTOM_CODE",
-			    header : "申报海关代码",
-			    dataIndex : "CUSTOM_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_custom,
-			    id : "RECEIVER_ID",
-			    header : "接收海关代码",
-			    dataIndex : "RECEIVER_ID"
-			}),{
+			},
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_custom,
+//			    id : "CUSTOM_CODE",
+//			    header : "申报海关代码",
+//			    dataIndex : "CUSTOM_CODE"
+//			}),
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_custom,
+//			    id : "RECEIVER_ID",
+//			    header : "接收海关代码",
+//			    dataIndex : "RECEIVER_ID"
+//			}),
+			{
 			    id : "APP_TYPE",
 			    header : "申报类型",
 			    dataIndex : "APP_TYPE",
@@ -265,12 +268,14 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			    id : "EBC_CODE",
 			    header : "电商企业",
 			    dataIndex : "EBC_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
-				category: relationCategory_agent,
-			    id : "AGENT_CODE",
-			    header : "申报企业",
-			    dataIndex : "AGENT_CODE"
-			}),new Ext.ux.grid.CodeNameColumn({
+			}),
+//			new Ext.ux.grid.CodeNameColumn({
+//				category: relationCategory_agent,
+//			    id : "AGENT_CODE",
+//			    header : "申报企业",
+//			    dataIndex : "AGENT_CODE"
+//			}),
+			new Ext.ux.grid.CodeNameColumn({
 				category: relationCategory_currency,
 			    id : "CURRENCY",
 			    header : "币制",
@@ -406,26 +411,26 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 		
 					}.createDelegate(this)
 				},'-',*/
-//        	    {
-//					text:'新增',
-//					scale: 'medium',
-//					icon:'../../resource/images/btnImages/add.png',
-//					handler: function(b,e){
-//						var editType='add';
-//						this.edit('录入',{editType:editType});
-//					}.createDelegate(this)
-//				},
-//				{
-//			        text: '编辑',
-//			        scale: 'medium',
-//			        icon:'../../resource/images/btnImages/modify.png',
-//			        handler: function(b,e){
-//			        	var editType='mod';
-//			        	var data=this.checkSelect(true);
-//			        	if(data)
-//			        		this.edit('编辑',{editType:editType,record:data});
-//					}.createDelegate(this)
-//				},
+        	    {
+					text:'新增',
+					scale: 'medium',
+					icon:'../../resource/images/btnImages/add.png',
+					handler: function(b,e){
+						var editType='add';
+						this.edit('录入',{editType:editType});
+					}.createDelegate(this)
+				},
+				{
+			        text: '查看',
+			        scale: 'medium',
+			        icon:'../../resource/images/btnImages/modify.png',
+			        handler: function(b,e){
+			        	var editType='mod';
+			        	var data=this.checkSelect(true);
+			        	if(data)
+			        		this.edit('查看',{editType:editType,record:data});
+					}.createDelegate(this)
+				},
 //				{
 //			        text: '删除',
 //			        scale: 'medium',
@@ -461,14 +466,14 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 				}]
 			});
         	if(this.readOnly){
-				//tbar.remove(3);
-				//tbar.remove(2);
+				tbar.remove(3);
+				tbar.remove(2);
 				tbar.get(0).setText("订单信息");
-				//tbar.remove(0);
+				tbar.remove(0);
 			}else if(this.mode=="local"){
-				//tbar.remove(3);
+				tbar.remove(3);
 				tbar.get(0).setText("订单信息");
-				//tbar.remove(0);
+				tbar.remove(0);
 			}
             this.tbar = tbar;
         }
@@ -613,29 +618,29 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 			}
 	    },this);
 		this.on('rowclick', function(grid, rowIndex, e) {
-//			var delButton=this.topToolbar.find("name",'delete')[0];
-//			if(delButton){
-//		        var selections = grid.getSelectionModel().getSelections();
-//		        if (selections.length == 0) return;
-//		 
-//		        for ( var i = 0; i < selections.length; i++) {
-//		            var record = selections[i];
-//		            delButton.setDisabled(isOrderReadOnly(record));
-//		        }
-//			}
-//			
-//			button=this.topToolbar.find("name",'batchSubmit')[0];
-//			if(button){
-//				var enableFlag = true;
-//				for ( var i = 0; i < selections.length; i++) {
-//		            var record = selections[i];
-//		            if(record.get("APP_STATUS") != 1){
-//		            	enableFlag = false;
-//		            	break;
-//		            }
-//		        }
-//				button.setDisabled(!enableFlag);
-//			}
+			var delButton=this.topToolbar.find("name",'delete')[0];
+			if(delButton){
+		        var selections = grid.getSelectionModel().getSelections();
+		        if (selections.length == 0) return;
+		 
+		        for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            delButton.setDisabled(isOrderReadOnly(record));
+		        }
+			}
+			
+			button=this.topToolbar.find("name",'batchSubmit')[0];
+			if(button){
+				var enableFlag = true;
+				for ( var i = 0; i < selections.length; i++) {
+		            var record = selections[i];
+		            if(record.get("APP_STATUS") != 1){
+		            	enableFlag = false;
+		            	break;
+		            }
+		        }
+				button.setDisabled(!enableFlag);
+			}
 			
 	    },this);
 		
@@ -643,133 +648,134 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 	}
 });
 
-//Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
-//	record : undefined,
-//	editType : 'add',
-//	readOnly: undefined,
-//	
-//	autoScroll : true,
-//	defaults : {
-//		xtype: 'textfield',
-//        allowBlank : false,
-//        anchor : "100%",
-//        maxLength: 250
-//	},
-//	bodyStyle:'padding:10px 10px 10px 10px',
-//	labelWidth: 130,
-//	monitorValid: true,
-//
-//	setRecord : function(record){
-//		this.record = record;
-//		this.renderRecord();
-//	},
-//	renderRecord : function(){
-//		if(this.record){
-//			this.getForm().loadRecord(this.record);
+Ext.ux.OrderFormPanel = Ext.extend(Ext.form.FormPanel, {
+	record : undefined,
+	editType : 'add',
+	readOnly: undefined,
+	
+	autoScroll : true,
+	defaults : {
+		xtype: 'textfield',
+        allowBlank : false,
+        anchor : "100%",
+        maxLength: 250
+	},
+	bodyStyle:'padding:10px 10px 10px 10px',
+	labelWidth: 130,
+	monitorValid: true,
+
+	setRecord : function(record){
+		this.record = record;
+		this.renderRecord();
+	},
+	renderRecord : function(){
+		if(this.record){
+			this.getForm().loadRecord(this.record);
 //			var goodsGrid=findByProperty(this.items.getRange(),"name","itemGrid");
 //			var goodsList=this.record.get("GOODSList");
 //			var store=goodsGrid.getStore();
 //			store.loadData.defer(1000,store,[{total:goodsList.length,rows:goodsList}]);
-//		}
-//	},
-//	isReadOnly: function(){
-//		if(this.editType=="add") return false;
-//		if(this.record){
-//			return isOrderReadOnly(this.record);
-//		}
-//		return false;
-//	},
-//	submitForm : function(opType){
-//		var fp=this;
-//		var form = fp.getForm();
-//		//表单验证，必须是保存，并且是编辑
-//		if (form.isValid()|| 
-//				(opType == '1' 
-//					&& this.editType=="mod")) {
+		}
+	},
+	isReadOnly: function(){
+		if(this.editType=="add") return false;
+		if(this.record){
+			return isOrderReadOnly(this.record);
+		}
+		return false;
+	},
+	submitForm : function(opType){
+		var fp=this;
+		var form = fp.getForm();
+		//表单验证，必须是保存，并且是编辑
+		if (form.isValid()|| 
+				(opType == '1' 
+					&& this.editType=="mod")) {
 //			var itemGrid=findByProperty(this.items.getRange(),"name","itemGrid");
-//			var itemRecords=[];
+			var itemRecords=[];
 //			itemGrid.getStore().each(function(record){
 //				itemRecords.push(Ext.encode(record.data));
 //			});
-//			var param={
-//		        editType: this.editType,
-//		        APP_STATUS: opType,
-//		        GOODSList: itemRecords
-//		    };
-//			//添加displayfield参数或未显示参数
-//			if(this.editType=="mod"){
-//				Ext.apply(param,{
-//			        GUID: this.record.get('GUID'),
-//	//		        APP_TIME: this.record.get('APP_TIME'),
-//			        ORDERS_ID: this.record.get('ORDERS_ID')
-//				});
-//			}
-//			form.submit({
-//				scope:fp,
-//			    clientValidation: false,
-//			    waitTitle: '正在执行',
-//			    waitMsg: '请稍后……',
-//			    url: 'import-common!setOrder.action',
-//			    params: param,
-//			    success: function(form, action) {
-//			    	if(!Ext.isEmpty(action.result.msg)){
-//			    		Ext.Msg.alert('成功', action.result.msg, 
-//			    		function(){
-//			    			this.fireEvent('close',this);
-//			    		}, this);
-//			    	}else{
-//			    		this.fireEvent('close',this);
-//			    	}
-//			    },
-//			    failure: function(form, action) {
-//			        switch (action.failureType) {
-//			            case Ext.form.Action.CLIENT_INVALID:
-//			                Ext.Msg.alert('失败', '表单项存在非法值');
-//			                break;
-//			            case Ext.form.Action.CONNECT_FAILURE:
-//			                Ext.Msg.alert('失败', '与服务器通信异常');
-//			                break;
-//			            case Ext.form.Action.SERVER_INVALID:
-//			               Ext.Msg.alert('失败', action.result.msg);
-//			       }
-//			    }
-//			});
-//		}
-//	},
-//	bindHandler : function(){
-//		var valid = true;
+			var param={
+		        editType: this.editType,
+		        APP_STATUS: opType,
+		        //GOODSList: itemRecords
+		    };
+			//添加displayfield参数或未显示参数
+			if(this.editType=="mod"){
+				Ext.apply(param,{
+			        GUID: this.record.get('GUID'),
+	//		        APP_TIME: this.record.get('APP_TIME'),
+			        ORDERS_ID: this.record.get('ORDERS_ID')
+				});
+			}
+			form.submit({
+				scope:fp,
+			    clientValidation: false,
+			    waitTitle: '正在执行',
+			    waitMsg: '请稍后……',
+			    url: 'import-common!setOrder.action',
+			    params: param,
+			    success: function(form, action) {
+			    	if(!Ext.isEmpty(action.result.msg)){
+			    		Ext.Msg.alert('成功', action.result.msg, 
+			    		function(){
+			    			this.fireEvent('close',this);
+			    		}, this);
+			    	}else{
+			    		this.fireEvent('close',this);
+			    	}
+			    },
+			    failure: function(form, action) {
+			        switch (action.failureType) {
+			            case Ext.form.Action.CLIENT_INVALID:
+			                Ext.Msg.alert('失败', '表单项存在非法值');
+			                break;
+			            case Ext.form.Action.CONNECT_FAILURE:
+			                Ext.Msg.alert('失败', '与服务器通信异常');
+			                break;
+			            case Ext.form.Action.SERVER_INVALID:
+			               Ext.Msg.alert('失败', action.result.msg);
+			       }
+			    }
+			});
+		}
+	},
+	bindHandler : function(){
+		var valid = true;
 //		var itemGrid=findByProperty(this.items.getRange(),"name","itemGrid");
 //		if(itemGrid){
 //			valid=itemGrid.getStore().getCount()>0;
 //		}
-//		if(valid){
-//			Ext.ux.OrderFormPanel.superclass.bindHandler.call(this);
-//		}else{
-//			if(this.fbar){
-//				var fitems = this.fbar.items.items;
-//				for(var i = 0, len = fitems.length; i < len; i++){
-//					var btn = fitems[i];
-//					if(btn.formBind === true && btn.disabled === valid){
-//						btn.setDisabled(!valid);
-//					}
-//				}
-//			}
-//			this.fireEvent('clientvalidation', this, valid);
-//		}
-//		
-//	},
-//	initComponent : function () {
-//		if(this.readOnly==undefined)
-//			this.readOnly=this.isReadOnly();
-//		this.submited=!(Ext.isEmpty(this.record)||this.record.get("APP_STATUS")==1);
-//		this.items=[
-////		{xtype:'hidden',name:"ORDERS_ID"},
-//		{
-//			xtype:'displayfield',
-//			name:"GUID",
-//			fieldLabel:'系统唯一序号',
-//			hidden: this.editType=="add"
-//		},GenerateCodeNameComboGrid({
+		if(valid){
+			Ext.ux.OrderFormPanel.superclass.bindHandler.call(this);
+		}else{
+			if(this.fbar){
+				var fitems = this.fbar.items.items;
+				for(var i = 0, len = fitems.length; i < len; i++){
+					var btn = fitems[i];
+					if(btn.formBind === true && btn.disabled === valid){
+						btn.setDisabled(!valid);
+					}
+				}
+			}
+			this.fireEvent('clientvalidation', this, valid);
+		}
+		
+	},
+	initComponent : function () {
+		if(this.readOnly==undefined)
+			this.readOnly=this.isReadOnly();
+		this.submited=!(Ext.isEmpty(this.record)||this.record.get("APP_STATUS")==1);
+		this.items=[
+//		{xtype:'hidden',name:"ORDERS_ID"},
+		{
+			xtype:'displayfield',
+			name:"GUID",
+			fieldLabel:'系统唯一序号',
+			hidden: this.editType=="add"
+		}
+//		,GenerateCodeNameComboGrid({
 //			allowBlank : false,
 //			fieldLabel:'申报海关代码',
 //	        name: 'CUSTOM_CODE'/*,
@@ -783,7 +789,8 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //	            hidden: true
 //	        } ]*/
 //	        },relationCategory_custom
-//	    ),GenerateCodeNameComboGrid({
+//	    )
+//	    ,GenerateCodeNameComboGrid({
 //			allowBlank : false,
 //			fieldLabel:'接收海关代码',
 //	        name: 'RECEIVER_ID'/*,
@@ -797,142 +804,147 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //	            hidden: true
 //	        } ]*/
 //	        },relationCategory_custom
-//	    ),{
-//	        fieldLabel:'订单编号',
-//	        name: 'ORDER_NO',
-////	        readOnly: this.editType!=="add",
-//	        maxLength: 33
-//		},GenerateCodeNameComboGrid({
-//				id:"ORDER_TYPE",
-//	    		allowBlank : false,
-//		    	fieldLabel:'订单类型',
-//		    	name: 'ORDER_TYPE',
-//		    	autoLoad: false,
-//		    	listeners : {
-//		    		select : function(combo, record, index) {
-//		    			setUnderTheSinger(this.getValue(),true);
-//		    			if(Ext.getCmp("addSku")){
-//		    			Ext.getCmp("addSku").enable();
-//		    			}
-//		    		},
-//		    		afterrender : function(combo) {
-//		    			setUnderTheSinger(this.getValue(),false);
-//		    			if(this.getValue()){
-//		    				if(Ext.getCmp("addSku")){
-//		    				Ext.getCmp("addSku").enable();
-//		    			}
-//		    		}
-//		    	}
-//		    	}
-//	        },relationCategory_bizType,CodeNameData.bizType
-//	    ),{
-//			xtype:'displayfield',
-//	        fieldLabel:'申报时间',
-//	        name: 'APP_TIME',
-//	        hidden: !this.submited
-//	    },GenerateCodeNameComboGrid({
+//	    )
+	    ,{
+	        fieldLabel:'订单编号',
+	        name: 'ORDER_NO',
+//	        readOnly: this.editType!=="add",
+	        maxLength: 33
+		},GenerateCodeNameComboGrid({
+				id:"ORDER_TYPE",
+	    		allowBlank : false,
+		    	fieldLabel:'订单类型',
+		    	name: 'ORDER_TYPE',
+		    	autoLoad: false,
+		    	listeners : {
+		    		select : function(combo, record, index) {
+		    			setUnderTheSinger(this.getValue(),true);
+		    			if(Ext.getCmp("addSku")){
+		    			Ext.getCmp("addSku").enable();
+		    			}
+		    		},
+		    		afterrender : function(combo) {
+		    			setUnderTheSinger(this.getValue(),false);
+		    			if(this.getValue()){
+		    				if(Ext.getCmp("addSku")){
+		    				Ext.getCmp("addSku").enable();
+		    			}
+		    		}
+		    	}
+		    	}
+	        },relationCategory_bizType,CodeNameData.bizType
+	    ),{
+			xtype:'displayfield',
+	        fieldLabel:'申报时间',
+	        name: 'APP_TIME',
+	        hidden: !this.submited
+	    },
+//	    GenerateCodeNameComboGrid({
 //	    		allowBlank : false,
 //		    	fieldLabel:'用户名称',
 //		    	name: 'APP_UID'
 //	        },relationCategory_appUid
-//	    ),GenerateCodeNameComboGrid({
-//	    		allowBlank : false,
-//		    	fieldLabel:'电商平台名称',
-//		    	name: 'EBP_CODE'
-//	        },relationCategory_ebp
-//	    ),GenerateCodeNameComboGrid({
-//	    		id:"EBC_CODE",
-//	    		allowBlank : false,
-//		    	fieldLabel:'电商企业名称',
-//		    	name: 'EBC_CODE'
-//	        },relationCategory_ebc
-//	    ),GenerateCodeNameComboGrid({
+//	    ),
+	    GenerateCodeNameComboGrid({
+	    		allowBlank : false,
+		    	fieldLabel:'电商平台名称',
+		    	name: 'EBP_CODE'
+	        },relationCategory_ebp
+	    ),GenerateCodeNameComboGrid({
+	    		id:"EBC_CODE",
+	    		allowBlank : false,
+		    	fieldLabel:'电商企业名称',
+		    	name: 'EBC_CODE'
+	        },relationCategory_ebc
+	    ),
+//	    GenerateCodeNameComboGrid({
 //	    		allowBlank : false,
 //		    	fieldLabel:'申报企业名称',
 //		    	name: 'AGENT_CODE'
 //	        },relationCategory_agent
-//	    ),{
-//	    	xtype:'numberfield',
-//	    	allowNegative: false,
-//	        fieldLabel:'订单商品货款',
-//	        maxLength: 20,
-//	        decimalPrecision:5,
-//	        allowDecimals:true,
-//	        name: 'GOODS_VALUE'
-//	    },{
-//	    	id:'TAX_FEE',
-//	    	xtype:'numberfield',
-//	    	allowNegative: false,
-//	        fieldLabel:'综合税费',
-////	        maxLength: 4,
-//	        decimalPrecision:2,
-//	        allowDecimals:true,
-//	        name: 'TAX_FEE',
-//	        allowBlank : true
-//	    },{
-//	    	xtype:'numberfield',
-//	    	allowNegative: false,
-//	        fieldLabel:'订单商品运费',
-//	        maxLength: 20,
-//	        decimalPrecision:5,
-//	        allowDecimals:true,
-//	        name: 'FREIGHT'
-//	    },GenerateCodeNameComboGrid({
-//	    	fieldLabel:'币制',
-//	    	name: 'CURRENCY',
-//	        allowBlank : false
-//        	},relationCategory_currency
 //	    ),
-//	    GenerateContactComboGrid({
-//	    	id:'UNDER_THE_SINGER_ID',
-//	    	fieldLabel:'下单人信息',
-//	    	name: 'UNDER_THE_SINGER_ID',
-//	        allowBlank : true
-//        }),
-//        GenerateContactComboGrid({
-//	    	fieldLabel:'收货人信息',
-//	    	name: 'CONSIGNEE_ID',
-//	        allowBlank : false
-//        }),
-//        GenerateCodeNameComboGrid({
-//    		allowBlank : false,
-//	    	fieldLabel:'物流企业名称',
-//	    	name: 'LOGISTICS_CODE'
-//        	},relationCategory_logistics
-//	    ),{
-//	        fieldLabel:'物流运单编号',
-//	        name: 'LOGISTICS_NO',
-//	//        readOnly: this.editType!=="add",
-//	        maxLength: 50
-//		}
-////        ,{
-////	    	id:'CONSIGNEE_ADDRESS',
-////	        fieldLabel:'收货人地址',
-////	        name: 'CONSIGNEE_ADDRESS',
-////	        maxLength: 200,
-////	        disabled:true
-////	    },{
-////	    	id:'CONSIGNEE_TELEPHONE',
-////	        fieldLabel:'收货人电话',
-////	        name: 'CONSIGNEE_TELEPHONE',
-////	        maxLength: 50,
-////	        disabled:true
-////	    },GenerateCodeNameComboGrid({
-////	    	id:'CONSIGNEE_COUNTRY',
-////	    	fieldLabel:'收货人所在国',
-////	    	name: 'CONSIGNEE_COUNTRY',
-////	        allowBlank : false,
-////	        disabled:true
-////        	},relationCategory_country
-////	    )
+	    {
+	    	xtype:'numberfield',
+	    	allowNegative: false,
+	        fieldLabel:'订单商品货款',
+	        maxLength: 20,
+	        decimalPrecision:5,
+	        allowDecimals:true,
+	        name: 'GOODS_VALUE'
+	    },{
+	    	id:'TAX_FEE',
+	    	xtype:'numberfield',
+	    	allowNegative: false,
+	        fieldLabel:'综合税费',
+//	        maxLength: 4,
+	        decimalPrecision:2,
+	        allowDecimals:true,
+	        name: 'TAX_FEE',
+	        allowBlank : true
+	    },{
+	    	xtype:'numberfield',
+	    	allowNegative: false,
+	        fieldLabel:'订单商品运费',
+	        maxLength: 20,
+	        decimalPrecision:5,
+	        allowDecimals:true,
+	        name: 'FREIGHT'
+	    },GenerateCodeNameComboGrid({
+	    	fieldLabel:'币制',
+	    	name: 'CURRENCY',
+	        allowBlank : false
+        	},relationCategory_currency
+	    ),
+	    GenerateContactComboGrid({
+	    	id:'UNDER_THE_SINGER_ID',
+	    	fieldLabel:'下单人信息',
+	    	name: 'UNDER_THE_SINGER_ID',
+	        allowBlank : true
+        }),
+        GenerateContactComboGrid({
+	    	fieldLabel:'收货人信息',
+	    	name: 'CONSIGNEE_ID',
+	        allowBlank : false
+        }),
+        GenerateCodeNameComboGrid({
+    		allowBlank : false,
+	    	fieldLabel:'物流企业名称',
+	    	name: 'LOGISTICS_CODE'
+        	},relationCategory_logistics
+	    ),{
+	        fieldLabel:'物流运单编号',
+	        name: 'LOGISTICS_NO',
+	//        readOnly: this.editType!=="add",
+	        maxLength: 50
+		}
 //        ,{
-//	        xtype: 'textarea',
-//	        maxLength: 1000,
-//	        fieldLabel:'备注',
-//	        name: 'NOTE',
-//	        allowBlank : true,
-//	    }];
-//		
+//	    	id:'CONSIGNEE_ADDRESS',
+//	        fieldLabel:'收货人地址',
+//	        name: 'CONSIGNEE_ADDRESS',
+//	        maxLength: 200,
+//	        disabled:true
+//	    },{
+//	    	id:'CONSIGNEE_TELEPHONE',
+//	        fieldLabel:'收货人电话',
+//	        name: 'CONSIGNEE_TELEPHONE',
+//	        maxLength: 50,
+//	        disabled:true
+//	    },GenerateCodeNameComboGrid({
+//	    	id:'CONSIGNEE_COUNTRY',
+//	    	fieldLabel:'收货人所在国',
+//	    	name: 'CONSIGNEE_COUNTRY',
+//	        allowBlank : false,
+//	        disabled:true
+//        	},relationCategory_country
+//	    )
+        ,{
+	        xtype: 'textarea',
+	        maxLength: 1000,
+	        fieldLabel:'备注',
+	        name: 'NOTE',
+	        allowBlank : true,
+	    }];
+		
 //		var itemGrid=new Ext.ux.SkuGridPanel({
 //			name:"itemGrid",
 //			mode:'local',
@@ -1108,117 +1120,117 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //				}
 //			}
 //		});
-//		/*function countTotal(){
-//			var itemGrid=
-//		};
-//		itemGrid.getStore().on("add",this.countTotal,this);
-//		itemGrid.getStore().on("update",this.countTotal,this);*/
-//		var columns=[];
-//		var hiddens=[];
-//		Ext.apply(this.defaults,{readOnly:this.readOnly});
-//		Ext.each(this.items,function(item,index,allItems){
-//			if(!item.hidden){
-//				if(columns.length==0||columns[columns.length-1].items==undefined||columns[columns.length-1].items.length==2){
-//					columns.push({
-//						layout:'column',
-//						border:false,
-//						defaults:{columnWidth: .5},
-//						items:[]
-//					});
-//				}
-//				var bodyStyle;
-//				if(columns[columns.length-1].items.length==0)
-//					bodyStyle='padding:0px 10px 0px 0px';
-//				else
-//					bodyStyle='padding:0px 0px 0px 10px';
-//				columns[columns.length-1].items.push({
-//					layout:'form',
-//					border:false,
-//					bodyStyle:bodyStyle,
-//					defaults: this.defaults,
-//					items:[item]
-//				});
-//			}
-//		},this);
-//		Ext.each(this.items,function(item,index,allItems){
-//			if(item.hidden){
-//				columns.push(item);
-//			}
-//		},this);
-//		this.defaults=undefined;
-//		this.items=columns;
+		/*function countTotal(){
+			var itemGrid=
+		};
+		itemGrid.getStore().on("add",this.countTotal,this);
+		itemGrid.getStore().on("update",this.countTotal,this);*/
+		var columns=[];
+		var hiddens=[];
+		Ext.apply(this.defaults,{readOnly:this.readOnly});
+		Ext.each(this.items,function(item,index,allItems){
+			if(!item.hidden){
+				if(columns.length==0||columns[columns.length-1].items==undefined||columns[columns.length-1].items.length==2){
+					columns.push({
+						layout:'column',
+						border:false,
+						defaults:{columnWidth: .5},
+						items:[]
+					});
+				}
+				var bodyStyle;
+				if(columns[columns.length-1].items.length==0)
+					bodyStyle='padding:0px 10px 0px 0px';
+				else
+					bodyStyle='padding:0px 0px 0px 10px';
+				columns[columns.length-1].items.push({
+					layout:'form',
+					border:false,
+					bodyStyle:bodyStyle,
+					defaults: this.defaults,
+					items:[item]
+				});
+			}
+		},this);
+		Ext.each(this.items,function(item,index,allItems){
+			if(item.hidden){
+				columns.push(item);
+			}
+		},this);
+		this.defaults=undefined;
+		this.items=columns;
 //		this.items.push(itemGrid);
-//		
-//		var validateButton=function (){
-//			if(this.buttons==undefined)
-//				this.buttons=[];
-//			if(!this.readOnly){
-//				this.buttons.push(new Ext.Button({
-//					disabled: false,
-//					formBind: false,
-//			    	text : '保存', 
-//			    	scale: 'large',
-//			    	icon : '../../resource/images/btnImages/save.png',
-//					handler : function(b,e){
-//						Ext.apply(this.baseParams,{opType:'save'});
-//						this.submitForm(1);
-//			    	}.createDelegate(this)
-//			    }),new Ext.Button({
-//			    	disabled: true,
-//			    	formBind: true,
-//			    	text : '提交', 
-//			    	scale: 'large',
-//			    	icon : '../../resource/images/btnImages/accept.png',
-//					handler : function(b,e){
-//						Ext.apply(this.baseParams,{opType:'submit'});
-//						this.submitForm(2);
-//			    	}.createDelegate(this)
-//			    }));
-//			}
-//			this.buttons.push(new Ext.Button({
-//		    	text : '取消', 
-//		    	scale: 'medium',
-//		    	icon : '../../resource/images/btnImages/cancel.png',
-//				handler : function(b,e){
-//					this.fireEvent('close',this);
-//		    	}.createDelegate(this)
-//		    }));
-//		}.createDelegate(this);
-//
-//		validateButton();
-//		
-//		this.addEvents('close');
-//		this.enableBubble('close');
-//
-//		Ext.ux.OrderFormPanel.superclass.initComponent.call(this);
-//		this.renderRecord();
-//	}
-//});
+		
+		var validateButton=function (){
+			if(this.buttons==undefined)
+				this.buttons=[];
+			if(!this.readOnly){
+				this.buttons.push(new Ext.Button({
+					disabled: false,
+					formBind: false,
+			    	text : '保存', 
+			    	scale: 'large',
+			    	icon : '../../resource/images/btnImages/save.png',
+					handler : function(b,e){
+						Ext.apply(this.baseParams,{opType:'save'});
+						this.submitForm(1);
+			    	}.createDelegate(this)
+			    }),new Ext.Button({
+			    	disabled: true,
+			    	formBind: true,
+			    	text : '提交', 
+			    	scale: 'large',
+			    	icon : '../../resource/images/btnImages/accept.png',
+					handler : function(b,e){
+						Ext.apply(this.baseParams,{opType:'submit'});
+						this.submitForm(2);
+			    	}.createDelegate(this)
+			    }));
+			}
+			this.buttons.push(new Ext.Button({
+		    	text : '取消', 
+		    	scale: 'medium',
+		    	icon : '../../resource/images/btnImages/cancel.png',
+				handler : function(b,e){
+					this.fireEvent('close',this);
+		    	}.createDelegate(this)
+		    }));
+		}.createDelegate(this);
 
-//Ext.ux.OrderPanel = Ext.extend(Ext.Panel, {
-//	editType : 'add',
-//	record: undefined,
-//	readOnly: undefined,
-//	
-//	layout:'card',
-//    activeItem: 0, //确保在容器的配置项中设置了当前活动项！
-//    monitorValid : false,
-//    monitorPoll : 500,
-//
-////    bodyStyle:'padding:10px',
-//    
-//    rollPage: function(direction){
-//    	var layout=this.getLayout();
-//    	layout.setActiveItem(this.activeItem+direction);
-//    	this.activeItem=this.items.indexOf(layout.activeItem);
-//    },
-//    isReadOnly: function(){
-//		if(this.editType=="add") return false;
-//		if(this.record){
-//			return isOrderReadOnly(this.record);
-//		}
-//		return false;
-//	},
+		validateButton();
+		
+		this.addEvents('close');
+		this.enableBubble('close');
+
+		Ext.ux.OrderFormPanel.superclass.initComponent.call(this);
+		this.renderRecord();
+	}
+});
+
+Ext.ux.OrderPanel = Ext.extend(Ext.Panel, {
+	editType : 'add',
+	record: undefined,
+	readOnly: undefined,
+	
+	layout:'card',
+    activeItem: 0, //确保在容器的配置项中设置了当前活动项！
+    monitorValid : false,
+    monitorPoll : 500,
+
+//    bodyStyle:'padding:10px',
+    
+    rollPage: function(direction){
+    	var layout=this.getLayout();
+    	layout.setActiveItem(this.activeItem+direction);
+    	this.activeItem=this.items.indexOf(layout.activeItem);
+    },
+    isReadOnly: function(){
+		if(this.editType=="add") return false;
+		if(this.record){
+			return isOrderReadOnly(this.record);
+		}
+		return false;
+	},
 //	addItem: function(){
 //		var success=false;
 //		var itemGridSelect=findByProperty(this.items.getRange(),"name","itemGrid");
@@ -1261,17 +1273,17 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			this.addShoping.createDelegate(this,arguments)();
 //		}
 //	},
-//	// private
-//	initItem: function(){
-//		
-//		if(this.readOnly){
-//			this.items=[new Ext.ux.OrderFormPanel({
-//				name:"infoForm",
-//				readOnly: true,
-//				editType: this.editType,
-//				record: this.record
-//			})];
-//		}else{
+	// private
+	initItem: function(){
+		
+		if(true){
+			this.items=[new Ext.ux.OrderFormPanel({
+				name:"infoForm",
+				readOnly: false,
+				editType: this.editType,
+				record: this.record
+			})];
+		}else{
 //			this.items=[new Ext.ux.OrderFormPanel({
 //				name:"infoForm",
 //				record: this.record,
@@ -1342,16 +1354,16 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //		            handler: this.rollPage.createDelegate(this, [-1])
 //		        })]
 //			})];
-//		}
-//	},
-//	// private
-//	initEvents : function(){
-//		Ext.ux.OrderPanel.superclass.initEvents.call(this);
-//		if(this.monitorValid){
-//			this.startMonitoring();
-//		}
-//	},
-//	bindHandler : function(){
+		}
+	},
+	// private
+	initEvents : function(){
+		Ext.ux.OrderPanel.superclass.initEvents.call(this);
+		if(this.monitorValid){
+			this.startMonitoring();
+		}
+	},
+	bindHandler : function(){
 //		var addIntoValid=false;
 //		var nextValid=false;
 //		var itemGrid=findByProperty(this.items.getRange(),"name","itemGrid");
@@ -1371,44 +1383,44 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //				addInto.setDisabled(!addIntoValid);
 //			}
 //		}
-////		this.fireEvent('clientvalidation', this, addIntoValid, nextValid);
-//	},
-//	startMonitoring : function(){
-//		if(!this.validTask){
-//			this.validTask = new Ext.util.TaskRunner();
-//			this.validTask.start({ 
-//				run : this.bindHandler,
-//				interval : this.monitorPoll || 200,
-//				scope: this
-//			});
-//		}
-//	},
-//	stopMonitoring : function(){
-//	    if(this.validTask){
-//			this.validTask.stopAll();
-//			this.validTask = null;
-//		}
-//	},
-//	// private
-//	beforeDestroy : function(){
-//		this.stopMonitoring();
-//		Ext.ux.OrderPanel.superclass.beforeDestroy.call(this);
-//	},
-//	// private
-//	initComponent : function () {
-//		if(this.readOnly==undefined)
-//			this.readOnly=this.isReadOnly();
-//		this.initItem();
-//		if(!this.readOnly){
-//			this.monitorValid=true;
-////			if(this.editType!="add"){
-////				this.activeItem=1;
-////			}
-////			this.addEvents('clientvalidation');
-//		}
-//		Ext.ux.OrderPanel.superclass.initComponent.call(this);
-//	},
-//	addShoping:function(btn,e){
+//		this.fireEvent('clientvalidation', this, addIntoValid, nextValid);
+	},
+	startMonitoring : function(){
+		if(!this.validTask){
+			this.validTask = new Ext.util.TaskRunner();
+			this.validTask.start({ 
+				run : this.bindHandler,
+				interval : this.monitorPoll || 200,
+				scope: this
+			});
+		}
+	},
+	stopMonitoring : function(){
+	    if(this.validTask){
+			this.validTask.stopAll();
+			this.validTask = null;
+		}
+	},
+	// private
+	beforeDestroy : function(){
+		this.stopMonitoring();
+		Ext.ux.OrderPanel.superclass.beforeDestroy.call(this);
+	},
+	// private
+	initComponent : function () {
+		if(this.readOnly==undefined)
+			this.readOnly=this.isReadOnly();
+		this.initItem();
+		if(!this.readOnly){
+			this.monitorValid=true;
+//			if(this.editType!="add"){
+//				this.activeItem=1;
+//			}
+//			this.addEvents('clientvalidation');
+		}
+		Ext.ux.OrderPanel.superclass.initComponent.call(this);
+	},
+	addShoping:function(btn,e){
 //		e.stopPropagation();
 //		var itemGrid=findByProperty(this.items.getRange(),"name","itemGrid");
 //
@@ -1449,15 +1461,15 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 //			duration: .3,
 //			remove: true
 //		});
-////		me.getAlignToXY(element, position, offsets),
-//		
-////		obj.fadeOut({remove: true});
-//		/*obj.alignTo(shop,"b-t", [0, -10],{duration:0.5,callback:function(){
-//			obj.alignTo(shop,"b-b");
-//			obj.fadeOut({remove: true});
-//		}});*/
-//	}
-//});
+//		me.getAlignToXY(element, position, offsets),
+		
+//		obj.fadeOut({remove: true});
+		/*obj.alignTo(shop,"b-t", [0, -10],{duration:0.5,callback:function(){
+			obj.alignTo(shop,"b-b");
+			obj.fadeOut({remove: true});
+		}});*/
+	}
+});
 
 //设置下单人信息
 function setUnderTheSinger(bizType,needClearValue){

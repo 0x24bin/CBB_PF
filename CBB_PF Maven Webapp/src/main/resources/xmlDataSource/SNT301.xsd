@@ -46,6 +46,7 @@
 				<xs:element ref="consigneeAddressP"/>
 				<xs:element ref="freight"/>
 				<xs:element ref="insuredFee"/>
+				<xs:element ref="weight"/>
 				<xs:element ref="netWeight"/>
 				<xs:element ref="note"/>
 			</xs:sequence>
@@ -182,6 +183,13 @@
 	</xs:element>
 	
 	<xs:element name="insuredFee">
+		<xs:simpleType>
+			<xs:restriction base="xs:decimal">
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="weight">
 		<xs:simpleType>
 			<xs:restriction base="xs:decimal">
 			</xs:restriction>
