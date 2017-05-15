@@ -2088,6 +2088,7 @@ public class NJCommonManagerServiceImpl extends CommonManagerService implements 
 		switch(messageType){
 		case CommonDefine.CEB301:
 			head.put("MESSAGE_TYPE", CommonDefine.CEB301);
+			data.put("IS_PAYED", "Y");
 			break;
 		case CommonDefine.CEB302:
 			head.put("MESSAGE_TYPE", CommonDefine.CEB302);
