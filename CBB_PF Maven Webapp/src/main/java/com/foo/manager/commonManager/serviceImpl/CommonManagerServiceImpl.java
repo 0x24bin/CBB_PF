@@ -21,6 +21,7 @@ import com.foo.manager.commonManager.service.CommonManagerService;
 import com.foo.util.CommonUtil;
 import com.foo.util.ConfigUtil;
 import com.foo.util.FtpUtils;
+import com.foo.util.POIExcelUtil;
 import com.foo.util.XmlUtil;
 
 @Service
@@ -201,15 +202,14 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	public void setSku(Map<String, Object> sku, boolean statusOnly)
 			throws CommonException {
 		try {
-			String tableName="t_sku";
 			String uniqueCol="ITEM_NO";
 			String primaryCol="SKU_ID";
 			// 货号唯一性校验
-			uniqueCheck(tableName,uniqueCol,sku.get(uniqueCol),primaryCol,sku.get(primaryCol),false);
+			uniqueCheck(T_SKU,uniqueCol,sku.get(uniqueCol),primaryCol,sku.get(primaryCol),false);
 			
 			sku.remove("editType");
 
-			commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+			commonManagerMapper.updateTableByNVList(T_SKU, primaryCol,
 					sku.get(primaryCol), new ArrayList<String>(sku.keySet()),
 					new ArrayList<Object>(sku.values()));
 
@@ -226,23 +226,22 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	@Override
 	public void addSku(Map<String, Object> sku) throws CommonException {
 		try {
-			String tableName="t_sku";
 			String uniqueCol="ITEM_NO";
 			String primaryCol="SKU_ID";
 			// 货号唯一性校验
-			uniqueCheck(tableName,uniqueCol,sku.get(uniqueCol),null,null,false);
+			uniqueCheck(T_SKU,uniqueCol,sku.get(uniqueCol),null,null,false);
 			
 			sku.remove("editType");
 			// 设置空id
 			sku.put(primaryCol, null);
 			// 设置guid
-			sku.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_SKU,7,tableName));
+			sku.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_SKU,7,T_SKU));
 			// 设置创建时间
 			sku.put("CREAT_TIME", new Date());
 
 			Map primary=new HashMap();
 			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList(tableName,
+			commonManagerMapper.insertTableByNVList(T_SKU,
 					new ArrayList<String>(sku.keySet()), 
 					new ArrayList<Object>(sku.values()),
 					primary);
@@ -412,11 +411,10 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	public void setOrder(Map<String, Object> order, boolean statusOnly)
 			throws CommonException {
 		try {
-			String tableName="t_orders";
 			String uniqueCol="ORDER_NO";
 			String primaryCol="ORDERS_ID";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,order.get(uniqueCol),primaryCol,order.get(primaryCol),false);
+			uniqueCheck(T_ORDERS,uniqueCol,order.get(uniqueCol),primaryCol,order.get(primaryCol),false);
 			
 			order.remove("editType");
 			
@@ -424,7 +422,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			List<Map> GOODSList=(List<Map>)order.get("GOODSList");
 			order.remove("GOODSList");
 			
-			commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+			commonManagerMapper.updateTableByNVList(T_ORDERS, primaryCol,
 					order.get(primaryCol), new ArrayList<String>(order.keySet()),
 					new ArrayList<Object>(order.values()));
 
@@ -443,18 +441,17 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	@Override
 	public void addOrder(Map<String, Object> order) throws CommonException {
 		try {
-			String tableName="t_orders";
 			String uniqueCol="ORDER_NO";
 			String primaryCol="ORDERS_ID";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,order.get(uniqueCol),null,null,false);
+			uniqueCheck(T_ORDERS,uniqueCol,order.get(uniqueCol),null,null,false);
 			
 			order.remove("editType");
 			// 设置空id
 			order.put(primaryCol, null);
 			
 			// 设置guid
-			order.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_ORDER,5,tableName));
+			order.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_ORDER,5,T_ORDERS));
 			// 设置创建时间
 			order.put("CREAT_TIME", new Date());
 			
@@ -464,7 +461,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			
 			Map primary=new HashMap();
 			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList(tableName,
+			commonManagerMapper.insertTableByNVList(T_ORDERS,
 					new ArrayList<String>(order.keySet()), 
 					new ArrayList<Object>(order.values()),
 					primary);
@@ -521,10 +518,10 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		params.remove("start");
 		params.remove("limit");
 		try {
-			String tableName = "t_orders";
+			String tableName = T_ORDERS;
 			if(params.get("IN_USE")!=null){
 				if(Boolean.FALSE.equals(params.get("IN_USE"))){
-					tableName = "v_orders_unuse";
+					tableName = V_ORDERS_UNUSE;
 				}
 				params.remove("IN_USE");
 			}
@@ -570,7 +567,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		try {
 			commonManagerMapper.delTableById("t_order_detail", "ORDER_NO",
 					params.get("ORDER_NO"));
-			commonManagerMapper.delTableById("t_orders", "ORDERS_ID",
+			commonManagerMapper.delTableById(T_ORDERS, "ORDERS_ID",
 					params.get("ORDERS_ID"));
 		} catch (Exception e) {
 			throw new CommonException(e,
@@ -595,10 +592,10 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		params.remove("start");
 		params.remove("limit");
 		try {
-			String tableName = "t_logistics";
+			String tableName = T_LOGISTICS;
 			if(params.get("IN_USE")!=null){
 				if(Boolean.FALSE.equals(params.get("IN_USE"))){
-					tableName = "v_logistics_unuse";
+					tableName = V_LOGISTICS_UNUSE;
 				}
 				params.remove("IN_USE");
 			}
@@ -630,7 +627,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		Object ORDER_NO=logistics.get("ORDER_NO");
 		if(ORDER_NO!=null){
 			List<Map<String, Object>> orders=commonManagerMapper.selectTableListByCol(
-					"t_orders", "ORDER_NO", ORDER_NO, null, null);
+					T_ORDERS, "ORDER_NO", ORDER_NO, null, null);
 			if(orders!=null&&!orders.isEmpty()){
 				Map<String, Object> orderMap=orders.get(0);
 				resultMap=new HashMap<String, Object>();
@@ -658,14 +655,13 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			throws CommonException {
 		try {
 			String primaryCol="LOGISTICS_ID";
-			String tableName="t_logistics";
 			if(statusOnly){
 				List<String> keys=Arrays.asList(new String[]{
 						"LOGISTICS_STATUS","RETURN_STATUS","RETURN_TIME","RETURN_INFO"});
 				List<Object> values=Arrays.asList(new Object[]{
 						logistics.get("LOGISTICS_STATUS"),
 						null,null,null});
-				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+				commonManagerMapper.updateTableByNVList(T_LOGISTICS, primaryCol,
 						logistics.get(primaryCol), keys, values);
 				Object primaryId=logistics.get(primaryCol);
 				
@@ -678,13 +674,13 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			}else{
 				String uniqueCol="LOGISTICS_NO";
 				// 唯一性校验
-				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+				uniqueCheck(T_LOGISTICS,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
 				uniqueCol="ORDER_NO";
-				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+				uniqueCheck(T_LOGISTICS,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
 				
 				logistics.remove("editType");
 				
-				commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+				commonManagerMapper.updateTableByNVList(T_LOGISTICS, primaryCol,
 						logistics.get(primaryCol), new ArrayList<String>(logistics.keySet()),
 						new ArrayList<Object>(logistics.values()));
 	
@@ -706,26 +702,25 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	@Override
 	public void addLogistics(Map<String, Object> logistics) throws CommonException {
 		try {
-			String tableName="t_logistics";
 			String uniqueCol="LOGISTICS_NO";
 			String primaryCol="LOGISTICS_ID";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),null,null,false);
+			uniqueCheck(T_LOGISTICS,uniqueCol,logistics.get(uniqueCol),null,null,false);
 			uniqueCol="ORDER_NO";
-			uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),null,null,false);
+			uniqueCheck(T_LOGISTICS,uniqueCol,logistics.get(uniqueCol),null,null,false);
 			
 			logistics.remove("editType");
 			// 设置空id
 			logistics.put(primaryCol, null);
 			
 			// 设置guid
-			logistics.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_LOGISTICS,2,tableName));
+			logistics.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_LOGISTICS,2,T_LOGISTICS));
 			// 设置创建时间
 			logistics.put("CREAT_TIME", new Date());
 			
 			Map primary=new HashMap();
 			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList(tableName,
+			commonManagerMapper.insertTableByNVList(T_LOGISTICS,
 					new ArrayList<String>(logistics.keySet()), 
 					new ArrayList<Object>(logistics.values()),
 					primary);
@@ -762,7 +757,6 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		params.remove("start");
 		params.remove("limit");
 		try {
-			String tableName = "v_inventory";
 			/*if(params.get("IN_USE")!=null){
 				if(Boolean.FALSE.equals(params.get("IN_USE"))){
 					tableName = "v_logistics_unuse";
@@ -772,9 +766,9 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
-			rows = commonManagerMapper.selectTableListByNVList(tableName, 
+			rows = commonManagerMapper.selectTableListByNVList(V_INVENTORY, 
 					keys,values,start, limit);
-			total = commonManagerMapper.selectTableListCountByNVList(tableName,
+			total = commonManagerMapper.selectTableListCountByNVList(V_INVENTORY,
 					keys,values);
 			
 			for(Map<String, Object> row:rows){
@@ -808,21 +802,20 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	public void setInventory(Map<String, Object> inventory, boolean statusOnly)
 			throws CommonException {
 		try {
-			String tableName="t_inventory";
 			String uniqueCol="COP_NO";
 			String primaryCol="INVENTORY_ID";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,inventory.get(uniqueCol),primaryCol,inventory.get(primaryCol),false);
+			uniqueCheck(T_INVENTORY,uniqueCol,inventory.get(uniqueCol),primaryCol,inventory.get(primaryCol),false);
 			uniqueCol="LOGISTICS_NO";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,inventory.get(uniqueCol),primaryCol,inventory.get(primaryCol),false);
+			uniqueCheck(T_INVENTORY,uniqueCol,inventory.get(uniqueCol),primaryCol,inventory.get(primaryCol),false);
 			
 			inventory.remove("editType");
 			
 			List<Map> GOODSList=(List<Map>)inventory.get("GOODSList");
 			inventory.remove("GOODSList");
 			
-			commonManagerMapper.updateTableByNVList(tableName, primaryCol,
+			commonManagerMapper.updateTableByNVList(T_INVENTORY, primaryCol,
 					inventory.get(primaryCol), new ArrayList<String>(inventory.keySet()),
 					new ArrayList<Object>(inventory.values()));
 
@@ -841,21 +834,20 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	@Override
 	public void addInventory(Map<String, Object> inventory) throws CommonException {
 		try {
-			String tableName="t_inventory";
 			String uniqueCol="COP_NO";
 			String primaryCol="INVENTORY_ID";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,inventory.get(uniqueCol),null,null,false);
+			uniqueCheck(T_INVENTORY,uniqueCol,inventory.get(uniqueCol),null,null,false);
 			uniqueCol="LOGISTICS_NO";
 			// 唯一性校验
-			uniqueCheck(tableName,uniqueCol,inventory.get(uniqueCol),null,null,false);
+			uniqueCheck(T_INVENTORY,uniqueCol,inventory.get(uniqueCol),null,null,false);
 			
 			inventory.remove("editType");
 			// 设置空id
 			inventory.put(primaryCol, null);
 			
 			// 设置guid
-			inventory.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_INVENTORY,4,tableName));
+			inventory.put("GUID", CommonUtil.generalGuid(CommonDefine.GUID_FOR_INVENTORY,4,T_INVENTORY));
 			// 设置创建时间
 			inventory.put("CREAT_TIME", new Date());
 			
@@ -864,7 +856,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			
 			Map primary=new HashMap();
 			primary.put("primaryId", null);
-			commonManagerMapper.insertTableByNVList(tableName,
+			commonManagerMapper.insertTableByNVList(T_INVENTORY,
 					new ArrayList<String>(inventory.keySet()), 
 					new ArrayList<Object>(inventory.values()),
 					primary);
@@ -883,7 +875,6 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 	}
 	public void setInventoryGoodsList(List<Map> GOODSList,Object inventoryId,boolean isUpdate){
 
-		String tableName="t_inventory_detail";
 		String primaryCol="INVENTORY_DETAIL_ID";
 		String ownerCol="INVENTORY_ID";
 		Date createTime=new Date();
@@ -908,13 +899,13 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 				good.remove(primaryCol);
 				Map primary=new HashMap();
 				primary.put("primaryId", null);
-				commonManagerMapper.insertTableByNVList(tableName,
+				commonManagerMapper.insertTableByNVList(T_INVENTORY_DETAIL,
 						new ArrayList<String>(good.keySet()), 
 						new ArrayList<Object>(good.values()),
 						primary);
 			}else{
 				Object primaryValue=good.get(primaryCol);
-				commonManagerMapper.updateTableByNVList(tableName,
+				commonManagerMapper.updateTableByNVList(T_INVENTORY_DETAIL,
 						primaryCol,primaryValue,
 						new ArrayList<String>(good.keySet()), 
 						new ArrayList<Object>(good.values()));
@@ -1051,6 +1042,32 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 				new ArrayList<Object>(data.values()));
 		
 		return !(count>0);
+	}
+
+
+	@Override
+	public void importFile(Map<String, Object> param) throws CommonException {
+		String orderConfig = CommonUtil.getSystemConfigProperty("t_order_column");
+		String logisticsConfig = CommonUtil.getSystemConfigProperty("t_logistics_column");
+		
+		//获取order数据
+		List<Map<String,Object>> orderDataList = POIExcelUtil.readExcel((File) param.get("file"),orderConfig.split(","));
+		for(Map orderData:orderDataList){
+			orderData.put("GOODSList",new ArrayList<Map>());
+			orderData.put("APP_STATUS", CommonDefine.APP_STATUS_UNUSE);
+			//导入order
+			addOrder(orderData);
+		}
+		//获取logistics数据
+		List<Map<String,Object>> logisticsDataList = POIExcelUtil.readExcel((File) param.get("file"),logisticsConfig.split(","));
+		for(Map logistics:logisticsDataList){
+			logistics.put("APP_STATUS", CommonDefine.APP_STATUS_STORE);
+			logistics.put("INSURE_FEE", 0d);
+			logistics.put("PACK_NO", 1);
+			//导入运单
+			logistics.put("IE_FLAG", "E");
+			addLogistics(logistics);
+		}
 	}
 
 }

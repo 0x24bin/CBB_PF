@@ -421,7 +421,7 @@ Ext.ux.OrderGridPanel = Ext.extend(Ext.grid.GridPanel, {
 					}.createDelegate(this)
 				},
 				{
-			        text: '查看',
+			        text: '编辑',
 			        scale: 'medium',
 			        icon:'../../resource/images/btnImages/modify.png',
 			        handler: function(b,e){

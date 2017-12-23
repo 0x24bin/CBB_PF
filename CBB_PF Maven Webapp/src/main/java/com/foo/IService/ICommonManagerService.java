@@ -5,6 +5,10 @@ import java.util.Map;
 
 import com.foo.common.CommonException;
 
+/**
+ * @author 晓军
+ *
+ */
 public interface ICommonManagerService {
 	
 	/**
@@ -200,5 +204,12 @@ public interface ICommonManagerService {
 	 * @throws CommonException
 	 */
 	public void addInventory(Map<String,Object> inventory) throws CommonException;
+
+	
+	/**
+	 * @param param
+	 * @throws CommonException
+	 */
+	public void importFile(Map<String,Object> param) throws CommonException;
 
 }

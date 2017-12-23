@@ -29,6 +29,16 @@ import com.foo.util.FtpUtils;
  */
 public abstract class AbstractService {
 	
+	public static String T_SKU = "t_sku";
+	public static String T_ORDERS = "t_orders";
+	public static String T_LOGISTICS = "t_logistics";
+	public static String T_INVENTORY = "t_inventory";
+	public static String T_INVENTORY_DETAIL = "t_inventory_detail";
+	
+	protected static String V_ORDERS_UNUSE = "v_orders_unuse";
+	protected static String V_INVENTORY = "v_inventory";
+	protected static String V_LOGISTICS_UNUSE = "v_logistics_unuse";
+	
 	protected static String T_NJ_SKU = "T_NJ_SKU";
 	protected static String T_NJ_ORDERS = "T_NJ_ORDERS";
 	protected static String T_NJ_ORDER_DETAIL = "T_NJ_ORDER_DETAIL";

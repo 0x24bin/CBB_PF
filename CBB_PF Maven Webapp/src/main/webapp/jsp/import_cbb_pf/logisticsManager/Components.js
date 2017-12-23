@@ -1428,15 +1428,15 @@ function logistics_search(store){
 	if(Ext.getCmp('PARCEL_INFO_LOGISTICS_SEARCH').getValue()){
 		Ext.apply(param,{"PARCEL_INFO":Ext.getCmp('PARCEL_INFO_LOGISTICS_SEARCH').getValue()});
 	}
-	if(Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()){
-		Ext.apply(param,{"TRAF_NAME":Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()});
-	}
-	if(Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()){
-		Ext.apply(param,{"VOYAGE_NO":Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()});
-	}
-	if(Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()){
-		Ext.apply(param,{"BILL_NO":Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()});
-	}
+//	if(Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()){
+//		Ext.apply(param,{"TRAF_NAME":Ext.getCmp('TRAF_NAME_LOGISTICS_SEARCH').getValue()});
+//	}
+//	if(Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()){
+//		Ext.apply(param,{"VOYAGE_NO":Ext.getCmp('VOYAGE_NO_LOGISTICS_SEARCH').getValue()});
+//	}
+//	if(Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()){
+//		Ext.apply(param,{"BILL_NO":Ext.getCmp('BILL_NO_LOGISTICS_SEARCH').getValue()});
+//	}
 	if(Ext.getCmp('APP_STATUS_LOGISTICS_SEARCH').getValue()){
 		Ext.apply(param,{"APP_STATUS":Ext.getCmp('APP_STATUS_LOGISTICS_SEARCH').getValue()});
 	}
@@ -1471,6 +1471,7 @@ function logistics_search(store){
 	
 	store.baseParams = param;
 
+	
 	store.load();
 }
 

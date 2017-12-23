@@ -1,5 +1,6 @@
 package com.foo.manager.commonManager.action;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +26,8 @@ public class CommonAction extends AbstractAction{
 
 	@Resource
 	public ICommonManagerService commonManagerService;
+
+	private File uploadFile;
 
 	@IMethodLog(desc = "商品列表查询")
 	public String getAllSkus(){
@@ -511,6 +514,26 @@ public class CommonAction extends AbstractAction{
 		return RESULT_OBJ;
 	}
 	
+	/**
+	 * 将文件上传至服务器
+	 * 
+	 * @return
+	 */
+	@IMethodLog(desc = "上传商品/运单数据")
+	public String importFile() {
+		params.put("file", uploadFile);
+		try {
+			commonManagerService.importFile(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
 	public void setRELATION_CATEGORY(String RELATION_CATEGORY){
 		params.put("RELATION_CATEGORY", RELATION_CATEGORY);
 	}
@@ -784,6 +807,14 @@ public class CommonAction extends AbstractAction{
 	
 	public void setRelationCategory(String relationCategory){
 		params.put("relationCategory", relationCategory);
+	}
+	
+	public File getUploadFile() {
+		return uploadFile;
+	}
+
+	public void setUploadFile(File uploadFile) {
+		this.uploadFile = uploadFile;
 	}
 	
 	/*public void set(String ){

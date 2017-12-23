@@ -63,6 +63,8 @@ var Renderer={
     		return "暂存";
     	case 2:
     		return "申报中";
+    	case 4:
+    		return "导入无需申报";
     	case 99:
     		return "申报完成";
     	default:
