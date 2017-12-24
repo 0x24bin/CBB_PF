@@ -376,6 +376,190 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		return true;
 	}
 	
+	
+	@Override
+	public void batchSubmit_LOGISTICS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> logisticsList = null;
+		Map logistics = null;
+		String tableName=T_LOGISTICS;
+		String primaryCol="LOGISTICS_ID";
+		String uniqueCol="";
+		StringBuilder errorMessage = new StringBuilder("");
+		for(String guid:guidList){
+			try{
+				//获取运单信息
+				logisticsList = commonManagerMapper.selectTableListByCol(tableName, "GUID", guid, null, null);
+				if(logisticsList !=null && logisticsList.size() == 1){
+					logistics = logisticsList.get(0);
+				}else{
+					errorMessage.append(guid+"：运单数据不存在！;<br/>");
+					continue;
+				}
+				//数据完备性检查
+				if(logistics.get(primaryCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+primaryCol+"为空！）;<br/>");
+					continue;
+				}
+				// 唯一性校验
+				uniqueCol="LOGISTICS_NO";
+				//数据完备性检查
+				if(logistics.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+				
+				uniqueCol="ORDER_NO";
+				//数据完备性检查
+				if(logistics.get(uniqueCol) == null){
+					errorMessage.append(guid+"：提交错误（字段"+uniqueCol+"为空！）;<br/>");
+					continue;
+				}
+				uniqueCheck(tableName,uniqueCol,logistics.get(uniqueCol),primaryCol,logistics.get(primaryCol),false);
+				
+				Object primaryId=logistics.get(primaryCol);
+				
+				// 修改APP_STATUS为upload
+				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+				//直接设置为120
+				logistics.put("RETURN_STATUS", CommonDefine.RETURN_STATUS_120);
+				
+				submitXml_LOGISTICS(logistics,
+						Integer.valueOf(primaryId.toString()), CommonDefine.CEB501,
+						CommonDefine.LOGISTICS_TYPE_NORMAL);
+				//设置申报完成，修改APP_STATUS为upload
+				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_COMPLETE);
+				commonManagerMapper.updateLogistics(logistics, tableName);
+				
+			}catch(CommonException e){
+				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");
+			}
+		
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
+		}
+	}
+	
+	
+	@Override
+	public void batchSubmit_LOGISTICS_STATUS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+		List<Map<String,Object>> logisticsList = null;
+		Map logistics = null;
+		String tableName=T_LOGISTICS;
+		String primaryCol="LOGISTICS_ID";
+		StringBuilder errorMessage = new StringBuilder("");
+
+		for (String guid : guidList) {
+			// 获取运单信息
+			logisticsList = commonManagerMapper.selectTableListByCol(tableName,
+					"GUID", guid, null, null);
+			if (logisticsList != null && logisticsList.size() == 1) {
+				logistics = logisticsList.get(0);
+			} else {
+				errorMessage.append(guid + "：运单数据不存在！;<br/>");
+				continue;
+			}
+			List<String> keys = Arrays.asList(new String[] {
+					"LOGISTICS_STATUS", "RETURN_STATUS", "RETURN_TIME",
+					"RETURN_INFO" });
+			List<Object> values = Arrays.asList(new Object[] {
+					logistics.get("LOGISTICS_STATUS"), null, null, null });
+			commonManagerMapper.updateTableByNVList(T_LOGISTICS, primaryCol,
+					logistics.get(primaryCol), keys, values);
+			Object primaryId = logistics.get(primaryCol);
+
+			// 生成xml报文
+			// 修改APP_STATUS为upload
+			logistics.put("APP_STATUS", CommonDefine.APP_STATUS_UPLOAD);
+			logistics.put("LOGISTICS_STATUS", params.get("LOGISTICS_STATUS"));
+			
+			submitXml_LOGISTICS(logistics,
+					Integer.valueOf(primaryId.toString()), CommonDefine.CEB503,
+					CommonDefine.LOGISTICS_TYPE_NORMAL);
+
+		}
+		//判断是否有错误信息，如果有抛出异常
+		if(!errorMessage.toString().isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, errorMessage.toString());
+		}
+	}
+
+	@Override
+	public void applyExpressNo_LOGISTICS(Map<String, Object> params) throws CommonException {
+		List<String> guidList = (List<String>) params.get("guidList");
+
+		// 提交需要生成xml文件
+		System.out.println("applyExpressNo_LOGISTICS"+CommonDefine.APPLY_EMS_NO);
+		
+		Map<String,String> leafNods = new HashMap<String,String>();
+		
+		leafNods.put("sysAccount", CommonUtil.getSystemConfigProperty("sysAccount"));
+		leafNods.put("passWord", CommonUtil.encryptionMD5((CommonUtil.getSystemConfigProperty("passWord"))));
+		leafNods.put("appKey", CommonUtil.getSystemConfigProperty("appkey_ems"));
+		leafNods.put("businessType", CommonUtil.getSystemConfigProperty("businessType"));
+		leafNods.put("billNoAmount", String.valueOf(guidList.size()));
+		
+		
+		//xml报文
+		String resultXmlString = XmlUtil.generalCommonXml("XMLInfo", leafNods);
+		//获取返回数据
+		String soapResponseData = sendHttpCMD(resultXmlString,CommonDefine.APPLY_EMS_NO);
+			//摘取出返回信息
+/*		soapResponseData = 
+	        "<response>"+
+	            "<result>1</result>"+
+	            "<errorDesc>3123</errorDesc>"+
+				 "<errorCode>11231</errorCode>"+
+				  "<assignIds><assignId><billno>9999999999999</billno></assignId></assignIds>"+
+	        "</response>";*/
+		if(soapResponseData == null ||soapResponseData.isEmpty()){
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "无回执信息！");
+		}
+		Map<String,Object> response = XmlUtil.parseXmlStringForReceipt_EMS(soapResponseData);
+		if(response!=null&&response.size()>0){
+			//更新数据库，或上报异常
+			if (response.get("result") != null
+					&& CommonDefine.FAILED == Integer.valueOf(response.get(
+							"result").toString())) {
+				// 抛出错误信息
+				throw new CommonException(new Exception(),
+						MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "【"
+								+ response.get("errorCode").toString() + "】"
+								+ response.get("errorDesc").toString()+"！");
+			}else {
+				//更新数据
+				List<String> assignIds = (List<String>) response.get("assignIds");
+				
+				if(assignIds.size()!=guidList.size()){
+					//抛出错误信息
+					throw new CommonException(new Exception(),
+							MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, "返回订单号数量与所选项目数量不一致！");
+				}
+				//更新数据
+				for(int i = 0;i<assignIds.size();i++){
+					Map logistics = new HashMap();
+					logistics.put("GUID", guidList.get(i));
+					logistics.put("PARCEL_INFO", assignIds.get(i));
+					commonManagerMapper.updateLogistics(logistics, T_LOGISTICS);
+				}
+			}
+		}else{
+			//抛出错误信息
+			throw new CommonException(new Exception(),
+					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR, soapResponseData);
+		}
+	}
+	
 	@Override
 	public void addCodeName(Map data) {
 		data.put("CREAT_TIME", new Date());
@@ -592,7 +776,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 		params.remove("start");
 		params.remove("limit");
 		try {
-			String tableName = T_LOGISTICS;
+			String tableName = V_LOGISTICS;
 			if(params.get("IN_USE")!=null){
 				if(Boolean.FALSE.equals(params.get("IN_USE"))){
 					tableName = V_LOGISTICS_UNUSE;
@@ -602,10 +786,23 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			
 			List<String> keys=new ArrayList<String>(params.keySet());
 			List<Object> values=new ArrayList<Object>(params.values());
+			
+			
+			if(!params.containsKey("Fuzzy")){
 			rows = commonManagerMapper.selectTableListByNVList(tableName, 
 					keys,values,start, limit);
 			total = commonManagerMapper.selectTableListCountByNVList(tableName,
 					keys,values);
+			}else{
+				//模糊查询
+				params.remove("Fuzzy");
+				keys=new ArrayList<String>(params.keySet());
+				values=new ArrayList<Object>(params.values());
+				rows = commonManagerMapper.selectTableListByNVList_Fuzzy(tableName, 
+						keys,values,start, limit);
+				total = commonManagerMapper.selectTableListCountByNVList_Fuzzy(tableName,
+						keys,values);
+			}
 			
 			for(Map<String, Object> row:rows){
 				Map<String, Object> additionInfo=getLogisticsOrder(row);
@@ -618,6 +815,7 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 			result.put("rows", rows);
 			return result;
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new CommonException(e,
 					MessageCodeDefine.COM_EXCPT_INTERNAL_ERROR);
 		}

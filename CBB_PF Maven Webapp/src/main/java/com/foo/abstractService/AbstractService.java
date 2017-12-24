@@ -36,6 +36,7 @@ public abstract class AbstractService {
 	public static String T_INVENTORY_DETAIL = "t_inventory_detail";
 	
 	protected static String V_ORDERS_UNUSE = "v_orders_unuse";
+	protected static String V_LOGISTICS = "v_logistics";
 	protected static String V_INVENTORY = "v_inventory";
 	protected static String V_LOGISTICS_UNUSE = "v_logistics_unuse";
 	

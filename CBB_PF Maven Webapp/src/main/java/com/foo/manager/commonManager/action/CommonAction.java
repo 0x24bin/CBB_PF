@@ -410,7 +410,15 @@ public class CommonAction extends AbstractAction{
 	public String getAllLogisticses(){
 		try {
 			Map<String,Object> data = commonManagerService.getAllLogisticses(params);
-			resultObj = JSONObject.fromObject(data);
+
+			JsonConfig jsonConfig = new JsonConfig();
+		    PropertyFilter filter = new PropertyFilter() {
+		            public boolean apply(Object object, String fieldName, Object fieldValue) {
+		            	return null == fieldValue;
+		            }
+		    };
+		    jsonConfig.setJsonPropertyFilter(filter);
+			resultObj = JSONObject.fromObject(data,jsonConfig);
 		} catch (CommonException e) {
 			result.setReturnResult(CommonDefine.FAILED);
 			result.setReturnMessage(e.getErrorMessage());
@@ -510,6 +518,49 @@ public class CommonAction extends AbstractAction{
 			data.put("success", false);
 			data.put("msg", e.getErrorMessage());
 			resultObj = JSONObject.fromObject(data);
+		}
+		return RESULT_OBJ;
+	}
+	
+	
+	@IMethodLog(desc = "批量提交运单")
+	public String batchSubmit_logistics(){
+		try {
+			commonManagerService.batchSubmit_LOGISTICS(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	@IMethodLog(desc = "批量提交运单状态")
+	public String batchSubmit_logisticsStatus(){
+		try {
+			commonManagerService.batchSubmit_LOGISTICS_STATUS(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
+		}
+		return RESULT_OBJ;
+	}
+	
+	@IMethodLog(desc = "批量申请快递单号")
+	public String applyExpressNo(){
+		try {
+			commonManagerService.applyExpressNo_LOGISTICS(params);
+			result.setReturnResult(CommonDefine.SUCCESS);
+			resultObj = JSONObject.fromObject(result);
+		} catch (CommonException e) {
+			result.setReturnResult(CommonDefine.FAILED);
+			result.setReturnMessage(e.getErrorMessage());
+			resultObj = JSONObject.fromObject(result);
 		}
 		return RESULT_OBJ;
 	}
@@ -815,6 +866,14 @@ public class CommonAction extends AbstractAction{
 
 	public void setUploadFile(File uploadFile) {
 		this.uploadFile = uploadFile;
+	}
+	
+	public void setGuidList(List<String> guidList){
+		params.put("guidList", guidList);
+	}
+	
+	public void setFuzzy(String fuzzy){
+		params.put("Fuzzy", fuzzy);
 	}
 	
 	/*public void set(String ){
