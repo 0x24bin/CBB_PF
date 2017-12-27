@@ -10,8 +10,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import javax.annotation.Resource;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.InputStreamRequestEntity;
@@ -33,6 +36,7 @@ import com.foo.handler.ExceptionHandler;
 import com.foo.util.CommonUtil;
 import com.foo.util.ConfigUtil;
 import com.foo.util.FtpUtils;
+import com.foo.util.HttpUtil;
 import com.foo.util.XmlUtil;
 
 /**
@@ -294,6 +298,91 @@ public abstract class CommonManagerService extends AbstractService {
 			return result;
 		}
 		return true;
+	}
+	
+	public boolean submitXml_LOGISTICS4Korea(Map<String, Object> data) {
+		
+		//修改指定运单表
+		String tableName = T_LOGISTICS;
+
+		// 提交需要生成xml文件,
+		if (Integer.valueOf(CommonDefine.APP_STATUS_UPLOAD).equals(
+				data.get("APP_STATUS"))) {
+			System.out.println("submitXml_LOGISTICS 表："+tableName);
+
+			// 更新数据，添加申报时间
+			// 插入申报时间
+			String currentTime = new SimpleDateFormat(
+					CommonDefine.RETRIEVAL_TIME_FORMAT).format(new Date());
+			data.put("APP_TIME", currentTime);
+//			commonManagerMapper.updateLogistics(data, tableName);
+
+			// 获取guid
+			String guid = data.get("GUID").toString();
+			
+			List<Map<String, Object>> dataList = commonManagerMapper.selectTableListByCol(V_LOGISTICS,"GUID", guid, null, null);
+			
+			//请求数据
+			Map<String,Object> requestData = generateHeader4Korea();
+			
+			requestData.putAll(generateBody4Korea(dataList));
+			
+			//发送http请求
+			Map<String, Object> head = new HashMap<String, Object>();
+			head.put("Content-Type", "application/json");
+			//获取url
+			String url = CommonUtil.getSystemConfigProperty("pantos_requestUrl");
+			
+			Map result = HttpUtil.doPost(url, head, requestData);
+
+			System.out.println(result);
+		}
+		return true;
+	}
+	
+	
+	//生成消息体header
+	private Map<String,Object> generateHeader4Korea(){
+		Map<String,Object> header = new LinkedHashMap<String,Object>();
+		
+		Map<String,String> body = new LinkedHashMap<String,String>();
+		
+		ResourceBundle bundle = CommonUtil.getResource("messageMapping/CEB_Pantos_header");
+		
+		for(String key:bundle.keySet()){
+			body.put(key, bundle.getString(key));
+		}
+		header.put("header", body);
+		
+		return header;
+	}
+	
+	//生成消息体header
+	private Map<String,Object> generateBody4Korea(List<Map<String, Object>> dataList){
+		Map<String,Object> header = new HashMap<String,Object>();
+		
+		List<Map<String,String>> body = new ArrayList<Map<String,String>>();
+		
+		ResourceBundle bundle = CommonUtil.getResource("messageMapping/CEB_Pantos_body");
+		
+		for(Map data:dataList){
+			Map<String,String> subBody = new LinkedHashMap<String,String>();
+			
+			for(String key:bundle.keySet()){
+				
+				String value = bundle.getString(key);
+				
+				if(data.containsKey(value.toUpperCase())){
+					subBody.put(key, data.get(value.toUpperCase()).toString());
+				}else{
+					subBody.put(key, value);
+				}
+			}
+			body.add(subBody);
+		}
+		header.put("body", body);
+		
+		return header;
 	}
 	
 	

@@ -425,12 +425,10 @@ public class CommonManagerServiceImpl extends CommonManagerService implements IC
 				//直接设置为120
 				logistics.put("RETURN_STATUS", CommonDefine.RETURN_STATUS_120);
 				
-				submitXml_LOGISTICS(logistics,
-						Integer.valueOf(primaryId.toString()), CommonDefine.CEB501,
-						CommonDefine.LOGISTICS_TYPE_NORMAL);
+				submitXml_LOGISTICS4Korea(logistics);
 				//设置申报完成，修改APP_STATUS为upload
-				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_COMPLETE);
-				commonManagerMapper.updateLogistics(logistics, tableName);
+//				logistics.put("APP_STATUS", CommonDefine.APP_STATUS_COMPLETE);
+//				commonManagerMapper.updateLogistics(logistics, tableName);
 				
 			}catch(CommonException e){
 				errorMessage.append(guid+"：提交错误（"+e.getErrorMessage()+"）;<br/>");

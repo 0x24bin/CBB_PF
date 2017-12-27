@@ -202,6 +202,18 @@ public class CommonUtil {
 	}
 	
 	/**
+	 * 获取消息字段映射文件
+	 * @param messageType 消息类型
+	 * @return
+	 */
+	public static ResourceBundle getResource(String fielName) {
+		ResourceBundle bundle = ResourceBundle
+				.getBundle("resourceConfig/"
+						+ fielName);
+		return bundle;
+	}
+	
+	/**
 	 * 获取消息配置属性
 	 * @param propertyName 属性名
 	 * @return
